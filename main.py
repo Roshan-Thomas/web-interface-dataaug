@@ -8,6 +8,9 @@ import gensim
 # for now only doing arabert and aragpt2 models 
 # TODO: aravec model
 
+import tensorflow as tf 
+x = tf.__version__
+
 st.title("Web Interface")
 st.write("Loading data...")
 
