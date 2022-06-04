@@ -89,10 +89,10 @@ output = "org: " + text + "\n"
 
 gpt = list(set(aragpt2))
 for aug in gpt:
-    st.write("GPT2-based: " + aug + "\n")
+    st.write(f"GPT2-based: {aug} \n")
 
 bert = list(set(arabert) | set(arabertv2) | set(arabertv02) | set(arabertv01))
 for aug in bert:
-    st.write("BERT-based: " + aug + "\n")
+    st.write(f"BERT-based: {aug}\n ")
 
 st.write("\n\nDone!!")
