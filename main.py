@@ -5,9 +5,6 @@ import requests
 from transformers import GPT2LMHeadModel, pipeline, GPT2TokenizerFast
 import gensim
 
-import tensorflow as tf
-x = tf.__version__
-
 # for now only doing arabert and aragpt2 models 
 # TODO: aravec model
 
