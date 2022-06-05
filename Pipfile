@@ -8,6 +8,9 @@ streamlit = "*"
 transformers = "*"
 gensim = "*"
 tensorflow = "*"
+torch = "*"
+torchvision = "*"
+torchaudio = "*"
 
 [dev-packages]
 
