@@ -35,11 +35,6 @@ cd data
 ./script.sh
 ```
 
-Unzip the file into the data folder
-```bash
-python3 pynuzip.py full_grams_cbow_100_twitter.zip
-```
-
 Once all the packages are installed, you should be able to run the app on Streamlit locally
 ```sh
 # main.py is the file where 
