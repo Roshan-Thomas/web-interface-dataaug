@@ -1,39 +1,41 @@
 import streamlit as st 
-from model import text_generation, fill_mask
+from model import aug_bert, aug_GPT, aug_w2v
 
-# for now only doing arabert and aragpt2 models 
-# TODO: aravec model
-
-st.title("Web Interface with araGPT2")
-
-# TODO: w2v function
-# TODO: aravec models
+st.title("Data augmentation with AraGPT2, AraBERT, and W2V")
+st.markdown(
+    """
+    Welcome to our data augmentation web interface. The app takes approximately 
+    _one and a half minute (1.5)_ to load our machine learning models and then 
+    augment the sentence. So please hold on as we process your sentence. 
+    
+    
+    Why not get a cup of coffee while its processing? 😊
+    """
+)
 
 user_text_input = st.text_input("Enter Text here (AR):")
+# test_text = "RT @USER: رحمك الله يا صدام يا بطل ومقدام. URL	NOT_OFF	NOT_HS" # text to be used for testing purposes only
 
 if user_text_input:
-    # Tell the user that the data is loading
-    loading_state = st.text("Loading data...")
+  bert_container = st.container()
+  gpt2_container = st.container()
+  w2v_container = st.container()
 
-    # GPT2-based text generation models
-    aragpt2 = text_generation('aubmindlab/aragpt2-medium',user_text_input) ## use the mega model
+  with bert_container:
+    st.subheader("AraBERT Data Augmentation")
+    sentences_bert = aug_bert('aubmindlab/bert-large-arabertv2', user_text_input)
+    with st.expander("Open to see AraBERT results"):
+      st.write(sentences_bert)
 
-    # BERT-based fill mask models (4)
-    # arabert = fill_mask('aubmindlab/bert-base-arabert', user_text_input)
-    # arabertv2 = fill_mask('aubmindlab/bert-large-arabertv2',user_text_input)
-    # arabertv02 = fill_mask('aubmindlab/bert-large-arabertv02',user_text_input)
-    # arabertv01 = fill_mask('aubmindlab/bert-base-arabertv01',user_text_input)
+  with gpt2_container:
+    st.subheader("AraGPT2 Data Augmentation")
+    sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', user_text_input)
+    with st.expander("Open to see AraGPT2 results"):
+      st.write(sentences_gpt)
 
-    # Inform the user the data is loaded
-    loading_state.text("Data Loaded ✅")
-
-    output = "org: " + text + "\n"
-    st.write(output)
-
-    gpt = list(set(aragpt2))
-    for aug in gpt:
-        st.write(f"GPT2-based: {aug} \n")
-
-    # bert = list(set(arabert) | set(arabertv2) | set(arabertv02) | set(arabertv01))
-    # for aug in bert:
-    #     st.write(f"BERT-based: {aug}\n ")
+  with w2v_container:
+    st.subheader("W2V Data Augmentation")
+    sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', user_text_input)
+    with st.expander("Open to see W2V results"):
+      st.write(sentences_w2v)
+    

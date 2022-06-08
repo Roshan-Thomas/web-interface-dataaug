@@ -27,6 +27,17 @@ Install the required packages from Pipfile
 pipenv install
 ```
 
+You will need to download the W2V model from the script that is given in the 'data' folder.
+```bash
+cd data
+./script.sh
+```
+
+Unzip the file into the data folder
+```bash
+python3 pynuzip.py full_grams_cbow_100_twitter.zip
+```
+
 Once all the packages are installed, you should be able to run the app on Streamlit locally
 ```sh
 # main.py is the file where 
