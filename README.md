@@ -2,6 +2,8 @@
 
 The project is based on Python and is using the package `streamlit` to host it on the web. 
 
+View on [Google Colab](https://colab.research.google.com/drive/1G_MKT4gnDDoX-hzyFABeornv-gubkRLy?usp=sharing)
+
 ## Setup (Local Machine)
 Clone the Github repo to your local machine and follow the steps below.
 
