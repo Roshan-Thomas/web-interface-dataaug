@@ -7,10 +7,10 @@ name = "pypi"
 streamlit = "*"
 transformers = "*"
 gensim = "*"
-tensorflow = "*"
-torch = "*"
-torchvision = "*"
-torchaudio = "*"
+pattern = "*"
+nlpaug = "*"
+sentencepiece = "*"
+sacremoses = "*"
 
 [dev-packages]
 
