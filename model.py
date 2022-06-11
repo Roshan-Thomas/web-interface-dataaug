@@ -72,7 +72,11 @@ def GPT(model,tokenizer , generation_pipeline ,sentence):
   if len(sentence.split()) < 11:
     input_ids = tokenizer.encode(sentence, return_tensors="pt")
     for n in range(1,4):
+<<<<<<< HEAD
       for i in range(2):
+=======
+      for i in range(5):
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
         pred = generation_pipeline(sentence,
           return_full_text = True,
           pad_token_id=tokenizer.eos_token_id,
@@ -82,9 +86,14 @@ def GPT(model,tokenizer , generation_pipeline ,sentence):
           repetition_penalty = 3.0,
           no_repeat_ngram_size = 3)[0]['generated_text'].replace("."," ").replace("،"," ").replace(":"," ").strip()
         pred = " ".join(pred.split())
+<<<<<<< HEAD
         pred = org_text.replace(sentence,pred)
         if not pred in l and not pred == org_text:
           l.append(pred)
+=======
+        if not pred in l:
+          l.append(org_text.replace(sentence,pred))
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
   return l
 
 def aug_GPT(model_name,text):  # text here can be list of sentences or on string sentence
@@ -113,7 +122,10 @@ def aug_GPT(model_name,text):  # text here can be list of sentences or on string
 
 ### ------------------------------- W2V ------------------------------------ ###
 
+<<<<<<< HEAD
 @st.cache(allow_output_mutation=True)
+=======
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
 def load_w2v(model_path):
   try:
       model = gensim.models.KeyedVectors.load_word2vec_format(model_path,binary=True,unicode_errors='ignore')
@@ -125,7 +137,10 @@ def w2v(model,sentence):
   org_text = sentence
   sentence = process(sentence)
   l = []
+<<<<<<< HEAD
   augs = []
+=======
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
   if len(sentence.split()) < 11:
     for token in sentence.split():
       try:
@@ -139,7 +154,11 @@ def w2v(model,sentence):
           exist = True
         else:
           exist = False
+<<<<<<< HEAD
       if is_replacable(token,pos(sentence)):
+=======
+      if is_replacable(token):
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
         if exist:
           try:
             most_similar = model.wv.most_similar( token, topn=5 )
@@ -149,9 +168,13 @@ def w2v(model,sentence):
                 if term != token:
                     term = term.replace("_"," ")
                     aug = sentence.replace(token,term)
+<<<<<<< HEAD
                     if not aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":","") in augs:
                       augs.append(aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":",""))
                       l.append(org_text.replace(sentence,aug))
+=======
+                    l.append(org_text.replace(sentence,aug))
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
   return l
 
 def aug_w2v(model_path,text):   # text here is a list of sentences
@@ -181,15 +204,21 @@ def aug_w2v(model_path,text):   # text here is a list of sentences
 
 ### ------------------------------- BERT ----------------------------------- ###
 
+<<<<<<< HEAD
 @st.cache(allow_output_mutation=True)
 def load_bert(model):
   model = pipeline('fill-mask', model=model)
+=======
+def load_bert(model):
+  model = pipeline('fill-mask', model= model)
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
   return model
 
 def bert(model, sentence):  # Contextual word embeddings
   org_text = sentence
   sentence = process(sentence)
   l = []
+<<<<<<< HEAD
   augs = []
   if len(sentence.split()) < 11:
     for token in sentence.split():
@@ -205,6 +234,19 @@ def bert(model, sentence):  # Contextual word embeddings
                   if not aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":","") in augs:
                         augs.append(aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":",""))
                         l.append(org_text.replace(sentence,aug))
+=======
+  if len(sentence.split()) < 11:
+    for token in sentence.split():
+        if is_replacable(token):
+          masked_text = sentence.replace(token,"[MASK]")
+          pred = model(masked_text , top_k = 20)
+          for i in pred:
+            if isinstance(i, dict):
+              output = i['token_str']
+              if not len(output) < 2 and not "+" in output and not "[" in output:
+                aug = sentence.replace(token, i['token_str'])
+                l.append(org_text.replace(sentence,aug))
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914
   return l
 
 def aug_bert(model,text):  # text here is a list of sentences
@@ -231,6 +273,7 @@ def aug_bert(model,text):  # text here is a list of sentences
 
 ### ------------------------ End of BERT ----------------------------------- ###
 
+<<<<<<< HEAD
 ### ------------------------ General Functions ----------------------------- ###
 
 def process(text):
@@ -282,3 +325,9 @@ def pos(text):
   return pos_dict
 
 ### ------------------------- End of Farasa API ---------------------------- ###
+=======
+def is_replacable(token):
+   if token in ["يا","و"]:
+     return False
+   return True
+>>>>>>> dfe99472a2c9420f2a013922f5bffafcb980b914

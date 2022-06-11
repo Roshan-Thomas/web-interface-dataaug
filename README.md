@@ -2,6 +2,8 @@
 
 The project is based on Python and is using the package `streamlit` to host it on the web. 
 
+View on [Google Colab](https://colab.research.google.com/drive/1G_MKT4gnDDoX-hzyFABeornv-gubkRLy?usp=sharing)
+
 ## Setup (Local Machine)
 Clone the Github repo to your local machine and follow the steps below.
 
@@ -25,6 +27,12 @@ pipenv shell
 Install the required packages from Pipfile
 ```
 pipenv install
+```
+
+You will need to download the W2V model from the script that is given in the 'data' folder.
+```bash
+cd data
+./script.sh
 ```
 
 Once all the packages are installed, you should be able to run the app on Streamlit locally
