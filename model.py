@@ -17,7 +17,7 @@ def load_models_bt(from_model_name, to_model_name):
   back_translation = naw.BackTranslationAug(
       from_model_name=from_model_name,
       to_model_name=to_model_name,
-      device='cuda'
+      device='cpu'
   )
   return (back_translation)
 
