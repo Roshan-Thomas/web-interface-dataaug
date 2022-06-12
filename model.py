@@ -72,7 +72,7 @@ def GPT(model,tokenizer , generation_pipeline ,sentence):
   if len(sentence.split()) < 11:
     input_ids = tokenizer.encode(sentence, return_tensors="pt")
     for n in range(1,4):
-      for i in range(2):
+      for i in range(5):
         pred = generation_pipeline(sentence,
           return_full_text = True,
           pad_token_id=tokenizer.eos_token_id,
@@ -82,9 +82,8 @@ def GPT(model,tokenizer , generation_pipeline ,sentence):
           repetition_penalty = 3.0,
           no_repeat_ngram_size = 3)[0]['generated_text'].replace("."," ").replace("،"," ").replace(":"," ").strip()
         pred = " ".join(pred.split())
-        pred = org_text.replace(sentence,pred)
-        if not pred in l and not pred == org_text:
-          l.append(pred)
+        if not pred in l:
+          l.append(org_text.replace(sentence,pred))
   return l
 
 def aug_GPT(model_name,text):  # text here can be list of sentences or on string sentence
