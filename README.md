@@ -42,6 +42,18 @@ Once all the packages are installed, you should be able to run the app on Stream
 streamlit run main.py
 ```
 
+## Deploy to Docker
+
+Build the docker app
+```sh
+sudo docker build -t dataaug-webapp:latest .
+```
+
+Run the web app using docker with port 8501
+```sh
+sudo docker run -p 8501:8501 dataaug-webapp
+```
+
 ## Contribution
 
 If you plan on making any changes to the repo, follow these steps:
