@@ -35,7 +35,7 @@ with test_app_container:
   # test_text = "RT @USER: رحمك الله يا صدام يا بطل ومقدام. URL	NOT_OFF	NOT_HS" # text to be used for testing purposes only
 
   text_input_container = st.empty()
-  user_text_input = text_input_container.text_input("Enter your text here (AR):", "رحمك الله يا صدام يا بطل ومقدام") # TODO: make the default text to placeholder
+  user_text_input = text_input_container.text_input("Enter your text here (AR):", placeholder="رحمك الله يا صدام يا بطل ومقدام") # TODO: make the default text to placeholder
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
@@ -52,6 +52,19 @@ with test_app_container:
 
     with bert_container:
       st.subheader("AraBERT Data Augmentation")
+      st.markdown("""
+                  AraBERT is an Arabic pre-trained language model based on Google's 
+                  BERT architecture. BERT is a fully connected deep neural network 
+                  trained to predict two main things: a masked word in a sentence 
+                  and the probability that the two sentences flow with each other. 
+                  We give BERT a sentence with a masked word and using the context 
+                  of the sentence, BERT predicts the masked word.
+
+                  The outputs which can be seen shows the highlighted words (in green) 
+                  that are changed by the model. 
+                  """
+                )
+
       sentences_bert = aug_bert('aubmindlab/bert-large-arabertv2', user_text_input)
 
       output_bert = ""
@@ -68,6 +81,17 @@ with test_app_container:
     
     with gpt2_container:
           st.subheader("AraGPT2 Data Augmentation")
+          st.markdown(""" 
+                      AraGPT2 is a pre-trained transformer for the Arabic Language 
+                      Generation. The model successfully uses synthetic news 
+                      generation and zero-shot question answering and has a 98% 
+                      accuracy in detecting model-generated text. They are publicly 
+                      available, and you can read the paper 
+                      [here](https://arxiv.org/abs/2012.15520).
+
+                      The outputs which can be seen shows the highlighted words (in red) 
+                      that are changed by the model.
+                      """)
           sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', user_text_input)
 
           output_gpt = ""
@@ -83,7 +107,21 @@ with test_app_container:
             st.markdown(output_gpt, unsafe_allow_html=True)
 
     with w2v_container:
-      st.subheader("W2V Data Augmentation")
+      st.subheader("AraVec (W2V) Data Augmentation")
+      st.markdown(""" 
+                  AraVec (W2V) is a pre-trained distributed word representation 
+                  (word embedding) open-source project aiming to provide the Arabic 
+                  NLP research community with free-to-use and powerful word 
+                  embedding models. The recent version of AraVec provides 16-word 
+                  embedding models built on top of two different Arabic content 
+                  domains; Tweets and Wikipedia Arabic articles. This app uses the 
+                  Twitter-trained model to augment the text. You can read more 
+                  about it in this paper 
+                  [here](https://www.researchgate.net/publication/319880027_AraVec_A_set_of_Arabic_Word_Embedding_Models_for_use_in_Arabic_NLP).
+
+                  The outputs which can be seen shows the highlighted words (in yellow) 
+                  that are changed by the model.
+                  """)
       sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', user_text_input)
       
       output_w2v = ""
@@ -116,6 +154,16 @@ with test_app_container:
 
     with text_to_text_container:
       st.markdown("### Text-to-Text Augmentation")
+      st.markdown("""
+                  MBART is a sequence-to-sequence denoising auto-encoder 
+                  pretrained on large-scale monolingual corpora in many languages 
+                  using the BART objective. mBART is one of the first methods 
+                  for pretraining a complete sequence-to-sequence model by 
+                  denoising full texts in multiple languages. At the same time, 
+                  previous approaches have focused only on the encoder, decoder, 
+                  or reconstructing parts of the text. You can read more about it 
+                  from this paper [here](https://arxiv.org/abs/2001.08210).
+                  """)
       sentences_m2m = aug_m2m('facebook/mbart-large-50-many-to-many-mmt',user_text_input)
 
       output_m2m = ""
