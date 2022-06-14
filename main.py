@@ -1,5 +1,7 @@
 import streamlit as st 
-from model import aug_bert, aug_GPT, aug_w2v, back_translate
+from model import aug_bert, aug_w2v, back_translate, random_sentence, spl, aug_m2m, aug_GPT
+from model import load_bert, load_GPT, load_m2m, load_w2v
+from citations import citations
 
 st.set_page_config(
      page_title="Data Augmentation",
@@ -15,7 +17,7 @@ st.markdown(
 
     It is a set of techniques used in data analysis to increase the amount of 
     data by adding slightly modified copies of already existing data or newly
-    created synthetic data from existing data. Read more [here.](https://en.wikipedia.org/wiki/Data_augmentation)
+    created synthetic data from existing data. Read more [here](https://en.wikipedia.org/wiki/Data_augmentation).
 
     We are using four methods to do data augmentation on Arabic text: 
         
@@ -30,32 +32,71 @@ test_app_container = st.container()
 
 with test_app_container:
   st.markdown("# Test out our app here :blush::")
-  user_text_input = st.text_input("Enter your text here (AR):")
   # test_text = "RT @USER: رحمك الله يا صدام يا بطل ومقدام. URL	NOT_OFF	NOT_HS" # text to be used for testing purposes only
 
-  if user_text_input:
+  text_input_container = st.empty()
+  user_text_input = text_input_container.text_input("Enter your text here (AR):", "رحمك الله يا صدام يا بطل ومقدام") # TODO: make the default text to placeholder
+  random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
+  if random_sentence_generator:
+    user_text_input = random_sentence('./data/WikiNewsTruth.txt')
+    text_input_container.empty()
+    st.info(user_text_input)
+  submit_button = st.button(label='Submit')
+
+  if submit_button:
     bert_container = st.container()
-    gpt2_container = st.container()
     w2v_container = st.container()
+    gpt2_container = st.container()
+    text_to_text_container = st.container()
     back_translation_container = st.container()
 
     with bert_container:
       st.subheader("AraBERT Data Augmentation")
       sentences_bert = aug_bert('aubmindlab/bert-large-arabertv2', user_text_input)
-      with st.expander("Open to see AraBERT results"):
-        st.write(sentences_bert)
 
+      output_bert = ""
+      for sent in sentences_bert:
+        rep, fhalf, shalf = spl(sent)
+        output_bert += f"""<p>
+                        <span style="color:#ffffff">{fhalf}</span>
+                        <span style="color:#7CFC00">{rep}</span> 
+                        <span style="color:#ffffff">{shalf}</span>
+                        </p> """
+
+      with st.expander("Open to see AraBERT results"):
+        st.markdown(output_bert, unsafe_allow_html=True)
+    
     with gpt2_container:
-      st.subheader("AraGPT2 Data Augmentation")
-      sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', user_text_input)
-      with st.expander("Open to see AraGPT2 results"):
-        st.write(sentences_gpt)
+          st.subheader("AraGPT2 Data Augmentation")
+          sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', user_text_input)
+
+          output_gpt = ""
+          for sent in sentences_gpt:
+            rep, fhalf, shalf = spl(sent)
+            output_gpt += f"""<p>
+                        <span style="color:#ffffff">{fhalf}</span>
+                        <span style="color:#D22B2B">{rep}</span> 
+                        <span style="color:#ffffff">{shalf}</span>
+                        </p> """
+
+          with st.expander("Open to see AraGPT2 results"):
+            st.markdown(output_gpt, unsafe_allow_html=True)
 
     with w2v_container:
       st.subheader("W2V Data Augmentation")
       sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', user_text_input)
+      
+      output_w2v = ""
+      for sent in sentences_w2v:
+        rep, fhalf, shalf = spl(sent)
+        output_w2v += f"""<p>
+                        <span style="color:#ffffff">{fhalf}</span>
+                        <span style="color:#FFBF00">{rep}</span> 
+                        <span style="color:#ffffff">{shalf}</span>
+                      </p> """
+
       with st.expander("Open to see W2V results"):
-        st.write(sentences_w2v)
+        st.markdown(output_w2v, unsafe_allow_html=True)
 
     with back_translation_container:
       st.markdown("### Back Translation Augmentation")
@@ -73,56 +114,20 @@ with test_app_container:
       with st.expander("Open to see Back Translation results"):
           st.write(back_translated_sentences)
 
+    with text_to_text_container:
+      st.markdown("### Text-to-Text Augmentation")
+      sentences_m2m = aug_m2m('facebook/mbart-large-50-many-to-many-mmt',user_text_input)
+
+      output_m2m = ""
+
+      for sent in sentences_m2m:
+        output_m2m = f""" <p>
+                            <span style="color:#ffffff">{sent}</span>
+                            </p> """
+      with st.expander("Open to see Text-to-Text Results"):
+        st.markdown(output_m2m, unsafe_allow_html=True)
+
 st.write("-------------------------------------------------")
 
-st.header("Citations")
-with st.expander("Expand to see the citations"):
-  aragpt2_citation = '''
-    @inproceedings{antoun-etal-2021-aragpt2,
-      title = "{A}ra{GPT}2: Pre-Trained Transformer for {A}rabic Language Generation",
-      author = "Antoun, Wissam  and
-        Baly, Fady  and
-        Hajj, Hazem",
-      booktitle = "Proceedings of the Sixth Arabic Natural Language Processing Workshop",
-      month = apr,
-      year = "2021",
-      address = "Kyiv, Ukraine (Virtual)",
-      publisher = "Association for Computational Linguistics",
-      url = "https://www.aclweb.org/anthology/2021.wanlp-1.21",
-      pages = "196--207",
-    }
-  '''
-  arabert_citation = '''
-    @inproceedings{antoun2020arabert,
-      title={AraBERT: Transformer-based Model for Arabic Language Understanding},
-      author={Antoun, Wissam and Baly, Fady and Hajj, Hazem},
-      booktitle={LREC 2020 Workshop Language Resources and Evaluation Conference 11--16 May 2020},
-      pages={9}
-    }
-  '''
-  w2v_citation = '''
-    @article{article,
-      author = {Mohammad, Abu Bakr and Eissa, Kareem and El-Beltagy, Samhaa},
-      year = {2017},
-      month = {11},
-      pages = {256-265},
-      title = {AraVec: A set of Arabic Word Embedding Models for use in Arabic NLP},
-      volume = {117},
-      journal = {Procedia Computer Science},
-      doi = {10.1016/j.procs.2017.10.117}
-    }
-  '''
-
-  bt_citation = '''
-    @InProceedings{TiedemannThottingal:EAMT2020,
-      author = {J{\"o}rg Tiedemann and Santhosh Thottingal},
-      title = {{OPUS-MT} — {B}uilding open translation services for the {W}orld},
-      booktitle = {Proceedings of the 22nd Annual Conferenec of the European Association for Machine Translation (EAMT)},
-      year = {2020},
-      address = {Lisbon, Portugal}
-    }
-  '''
-  st.code(aragpt2_citation)
-  st.code(arabert_citation)
-  st.code(w2v_citation)
-  st.code(bt_citation)
+# Citations for Models and References used
+citations()
