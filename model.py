@@ -363,7 +363,7 @@ def ner(text):
 ### -------------------- Random Sentence Generator ------------------------- ###
 
 @st.experimental_memo
-def load_random_sentence_file(file_name:str):
+def delete_unncessary_lines(file_name:str):
   sentences = []
   with open(file_name, 'r') as input:
     with open("./data/temp.txt", "w") as output:
@@ -371,25 +371,28 @@ def load_random_sentence_file(file_name:str):
         if "#" not in line.strip("\n"):
           output.write(line)
   os.replace('./data/temp.txt', file_name)
-  return 1
 
-def random_sentence(file_name:str): # TODO
+
+def random_sentence(file_name:str):
   sentences = []
-  x = load_random_sentence_file(file_name)
+  temp_list = []  # temporary list (hold temp values)
+  res = []        # temporary list (hold temp values)
+  delete_unncessary_lines(file_name)
 
   with open(file_name, 'r') as f:
-    f.readlines()
-    for line in f.readlines():
-      # split on sentences
-      # split on words and check length of words
-      sentence = line.split(".")
-      for i in sentence:
-        if len(i) < 15:
-          sentences += i
-  
-  st.write(sentences)
+    x = f.readlines()
+    for line in x:
+      temp_list += line.split(" .")
+    
+    for ele in temp_list:
+        if ele.strip():
+            res.append(ele)
+
+    for i in range(len(res)):
+      if len(res[i].split()) < 15:
+        sentences.append(res[i].strip())
+
   selected_sentence = choice(sentences)
-  
   return selected_sentence
 
 ### ------------------- End of Random Sentence Generator ------------------- ###
