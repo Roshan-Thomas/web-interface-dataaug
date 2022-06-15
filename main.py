@@ -41,6 +41,7 @@ with test_app_container:
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
     text_input_container.empty()
     st.info(user_text_input)
+    st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
   submit_button = st.button(label='Submit')
 
   if submit_button:
