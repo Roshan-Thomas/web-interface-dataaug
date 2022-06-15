@@ -42,6 +42,9 @@ st.markdown(
 
 ## --------------------------------------- End of Introduction --------------------------------------------- ##
 
+def handle_click():
+  st.write(st.session_state.user_input)
+
 
 ## ---------------------------------------- Test the App --------------------------------------------------- ##
 
@@ -57,13 +60,12 @@ with test_app_container:
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
-    st.session_state['user_input'] = user_text_input
+    st.session_state.user_input = user_text_input
     text_input_container.empty()
-    st.info(st.session_state['user_input'])
+    st.info(st.session_state.user_input)
     st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
-  submit_button = st.button(label='Submit')
 
-  if submit_button:
+  if user_text_input:
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
