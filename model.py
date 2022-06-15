@@ -60,7 +60,7 @@ def back_translate(selected_languages, text):
     all_sentences.append(bt_sentence)
 
   toc = time.perf_counter()
-  loading_state_bt.write("Loading & Augmenting Back Translating Models done ✅: " + str(toc-tic) + " seconds")
+  loading_state_bt.write("Loading & Augmenting Back Translating Models done ✅: " + str(round(toc-tic, 3)) + " seconds")
 
   return all_sentences
 
@@ -117,13 +117,13 @@ def aug_w2v(model_path,text):   # text here is a list of sentences
   tic = time.perf_counter()
   model = load_w2v(model_path)
   toc = time.perf_counter()
-  loading_state_w2v.text("Loading W2V done ✅: " + str(toc-tic) + " seconds")
+  loading_state_w2v.text("Loading W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
   augment_state_w2v = st.text("Augmenting with W2V...")
   tic = time.perf_counter()
   if isinstance(text, str):
     ret = w2v(model,text)
     toc = time.perf_counter()
-    augment_state_w2v.text("Augmenting with W2V done ✅: " + str(toc-tic) + " seconds")
+    augment_state_w2v.text("Augmenting with W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return ret
   else:
     all_sentences = []
@@ -131,7 +131,7 @@ def aug_w2v(model_path,text):   # text here is a list of sentences
        sentence = sentence.strip()
        all_sentences.append([sentence,w2v(model,sentence)])
     toc = time.perf_counter()
-    augment_state_w2v.text("Augmenting with W2V done ✅: " + str(toc-tic) + " seconds")
+    augment_state_w2v.text("Augmenting with W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return all_sentences
 
 
@@ -181,13 +181,13 @@ def aug_bert(model,text):  # text here is a list of sentences
   tic = time.perf_counter()
   model = load_bert(model)
   toc = time.perf_counter()
-  loading_state_bert.text("Loading AraBERT done ✅: " + str(toc-tic) + " seconds")
+  loading_state_bert.text("Loading AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
   augment_state_bert = st.text("Augmenting with AraBERT...")
   tic = time.perf_counter()
   if isinstance(text, str):
     ret = bert(model, text)
     toc = time.perf_counter()
-    augment_state_bert.text("Augmenting with AraBERT done ✅: " + str(toc-tic) + " seconds")
+    augment_state_bert.text("Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return ret
   else:
     all_sentences = []
@@ -195,7 +195,7 @@ def aug_bert(model,text):  # text here is a list of sentences
       sentence = sentence.strip()
       all_sentences.append([sentence,bert(model, sentence)])
     toc = time.perf_counter()
-    augment_state_bert.text("Augmenting with AraBERT done ✅: " + str(toc-tic) + " seconds")
+    augment_state_bert.text("Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return all_sentences
 
 ### ------------------------ End of BERT ----------------------------------- ###
@@ -235,13 +235,13 @@ def aug_GPT(model_name,text):  # text here can be list of sentences or on string
   tic = time.perf_counter()
   model , tokenizer , generation_pipeline = load_GPT(model_name)
   toc = time.perf_counter()
-  loading_state_gpt.write("Loading AraGPT2 done ✅: " + str(toc-tic) + " seconds")
+  loading_state_gpt.write("Loading AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
   augment_state_gpt = st.text("Augmenting with AraGPT2...")
   tic = time.perf_counter()
   if isinstance(text, str):
     ret = GPT(model,tokenizer , generation_pipeline ,text)
     toc = time.perf_counter()
-    augment_state_gpt.text("Augmenting with AraGPT2 done ✅: " + str(toc-tic) + " seconds")
+    augment_state_gpt.text("Augmenting with AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return ret
   else:
     all_sentences = []
@@ -249,7 +249,7 @@ def aug_GPT(model_name,text):  # text here can be list of sentences or on string
       sentence = sentence.strip()
       all_sentences.append([sentence,GPT(model,tokenizer , generation_pipeline ,sentence)])
     toc = time.perf_counter()
-    augment_state_gpt.text("Augmenting with AraGPT2 done ✅: " + str(toc-tic) + " seconds")
+    augment_state_gpt.text("Augmenting with AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return all_sentences
 
 ### ------------------------ End of GPT ------------------------------------ ###  
@@ -291,13 +291,13 @@ def aug_m2m(model_name,text):
     tic = time.perf_counter()
     model , tokenizer , token = load_m2m(model_name)
     toc = time.perf_counter()
-    loading_state_m2m.text("Loading M2M done ✅: " + str(toc-tic) + " seconds")
+    loading_state_m2m.text("Loading M2M done ✅: " + str(round(toc-tic, 3)) + " seconds")
     augment_state_m2m = st.text("Augmenting with M2M...")
     tic = time.perf_counter()
     if isinstance(text, str):
       ret = m2m(model,tokenizer , token ,text)
       toc = time.perf_counter()
-      augment_state_m2m.text("Augmenting with AraBERT done ✅: " + str(toc-tic) + " seconds")
+      augment_state_m2m.text("Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
       return ret
     else:
       all_sentences = []
@@ -305,7 +305,7 @@ def aug_m2m(model_name,text):
         sentence = sentence.strip()
         all_sentences.append([sentence,m2m(model,tokenizer , token ,sentence)])
       toc = time.perf_counter()
-      augment_state_m2m.text("Augmenting with AraBERT done ✅: " + str(toc-tic) + " seconds")
+      augment_state_m2m.text("Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
       return all_sentences
 
 ### ------------------------ End of Text-to-Text --------------------------- ###

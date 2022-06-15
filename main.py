@@ -24,6 +24,7 @@ st.markdown(
         * AraBERT (Machine Learning Model)
         * AraGPT2 (Machine Learning Model)
         * W2V (Machine Learning Model)
+        * Text-to-Text Augmentation
         * Back Translation
     """
 )
@@ -32,10 +33,11 @@ test_app_container = st.container()
 
 with test_app_container:
   st.markdown("# Test out our app here :blush::")
-  # test_text = "RT @USER: رحمك الله يا صدام يا بطل ومقدام. URL	NOT_OFF	NOT_HS" # text to be used for testing purposes only
+  # test_text = "وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة" # text to be used for testing purposes only
 
   text_input_container = st.empty()
-  user_text_input = text_input_container.text_input("Enter your text here (AR):", placeholder="رحمك الله يا صدام يا بطل ومقدام") # TODO: make the default text to placeholder
+  user_text_input = text_input_container.text_input("Enter your text here (AR):", 
+                                                    placeholder="وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة")
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
