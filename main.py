@@ -10,6 +10,10 @@ st.set_page_config(
      page_icon='📈'
  )
 
+## Session states - Initialization
+if 'user_input' not in st.session_state:
+  st.session_state['user_input'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
+
 ## --------------------------------------------- End of Page Config ---------------------------------------- ##
 
 ## ------------------------------------------------- Introduction ------------------------------------------ ##
@@ -53,8 +57,9 @@ with test_app_container:
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
+    st.session_state['user_input'] = user_text_input
     text_input_container.empty()
-    st.info(user_text_input)
+    st.info(st.session_state['user_input'])
     st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
   submit_button = st.button(label='Submit')
 
@@ -81,7 +86,7 @@ with test_app_container:
                     """
                   )
 
-        sentences_bert = aug_bert('aubmindlab/bert-large-arabertv2', user_text_input)
+        sentences_bert = aug_bert('aubmindlab/bert-large-arabertv2', st.session_state['user_input'])
 
         output_bert = ""
         for sent in sentences_bert:
@@ -112,7 +117,7 @@ with test_app_container:
                         The outputs which can be seen shows the highlighted words (in red) 
                         that are changed by the model.
                         """)
-            sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', user_text_input)
+            sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', st.session_state['user_input'])
 
             output_gpt = ""
             for sent in sentences_gpt:
@@ -146,7 +151,7 @@ with test_app_container:
                     The outputs which can be seen shows the highlighted words (in yellow) 
                     that are changed by the model.
                     """)
-        sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', user_text_input)
+        sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', st.session_state['user_input'])
         
         output_w2v = ""
         for sent in sentences_w2v:
@@ -176,7 +181,7 @@ with test_app_container:
             """
         )
 
-        back_translated_sentences = back_translate(available_languages, user_text_input)
+        back_translated_sentences = back_translate(available_languages, st.session_state['user_input'])
         with st.expander("Open to see Back Translation results"):
             st.write(back_translated_sentences)
 
@@ -196,7 +201,7 @@ with test_app_container:
                     or reconstructing parts of the text. You can read more about it 
                     from this paper [here](https://arxiv.org/abs/2001.08210).
                     """)
-        sentences_m2m = aug_m2m('facebook/mbart-large-50-many-to-many-mmt',user_text_input)
+        sentences_m2m = aug_m2m('facebook/mbart-large-50-many-to-many-mmt', st.session_state['user_input'])
 
         output_m2m = ""
 

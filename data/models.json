@@ -1,7 +1,7 @@
 {
     "arabert": 1,
-    "aragpt2": 0,
-    "aravec": 0,
+    "aragpt2": 1,
+    "aravec": 1,
     "back-translation": 0,
     "m2m": 0
 }
