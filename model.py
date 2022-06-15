@@ -16,9 +16,6 @@ import nlpaug.augmenter.word as naw
 import tensorflow as tf
 
 ### ------------------------ Back Translation ------------------------------ ###
-
-# st.cache(allow_output_mutation=True)
-
 @st.experimental_memo
 def load_models_bt(from_model_name, to_model_name):
   device = 'cpu'
@@ -357,6 +354,11 @@ def ner(text):
   data = requests.post(url, data=payload)
   result = json.loads(data.text)
   return result['text'][0].split("/")[1]
+
+def models_data(file_name):
+  f = open(file_name)
+  data = json.load(f)
+  return data
 
 ### ----------------- End of General Functions ----------------------------- ###
 
