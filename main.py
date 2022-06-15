@@ -3,16 +3,17 @@ from model import aug_bert, aug_w2v, back_translate, random_sentence, spl, aug_m
 from model import load_bert, load_GPT, load_m2m, load_w2v, models_data
 from citations import citations
 
-## -------------- Page Config -------------- ##
+## ----------------------------------------------- Page Config --------------------------------------------- ##
 
 st.set_page_config(
      page_title="Data Augmentation",
      page_icon='📈'
  )
 
-## ------------ End of Page Config --------- ##
+## --------------------------------------------- End of Page Config ---------------------------------------- ##
 
-## ------------- Introduction -------------- ##
+## ------------------------------------------------- Introduction ------------------------------------------ ##
+
 
 st.title("Data augmentation - Web Interface")
 st.markdown(
@@ -35,10 +36,10 @@ st.markdown(
   """
 )
 
-## --------- End of Introduction ----------- ##
+## --------------------------------------- End of Introduction --------------------------------------------- ##
 
 
-## --------------- Test the App ------------ ##
+## ---------------------------------------- Test the App --------------------------------------------------- ##
 
 test_app_container = st.container()
 
@@ -62,6 +63,7 @@ with test_app_container:
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
 
+    ## ------------------------------------- araBERT -------------------------------------- ##
     if data['arabert']:
       bert_container = st.container()
       with bert_container:
@@ -93,6 +95,8 @@ with test_app_container:
         with st.expander("Open to see AraBERT results"):
           st.markdown(output_bert, unsafe_allow_html=True)
     
+    ## ------------------------------------- araGPT2 -------------------------------------- ##
+
     if data['aragpt2']:
       gpt2_container = st.container()
       with gpt2_container:
@@ -121,6 +125,8 @@ with test_app_container:
 
             with st.expander("Open to see AraGPT2 results"):
               st.markdown(output_gpt, unsafe_allow_html=True)
+
+    ## ------------------------------------- AraVec -------------------------------------- ##
 
     if data['aravec']:
       w2v_container = st.container()
@@ -154,6 +160,8 @@ with test_app_container:
         with st.expander("Open to see W2V results"):
           st.markdown(output_w2v, unsafe_allow_html=True)
 
+    ## ------------------------------------- Back- Translation -------------------------------------- ##
+
     if data['back-translation']:
       back_translation_container = st.container()
       with back_translation_container:
@@ -172,6 +180,7 @@ with test_app_container:
         with st.expander("Open to see Back Translation results"):
             st.write(back_translated_sentences)
 
+    ## ------------------------------------- Text-to-Text -------------------------------------- ##
 
     if data['m2m']:
       text_to_text_container = st.container()
@@ -198,11 +207,12 @@ with test_app_container:
         with st.expander("Open to see Text-to-Text Results"):
           st.markdown(output_m2m, unsafe_allow_html=True)
 
-## ----------- End of Test the App --------- ##
+## ---------------------------------------- End of Test the App -------------------------------------------- ##
 
-## ----------------- Citations ------------- ##
+
+## ---------------------------------------------- Citations ------------------------------------------------ ##
 
 st.write("-------------------------------------------------")
 citations()
 
-## -------------- End of Citations --------- ##
+## ------------------------------------------ End of Citations --------------------------------------------- ##
