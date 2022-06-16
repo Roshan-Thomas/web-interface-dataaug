@@ -1,7 +1,7 @@
 {
     "common": {
         "bert-output": "The outputs which can be seen shows the highlighted words <span style='color:#7CFC00'>(in green)</span> that are changed by the model.",
-        "aravec-output": "The outputs which can be seen shows the highlighted words <span style='color:#7CFC00'>(in yellow)</span> that are changed by the model."
+        "aravec-output": "The outputs which can be seen shows the highlighted words <span style='color:#FFBF00'>(in yellow)</span> that are changed by the model."
     },
     "arabert": {
         "header": "### AraBERT Data Augmentation",
