@@ -108,7 +108,7 @@ with test_app_container:
     if data['qarib-bert']:
       qarib_bert_container = st.container()
       with qarib_bert_container:
-        st.subheader(model_text_data["qarib-bert"]["header"])
+        st.markdown(model_text_data["qarib-bert"]["header"])
         st.markdown(model_text_data["qarib-bert"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -130,7 +130,7 @@ with test_app_container:
     if data['xlm-roberta-bert']:
       xlm_bert_container = st.container()
       with xlm_bert_container:
-        st.subheader(model_text_data["xlm-roberta-bert"]["header"])
+        st.markdown(model_text_data["xlm-roberta-bert"]["header"])
         st.markdown(model_text_data["xlm-roberta-bert"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -152,7 +152,7 @@ with test_app_container:
     if data['arabart']:
       arabart_bert_container = st.container()
       with arabart_bert_container:
-        st.subheader(model_text_data["arabart"]["header"])
+        st.markdown(model_text_data["arabart"]["header"])
         st.markdown(model_text_data["arabart"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -175,7 +175,7 @@ with test_app_container:
     if data['camelbert']:
       camelbert_bert_container = st.container()
       with camelbert_bert_container:
-        st.subheader(model_text_data["camelbert"]["header"])
+        st.markdown(model_text_data["camelbert"]["header"])
         st.markdown(model_text_data["camelbert"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -197,7 +197,7 @@ with test_app_container:
     if data['bert-large-arabic']:
       large_arabic_bert_container = st.container()
       with large_arabic_bert_container:
-        st.subheader(model_text_data["bert-large-arabic"]["header"])
+        st.markdown(model_text_data["bert-large-arabic"]["header"])
         st.markdown(model_text_data["bert-large-arabic"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -219,7 +219,7 @@ with test_app_container:
     if data['ubc-arbert']:
       ubc_arbert_bert_container = st.container()
       with ubc_arbert_bert_container:
-        st.subheader(model_text_data["ubc-arbert"]["header"])
+        st.markdown(model_text_data["ubc-arbert"]["header"])
         st.markdown(model_text_data["ubc-arbert"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -241,7 +241,7 @@ with test_app_container:
     if data['ubc-marbertv2']:
       ubc_marbertv2_bert_container = st.container()
       with ubc_marbertv2_bert_container:
-        st.subheader(model_text_data["ubc-marbertv2"]["header"])
+        st.markdown(model_text_data["ubc-marbertv2"]["header"])
         st.markdown(model_text_data["ubc-marbertv2"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
@@ -263,7 +263,7 @@ with test_app_container:
     if data['araelectra']:
       araelectra_bert_container = st.container()
       with araelectra_bert_container:
-        st.subheader(model_text_data["araelectra"]["header"])
+        st.markdown(model_text_data["araelectra"]["header"])
         st.markdown(model_text_data["araelectra"]["text"])
         st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
