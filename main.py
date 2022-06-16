@@ -32,9 +32,17 @@ st.markdown(
   data by adding slightly modified copies of already existing data or newly
   created synthetic data from existing data. Read more [here](https://en.wikipedia.org/wiki/Data_augmentation).
 
-  We are using four methods to do data augmentation on Arabic text: 
+  We are using thirteen machine learning models to do data augmentation on Arabic text: 
       
       * AraBERT (Machine Learning Model)
+      * QARiB (Machine Learning Model)
+      * XLM-RoBERTa (Machine Learning Model)
+      * AraBART (Machine Learning Model)
+      * CAMeLBERT-Mix NER (Machine Learning Model)
+      * Arabic BERT (Large) (Machine Learning Model)
+      * ARBERT (Machine Learning Model)
+      * MARBERTv2 (Machine Learning Model)
+      * AraELECTRA (Machine Learning Model)
       * AraGPT2 (Machine Learning Model)
       * W2V (Machine Learning Model)
       * Text-to-Text Augmentation
@@ -72,26 +80,17 @@ with test_app_container:
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
+    model_text_data = models_data('./data/models_data.json')
 
-    ## ------------------------------------- araBERT -------------------------------------- ##
+    ## ---------------------------- aubmindlab/bert-large-arabertv2 ----------------------- ##
     if data['arabert']:
       bert_container = st.container()
       with bert_container:
-        st.subheader("AraBERT Data Augmentation")
-        st.markdown("""
-                    AraBERT is an Arabic pre-trained language model based on Google's 
-                    BERT architecture. BERT is a fully connected deep neural network 
-                    trained to predict two main things: a masked word in a sentence 
-                    and the probability that the two sentences flow with each other. 
-                    We give BERT a sentence with a masked word and using the context 
-                    of the sentence, BERT predicts the masked word.
+        st.markdown(model_text_data["arabert"]["header"])
+        st.markdown(model_text_data["arabert"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
-                    The outputs which can be seen shows the highlighted words (in green) 
-                    that are changed by the model. 
-                    """
-                  )
-
-        sentences_bert = aug_bert('aubmindlab/bert-large-arabertv2', st.session_state['user_input'])
+        sentences_bert = aug_bert(model_text_data["arabert"]["url"], st.session_state['user_input'])
 
         output_bert = ""
         for sent in sentences_bert:
@@ -102,24 +101,193 @@ with test_app_container:
                           <span style="color:#ffffff">{shalf}</span>
                           </p> """
 
-        with st.expander("Open to see AraBERT results"):
+        with st.expander(model_text_data["arabert"]["results"]):
           st.markdown(output_bert, unsafe_allow_html=True)
     
-    ## ------------------------------------- araGPT2 -------------------------------------- ##
+    ## -------------------------- qarib/bert-base-qarib ----------------------------------- ##
+    if data['qarib-bert']:
+      qarib_bert_container = st.container()
+      with qarib_bert_container:
+        st.subheader(model_text_data["qarib-bert"]["header"])
+        st.markdown(model_text_data["qarib-bert"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
+        sentences_qarib_bert = aug_bert(model_text_data["qarib-bert"]["url"], st.session_state['user_input'])
+
+        output_qarib_bert = ""
+        for sent in sentences_qarib_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_qarib_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["qarib-bert"]["results"]):
+          st.markdown(output_qarib_bert, unsafe_allow_html=True)
+
+    ## ----------------------------- xlm-roberta-base ------------------------------------- ##
+    if data['xlm-roberta-bert']:
+      xlm_bert_container = st.container()
+      with xlm_bert_container:
+        st.subheader(model_text_data["xlm-roberta-bert"]["header"])
+        st.markdown(model_text_data["xlm-roberta-bert"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_xlm_bert = aug_bert(model_text_data["xlm-roberta-bert"]["url"], st.session_state['user_input'])
+
+        output_xlm_bert = ""
+        for sent in sentences_xlm_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_xlm_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
+          st.markdown(output_xlm_bert, unsafe_allow_html=True)
+
+    ## ----------------------------- moussaKam/AraBART ------------------------------------ ##
+    if data['arabart']:
+      arabart_bert_container = st.container()
+      with arabart_bert_container:
+        st.subheader(model_text_data["arabart"]["header"])
+        st.markdown(model_text_data["arabart"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_arabart_bert = aug_bert(model_text_data["arabart"]["url"], st.session_state['user_input'])
+
+        output_arabart_bert = ""
+        for sent in sentences_arabart_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_arabart_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["arabart"]["results"]):
+          st.markdown(output_arabart_bert, unsafe_allow_html=True)
+
+
+    ## ---------------------- CAMeL-Lab/bert-base-arabic-camelbert-mix -------------------- ##
+    if data['camelbert']:
+      camelbert_bert_container = st.container()
+      with camelbert_bert_container:
+        st.subheader(model_text_data["camelbert"]["header"])
+        st.markdown(model_text_data["camelbert"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_camelbert_bert = aug_bert(model_text_data["camelbert"]["url"], st.session_state['user_input'])
+
+        output_camelbert_bert = ""
+        for sent in sentences_camelbert_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_camelbert_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["camelbert"]["results"]):
+          st.markdown(output_camelbert_bert, unsafe_allow_html=True)
+
+    ## --------------------------- asafaya/bert-large-arabic ------------------------------ ##
+    if data['bert-large-arabic']:
+      large_arabic_bert_container = st.container()
+      with large_arabic_bert_container:
+        st.subheader(model_text_data["bert-large-arabic"]["header"])
+        st.markdown(model_text_data["bert-large-arabic"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_large_arabic_bert = aug_bert(model_text_data["bert-large-arabic"]["url"], st.session_state['user_input'])
+
+        output_large_arabic_bert = ""
+        for sent in sentences_large_arabic_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_large_arabic_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["bert-large-arabic"]["results"]):
+          st.markdown(output_large_arabic_bert, unsafe_allow_html=True)
+
+    ## --------------------------------- UBC-NLP/ARBERT ----------------------------------- ##
+    if data['ubc-arbert']:
+      ubc_arbert_bert_container = st.container()
+      with ubc_arbert_bert_container:
+        st.subheader(model_text_data["ubc-arbert"]["header"])
+        st.markdown(model_text_data["ubc-arbert"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_ubc_arbert_bert = aug_bert(model_text_data["ubc-arbert"]["url"], st.session_state['user_input'])
+
+        output_ubc_arbert_bert = ""
+        for sent in sentences_ubc_arbert_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_ubc_arbert_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["ubc-arbert"]["results"]):
+          st.markdown(output_ubc_arbert_bert, unsafe_allow_html=True)
+
+    ## --------------------------------- UBC-NLP/MARBERTv2 -------------------------------- ##
+    if data['ubc-marbertv2']:
+      ubc_marbertv2_bert_container = st.container()
+      with ubc_marbertv2_bert_container:
+        st.subheader(model_text_data["ubc-marbertv2"]["header"])
+        st.markdown(model_text_data["ubc-marbertv2"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_ubc_marbertv2_bert = aug_bert(model_text_data["ubc-marbertv2"]["url"], st.session_state['user_input'])
+
+        output_ubc_marbertv2_bert = ""
+        for sent in sentences_ubc_marbertv2_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_ubc_marbertv2_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["ubc-marbertv2"]["results"]):
+          st.markdown(output_ubc_marbertv2_bert, unsafe_allow_html=True)
+
+    ## ------------------------ aubmindlab/araelectra-base-generator ---------------------- ##
+    if data['araelectra']:
+      araelectra_bert_container = st.container()
+      with araelectra_bert_container:
+        st.subheader(model_text_data["araelectra"]["header"])
+        st.markdown(model_text_data["araelectra"]["text"])
+        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
+
+        sentences_araelectra_bert = aug_bert(model_text_data["araelectra"]["url"], st.session_state['user_input'])
+
+        output_araelectra_bert = ""
+        for sent in sentences_araelectra_bert:
+          rep, fhalf, shalf = spl(sent)
+          output_araelectra_bert += f"""<p>
+                          <span style="color:#ffffff">{fhalf}</span>
+                          <span style="color:#7CFC00">{rep}</span> 
+                          <span style="color:#ffffff">{shalf}</span>
+                          </p> """
+
+        with st.expander(model_text_data["araelectra"]["results"]):
+          st.markdown(output_araelectra_bert, unsafe_allow_html=True)
+
+    ## ------------------------------------- araGPT2 -------------------------------------- ##
     if data['aragpt2']:
       gpt2_container = st.container()
       with gpt2_container:
-            st.subheader("AraGPT2 Data Augmentation")
-            st.markdown(""" 
-                        AraGPT2 is a pre-trained transformer for the Arabic Language 
-                        Generation. The model successfully uses synthetic news 
-                        generation and zero-shot question answering and has a 98% 
-                        accuracy in detecting model-generated text. They are publicly 
-                        available, and you can read the paper 
-                        [here](https://arxiv.org/abs/2012.15520).
-                        """)
-            sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', st.session_state['user_input'])
+            st.markdown(model_text_data["aragpt2"]["header"])
+            st.markdown(model_text_data["aragpt2"]["text"])
+            sentences_gpt = aug_GPT(model_text_data["aragpt2"]["url"], st.session_state['user_input'])
 
             output_gpt = ""
             for sent in sentences_gpt:
@@ -130,29 +298,16 @@ with test_app_container:
                           <span style="color:#ffffff">{shalf}</span>
                           </p> """
 
-            with st.expander("Open to see AraGPT2 results"):
+            with st.expander(model_text_data["aragpt2"]["results"]):
               st.markdown(output_gpt, unsafe_allow_html=True)
 
     ## ------------------------------------- AraVec -------------------------------------- ##
-
     if data['aravec']:
       w2v_container = st.container()
       with w2v_container:
-        st.subheader("AraVec (W2V) Data Augmentation")
-        st.markdown(""" 
-                    AraVec (W2V) is a pre-trained distributed word representation 
-                    (word embedding) open-source project aiming to provide the Arabic 
-                    NLP research community with free-to-use and powerful word 
-                    embedding models. The recent version of AraVec provides 16-word 
-                    embedding models built on top of two different Arabic content 
-                    domains; Tweets and Wikipedia Arabic articles. This app uses the 
-                    Twitter-trained model to augment the text. You can read more 
-                    about it in this paper 
-                    [here](https://www.researchgate.net/publication/319880027_AraVec_A_set_of_Arabic_Word_Embedding_Models_for_use_in_Arabic_NLP).
-
-                    The outputs which can be seen shows the highlighted words (in yellow) 
-                    that are changed by the model.
-                    """)
+        st.markdown(model_text_data["aravec"]["header"])
+        st.markdown(model_text_data["aravec"]["text"])
+        st.markdown(model_text_data["common"]["aravec-output"], unsafe_allow_html=True)
         sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', st.session_state['user_input'])
         
         output_w2v = ""
@@ -164,7 +319,7 @@ with test_app_container:
                           <span style="color:#ffffff">{shalf}</span>
                         </p> """
 
-        with st.expander("Open to see W2V results"):
+        with st.expander(model_text_data["aravec"]["results"]):
           st.markdown(output_w2v, unsafe_allow_html=True)
 
     ## ------------------------------------- Back- Translation -------------------------------------- ##
@@ -172,19 +327,13 @@ with test_app_container:
     if data['back-translation']:
       back_translation_container = st.container()
       with back_translation_container:
-        st.markdown("### Back Translation Augmentation")
+        st.markdown(model_text_data["back-translation"]["header"])
         available_languages = ['ar-en', 'ar-fr', 'ar-tr', 'ar-ru', 'ar-pl', 'ar-it', 'ar-es', 'ar-el', 'ar-de', 'ar-he']
         back_translated_sentences = []
-        st.markdown(
-            """
-            The languages we are back translating from are: *English (en), French (fr), 
-            Turkish (tr), Russian (ru), Polish (pl), Italian (it), Spanish (es), 
-            Greek (el), German (de), and Hebrew (he)*.
-            """
-        )
+        st.markdown(model_text_data["back-translation"]["text"])
 
         back_translated_sentences = back_translate(available_languages, st.session_state['user_input'])
-        with st.expander("Open to see Back Translation results"):
+        with st.expander(model_text_data["back-translation"]["results"]):
             st.write(back_translated_sentences)
 
     ## ------------------------------------- Text-to-Text -------------------------------------- ##
@@ -192,18 +341,9 @@ with test_app_container:
     if data['m2m']:
       text_to_text_container = st.container()
       with text_to_text_container:
-        st.markdown("### Text-to-Text Augmentation")
-        st.markdown("""
-                    MBART is a sequence-to-sequence denoising auto-encoder 
-                    pretrained on large-scale monolingual corpora in many languages 
-                    using the BART objective. mBART is one of the first methods 
-                    for pretraining a complete sequence-to-sequence model by 
-                    denoising full texts in multiple languages. At the same time, 
-                    previous approaches have focused only on the encoder, decoder, 
-                    or reconstructing parts of the text. You can read more about it 
-                    from this paper [here](https://arxiv.org/abs/2001.08210).
-                    """)
-        sentences_m2m = aug_m2m('facebook/mbart-large-50-many-to-many-mmt', st.session_state['user_input'])
+        st.markdown(model_text_data["m2m"]["header"])
+        st.markdown(model_text_data["m2m"]["text"])
+        sentences_m2m = aug_m2m(model_text_data["m2m"]["url"], st.session_state['user_input'])
 
         output_m2m = ""
 
@@ -211,7 +351,7 @@ with test_app_container:
           output_m2m = f""" <p>
                               <span style="color:#ffffff">{sent}</span>
                               </p> """
-        with st.expander("Open to see Text-to-Text Results"):
+        with st.expander(model_text_data["m2m"]["results"]):
           st.markdown(output_m2m, unsafe_allow_html=True)
 
 ## ---------------------------------------- End of Test the App -------------------------------------------- ##
