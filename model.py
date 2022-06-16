@@ -427,4 +427,18 @@ def pos(text):
         pos_dict[word] = i['POS']
   return pos_dict
 
+def farasa_pos_output(text):
+  url = 'https://farasa.qcri.org/webapi/pos/'
+  api_key = "KMxvdPGsKHXQAbRXGL"
+  payload = {'text': text, 'api_key': api_key}
+  data = requests.post(url, data=payload)
+  result = json.loads(data.text)
+  ret = ""
+  for i in result['text']:
+    if bool(set(i['POS'].split("+")) & set(['NOUN','V','ADJ'])):
+      ret += "*" + i['POS'] + " "
+    else:
+      ret += i['POS'] + " "
+  return ret.strip()
+
 ### ------------------------- End of Farasa API ---------------------------- ###

@@ -1,6 +1,6 @@
 import streamlit as st 
 from model import aug_bert, aug_w2v, back_translate, random_sentence, spl, aug_m2m, aug_GPT
-from model import load_bert, load_GPT, load_m2m, load_w2v, models_data
+from model import load_bert, load_GPT, load_m2m, load_w2v, models_data, farasa_pos_output
 from citations import citations
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
@@ -13,6 +13,8 @@ st.set_page_config(
 ## Session states - Initialization
 if 'user_input' not in st.session_state:
   st.session_state['user_input'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
+if 'farasa_output' not in st.session_state:
+  st.session_state['farasa_output'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
 
 ## --------------------------------------------- End of Page Config ---------------------------------------- ##
 
@@ -42,9 +44,6 @@ st.markdown(
 
 ## --------------------------------------- End of Introduction --------------------------------------------- ##
 
-def handle_click():
-  st.write(st.session_state.user_input)
-
 
 ## ---------------------------------------- Test the App --------------------------------------------------- ##
 
@@ -57,13 +56,17 @@ with test_app_container:
   text_input_container = st.empty()
   user_text_input = text_input_container.text_input("Enter your text here (AR):", 
                                                     placeholder="وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة")
+
+  st.session_state.farasa_output = st.text(farasa_pos_output(user_text_input))
+
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
+    text_input_container.empty()
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
     st.session_state.user_input = user_text_input
-    text_input_container.empty()
-    st.info(st.session_state.user_input)
+    text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
     st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
+    st.session_state.farasa_output.text(farasa_pos_output(user_text_input))
 
   if user_text_input:
 
@@ -115,9 +118,6 @@ with test_app_container:
                         accuracy in detecting model-generated text. They are publicly 
                         available, and you can read the paper 
                         [here](https://arxiv.org/abs/2012.15520).
-
-                        The outputs which can be seen shows the highlighted words (in red) 
-                        that are changed by the model.
                         """)
             sentences_gpt = aug_GPT('aubmindlab/aragpt2-medium', st.session_state['user_input'])
 
@@ -219,7 +219,7 @@ with test_app_container:
 
 ## ---------------------------------------------- Citations ------------------------------------------------ ##
 
-st.write("-------------------------------------------------")
-citations()
+# st.write("-------------------------------------------------")
+# citations()
 
 ## ------------------------------------------ End of Citations --------------------------------------------- ##
