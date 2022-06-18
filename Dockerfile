@@ -6,6 +6,8 @@ COPY requirements.txt ./requirements.txt
 
 RUN pip install -r requirements.txt
 
+RUN cd data && ./script.sh
+
 EXPOSE 8501 
 
 COPY . /app
