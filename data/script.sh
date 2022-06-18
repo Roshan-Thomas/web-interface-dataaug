@@ -1,10 +1,9 @@
 #!/bin/bash
 
-filename="full_grams_cbow_100_twitter.mdl.wv.vectors.zip"
+filename="full_grams_cbow_100_twitter.zip"
 mdlFilename="full_grams_cbow_100_twitter.mdl"
 npyTrainablesFilename="full_grams_cbow_100_twitter.mdl.trainables.syn1neg.npy"
 npyVectorsFilename="full_grams_cbow_100_twitter.mdl.wv.vectors.npy"
-
 
 if [[ ! -f $filename ]]
 then
@@ -17,7 +16,8 @@ then
 	echo "Download $filename complete"
 	echo " "
 	echo " "
-	python3 pynuzip.py full_grams_cbow_100_twitter.zip
+	python3 pyunzip.py full_grams_cbow_100_twitter.zip
+	echo "Unzipping Complete"
 
 elif [[ -f $filename ]] && [[ ! -f $mdlFilename ]] && [[ ! -f $npyTrainablesFilename ]] && [[ ! -f $npyVectorsFilename ]]
 then

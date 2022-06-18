@@ -54,6 +54,11 @@ Run the web app using docker with port 8051 and then forwarding it to port 8080 
 sudo docker run -p 8080:8501 dataaug-webapp
 ```
 
+Run the web app in the background
+```sh
+sudo docker run -p 8080:8501 -d dataaug-webapp
+```
+
 ## Contribution
 
 If you plan on making any changes to the repo, follow these steps:
