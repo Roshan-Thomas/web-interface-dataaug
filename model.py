@@ -14,6 +14,8 @@ from random import choice
 import time
 import nlpaug.augmenter.word as naw
 import tensorflow as tf
+from camel_tools.utils.charsets import AR_LETTERS_CHARSET
+import string
 
 ### ------------------------ Back Translation ------------------------------ ###
 @st.experimental_memo
@@ -74,39 +76,39 @@ def load_w2v(model_path):
   return model
 
 def w2v(model,sentence):
-  org_text = sentence
-  sentence = process(sentence)
+  cleaned = clean(sentence)
+  sentence = seperate_punct(sentence)
   l = []
   augs = []
   if len(sentence.split()) < 15 and len(sentence.split()) > 2:
     for i,token in enumerate(sentence.split()):
-      try:
-        word_vectors = model.wv
-        if token in word_vectors.key_to_index:
-           exist = True
-        else:
-           exist = False
-      except:
-        if token in model:
-          exist = True
-        else:
-          exist = False
-      if is_replacable(token,pos(sentence)):
-        if exist:
-          try:
-            most_similar = model.wv.most_similar( token, topn=5 )
-          except:
-            most_similar = model.most_similar( token, topn=5 )
-          for term, score in most_similar:
-                if term != token:
-                    term = "*" + term
-                    s = sentence.split()
-                    s[i] = term
-                    aug = " ".join(s)
-                    if not aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":","") in augs:
-                      augs.append(aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":",""))
-                      org_text = " ".join(org_text.split())
-                      l.append(org_text.replace(sentence,aug))
+      if token in cleaned and is_replacable(token,pos(cleaned)):
+        try:
+          word_vectors = model.wv
+          if token in word_vectors.key_to_index:
+            exist = True
+          else:
+            exist = False
+        except:
+          if token in model:
+            exist = True
+          else:
+            exist = False
+          if exist:
+            try:
+              most_similar = model.wv.most_similar( token, topn=5 )
+            except:
+              most_similar = model.most_similar( token, topn=5 )
+            for term, score in most_similar:
+                  if term != token:
+                      term = "*" + term
+                      s = sentence.split()
+                      s[i] = term
+                      aug = " ".join(s)
+                      if not clean(aug) in augs:
+                        augs.append(clean(aug))
+                        aug = " ".join(aug.split())
+                        l.append(aug)
   return l
 
 def aug_w2v(model_path,text):   # text here is a list of sentences
@@ -141,14 +143,14 @@ def load_bert(model):
   model = pipeline('fill-mask', model=model)
   return model
 
-def bert(model, sentence):  # Contextual word embeddings
-  org_text = sentence
-  sentence = process(sentence)
+def bert(model, sentence):    # Contextual word embeddings
+  cleaned = clean(sentence)
+  sentence = seperate_punct(sentence)
   l = []
   augs = []
   if len(sentence.split()) < 15 and len(sentence.split()) > 2:
     for n,token in enumerate(sentence.split()):
-        if is_replacable(token,pos(sentence)):
+        if token in cleaned and is_replacable(token,pos(sentence)):
           s = sentence.split()
           try:
             s[n] = "<mask>"
@@ -162,15 +164,15 @@ def bert(model, sentence):  # Contextual word embeddings
             if isinstance(i, dict):
               output = i['token_str']
               if not output == token:
-                if not len(output) < 2 and not "+" in output and not "[" in output:
+                if not len(output) < 2 and clean(output) == output:
                   term = "*"+i['token_str']
                   s = sentence.split()
                   s[n] = term
                   aug = " ".join(s)
-                  if not aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":","") in augs:
-                        augs.append(aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":",""))
-                        org_text = " ".join(org_text.split())
-                        l.append(org_text.replace(sentence,aug))
+                  if not clean(aug) in augs:
+                        augs.append(clean(aug))
+                        aug = " ".join(aug.split())
+                        l.append(aug)
   return l
 
 def aug_bert(model,text):  # text here is a list of sentences
@@ -208,23 +210,28 @@ def load_GPT(model_name):
 
 def GPT(model,tokenizer , generation_pipeline ,sentence):
   org_text = sentence
-  sentence = process(sentence)
+  sentence = clean(sentence)
   l = []
-  if len(sentence.split()) < 16:
+  if len(sentence.split()) < 15 and len(sentence.split()) > 2:
     input_ids = tokenizer.encode(sentence, return_tensors="pt")
     for n in range(1,4):
-      for i in range(5):
+      for i in range(2):
         pred = generation_pipeline(sentence,
-          return_full_text = True,
+          return_full_text = False,
           pad_token_id=tokenizer.eos_token_id,
           num_beams=10 ,
           max_length=len(input_ids[0]) + n,
           top_p=0.9,
           repetition_penalty = 3.0,
           no_repeat_ngram_size = 3)[0]['generated_text'].replace("."," ").replace("،"," ").replace(":"," ").strip()
-        pred = " ".join(pred.split())
-        if not pred in l:
-          l.append(org_text.replace(sentence,pred))
+        pred = " ".join(pred.split()).strip()
+        if not pred == "":
+          pred = "*" + pred.replace(" ","_")
+          aug = strip_punc(org_text) + " " + pred
+          org_text = " ".join(org_text.split())
+          pred = org_text.replace(strip_punc(org_text),aug)
+          if not pred in l and not pred == org_text:
+            l.append(pred)
   return l
 
 def aug_GPT(model_name,text):  # text here can be list of sentences or on string sentence
@@ -267,7 +274,7 @@ def load_m2m(model_name): ## use the facebook/m2m100-12B-last-ckpt
 
 def m2m(model,tokenizer,token,sentence):
     org_text = sentence
-    sentence = process(sentence)
+    sentence = clean(sentence)
     if len(sentence.split()) < 15 and len(sentence.split()) > 2:
       if token == "ar":
         id = tokenizer.get_lang_id(token)
@@ -277,9 +284,8 @@ def m2m(model,tokenizer,token,sentence):
       encoded_hi = tokenizer(sentence, return_tensors="pt")
       generated_tokens = model.generate(**encoded_hi, forced_bos_token_id=id)
       aug = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
-      clean_aug = aug.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":","")
-      if not clean_aug == org_text.replace(".","").replace("،","").replace("!","").replace("؟","").replace(":",""):
-        if " ".join(re.findall(r'[\u0600-\u06FF]+', clean_aug)) == clean_aug:
+      if not clean(aug) == clean(org_text):
+        if not any(p in aug for p in string.ascii_letters):
           return [aug]
     return []
 
@@ -372,6 +378,42 @@ def models_data(file_name):
   f = open(file_name)
   data = json.load(f)
   return data
+
+def seperate_punct(text):
+  text = text.strip()
+  text = " ".join(text.split())
+  ret = ""
+  for i,l in enumerate(text):
+    if not i == len(text) - 1:
+      if l in AR_LETTERS_CHARSET and text[i+1] != " " and not text[i+1] in AR_LETTERS_CHARSET:
+        ret += l + " "
+      elif not l in AR_LETTERS_CHARSET and text[i+1] != " " and text[i+1] in AR_LETTERS_CHARSET:
+        ret += l + " "
+      else:
+        ret += l
+    else:
+      ret += l
+  ret = " ".join(ret.split())
+  return ret
+
+def clean(text):
+  # remove any punctuations in the text
+  punc = """،.:!?؟!:.,''!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~"""
+  for l in text:
+    if l in punc and l != " ":
+      text = text.replace(l,"")
+  # keep only arabic text
+  text = " ".join(re.findall(r'[\u0600-\u06FF]+', text))
+  return text
+
+def strip_punc(text):
+  remove = ""
+  for l in reversed(text):
+    if l in AR_LETTERS_CHARSET:
+      break
+    elif not l in AR_LETTERS_CHARSET:
+      remove += l
+  return text.replace(remove[::-1],"")
 
 ### ----------------- End of General Functions ----------------------------- ###
 
