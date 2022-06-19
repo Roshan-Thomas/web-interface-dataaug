@@ -67,7 +67,7 @@ with test_app_container:
   user_text_input = text_input_container.text_input("Enter your text here (AR):", 
                                                     placeholder="وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة")
 
-  st.session_state.farasa_output = st.text(farasa_pos_output(user_text_input))
+  st.session_state.farasa_output = st.text(f"Farasa's Parts of Speech (POS) Tagger: {farasa_pos_output(user_text_input)}")
 
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:

@@ -10,6 +10,8 @@ EXPOSE 8501
 
 COPY . /app
 
+CMD ["cd", "data", "&&", "./script.sh" ]
+
 ENTRYPOINT ["streamlit", "run"]
 
 CMD ["main.py"]
