@@ -78,7 +78,7 @@ with test_app_container:
 
   if user_text_input:
     ## Translate the sentence from arabic to english for the user
-    translate_user_text_input(user_text_input)
+    st.write(translate_user_text_input(user_text_input))
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')

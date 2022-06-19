@@ -317,8 +317,11 @@ def translate_user_text_input(user_input):
   tokenizer = MarianTokenizer.from_pretrained(model_name)
   model = MarianMTModel.from_pretrained(model_name)
   translated = model.generate(**tokenizer(user_text, return_tensors="pt", padding=True))
+  translated_sentences = []
   for t in translated:
-    st.write(f"Translated sentence: {tokenizer.decode(t, skip_special_tokens=True)}")
+    translated_sentences += tokenizer.decode(t, skip_special_tokens=True)
+  
+  return translated_sentences
 
 def process(text):
   # remove any punctuations in the text
