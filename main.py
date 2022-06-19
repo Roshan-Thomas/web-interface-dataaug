@@ -13,8 +13,6 @@ st.set_page_config(
 ## Session states - Initialization
 if 'user_input' not in st.session_state:
   st.session_state['user_input'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
-if 'farasa_output' not in st.session_state:
-  st.session_state['farasa_output'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
 
 ## --------------------------------------------- End of Page Config ---------------------------------------- ##
 
@@ -68,7 +66,7 @@ with test_app_container:
   user_text_input = text_input_container.text_input("Enter your text here (AR):", 
                                                     placeholder="وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة")
 
-  farasa_pos_container.session_state.farasa_output = st.markdown(f"Farasa's Parts of Speech (POS) Tagger: {farasa_pos_output(user_text_input)}")
+  
 
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
@@ -77,11 +75,13 @@ with test_app_container:
     st.session_state.user_input = user_text_input
     text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
     st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
-    farasa_pos_container.session_state.farasa_output.markdown(f"Farasa's Parts of Speech (POS) Tagger: {farasa_pos_output(user_text_input)}")
 
   if user_text_input:
+    # Farasa POS output
+    farasa_pos_container.markdown(f"*Parts of Speech:* {farasa_pos_output(user_text_input)}")
+
     ## Translate the sentence from arabic to english for the user
-    translated_input_container.markdown(f"**Translated sentence (EN):** {translate_user_text_input(user_text_input)}")
+    translated_input_container.markdown(f"*Translated sentence (EN):* {translate_user_text_input(user_text_input)}")
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
