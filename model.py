@@ -447,6 +447,11 @@ def random_sentence(file_name:str):
     for i in range(len(res)):
       if len(res[i].split()) < 15:
         sentences.append(res[i].strip())
+  
+  # delete sentences with only quotation marks in the sentences list
+  for sent in sentences:
+    if sent == '"':
+      sentences.remove(sent)
 
   selected_sentence = choice(sentences)
   return selected_sentence

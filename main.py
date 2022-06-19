@@ -63,11 +63,12 @@ with test_app_container:
 
   text_input_container = st.empty()
   translated_input_container = st.empty()
+  farasa_pos_container = st.empty()
 
   user_text_input = text_input_container.text_input("Enter your text here (AR):", 
                                                     placeholder="وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة")
 
-  st.session_state.farasa_output = st.text(f"Farasa's Parts of Speech (POS) Tagger: {farasa_pos_output(user_text_input)}")
+  farasa_pos_container.session_state.farasa_output = st.markdown(f"Farasa's Parts of Speech (POS) Tagger: {farasa_pos_output(user_text_input)}")
 
   random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
   if random_sentence_generator:
@@ -76,7 +77,7 @@ with test_app_container:
     st.session_state.user_input = user_text_input
     text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
     st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
-    st.session_state.farasa_output.text(farasa_pos_output(user_text_input))
+    farasa_pos_container.session_state.farasa_output.markdown(f"Farasa's Parts of Speech (POS) Tagger: {farasa_pos_output(user_text_input)}")
 
   if user_text_input:
     ## Translate the sentence from arabic to english for the user
