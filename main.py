@@ -1,6 +1,6 @@
 import streamlit as st 
 from model import aug_bert, aug_w2v, back_translate, random_sentence, spl, aug_m2m, aug_GPT
-from model import load_bert, load_GPT, load_m2m, load_w2v, models_data, farasa_pos_output
+from model import load_bert, load_GPT, load_m2m, load_w2v, models_data, farasa_pos_output, translate_user_text_input
 from citations import citations
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
@@ -77,6 +77,8 @@ with test_app_container:
     st.session_state.farasa_output.text(farasa_pos_output(user_text_input))
 
   if user_text_input:
+    ## Translate the sentence from arabic to english for the user
+    translate_user_text_input(user_text_input)
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')

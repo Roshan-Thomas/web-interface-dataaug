@@ -6,6 +6,7 @@ transformers==4.19.4
 pattern==3.6.0
 sentencepiece==0.1.96
 sacremoses==0.0.53
+sentencepiece==0.1.96
 tensorflow==2.6.2
 torch==1.11.0
 torchaudio==0.11.0

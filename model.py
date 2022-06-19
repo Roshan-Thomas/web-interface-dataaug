@@ -4,10 +4,10 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import streamlit as st 
 import json
 import requests
-from transformers import GPT2LMHeadModel, pipeline, GPT2TokenizerFast
+from transformers import GPT2LMHeadModel, pipeline, GPT2TokenizerFast, pipeline
 from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
-from transformers import pipeline
+from transformers import MarianMTModel, MarianTokenizer
 import gensim
 import re
 from random import choice
@@ -309,6 +309,17 @@ def aug_m2m(model_name,text):
 
 ### ------------------------ General Functions ----------------------------- ###
 
+@st.cache(allow_output_mutation=True)
+def translate_user_text_input(user_input):
+  user_text = user_input
+  model_name = "Helsinki-NLP/opus-mt-ar-en"
+
+  tokenizer = MarianTokenizer.from_pretrained(model_name)
+  model = MarianMTModel.from_pretrained(model_name)
+  translated = model.generate(**tokenizer(user_text, return_tensors="pt", padding=True))
+  for t in translated:
+    st.write(f"Translated sentence: {tokenizer.decode(t, skip_special_tokens=True)}")
+
 def process(text):
   # remove any punctuations in the text
   punc = """،.:!?؟!:.,''!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~"""
@@ -319,7 +330,6 @@ def process(text):
   # keep only arabic text
   text = " ".join(re.findall(r'[\u0600-\u06FF]+', text))
   return text
-
 
 def is_replacable(token,pos_dict):
   # removes all the unncessary part of a sentence and keeps only the main ones for augmentation 
@@ -373,7 +383,6 @@ def delete_unncessary_lines(file_name:str):
         if "#" not in line.strip("\n"):
           output.write(line)
   os.replace('./data/temp.txt', file_name)
-
 
 def random_sentence(file_name:str):
   sentences = []
