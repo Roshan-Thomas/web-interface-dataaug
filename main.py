@@ -344,15 +344,26 @@ with test_app_container:
         st.markdown(model_text_data["m2m"]["header"])
         st.markdown(model_text_data["m2m"]["text"])
         sentences_m2m = aug_m2m(model_text_data["m2m"]["url"], st.session_state['user_input'])
+        sentences_m2m_2 = aug_m2m(model_text_data["m2m"]["url-2"], st.session_state['user_input'])
 
         output_m2m = ""
+        output_m2m_2 = ""
 
         for sent in sentences_m2m:
           output_m2m = f""" <p>
-                              <span style="color:#ffffff">{sent}</span>
-                              </p> """
+                        <span style="color:#ffffff">MBART_Large: </span> 
+                        <span style="color:#ffffff">{sent}</span>
+                        </p> """
+        
+        for sent in sentences_m2m_2:
+          output_m2m_2 = f"""<p>
+                          <span style="color:#ffffff">M2M100: </span>
+                          <span style="color:#ffffff">{sent}</span>
+                          </p> """
+
         with st.expander(model_text_data["m2m"]["results"]):
           st.markdown(output_m2m, unsafe_allow_html=True)
+          st.markdown(output_m2m_2, unsafe_allow_html=True)
 
 ## ---------------------------------------- End of Test the App -------------------------------------------- ##
 
