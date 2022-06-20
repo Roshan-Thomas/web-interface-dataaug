@@ -338,7 +338,7 @@ with test_app_container:
         st.markdown(model_text_data["double-back-translation"]["text"])
         st.markdown(model_text_data["double-back-translation"]["text-2"])
 
-        back_translated_sentences = back_translate(available_languages, st.session_state['user_input'])
+        back_translated_sentences = double_back_translate(available_languages, st.session_state['user_input'])
         with st.expander(model_text_data["double-back-translation"]["results"]):
             st.write(back_translated_sentences)
 
