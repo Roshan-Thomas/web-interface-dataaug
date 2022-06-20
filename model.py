@@ -30,7 +30,7 @@ def load_models_bt(from_model_name, to_model_name):
   )
   return (back_translation)
 
-def back_translate(selected_languages, text):
+def double_back_translate(selected_languages, text):
   """
   List of Languages Used
     - ar-en	(English)
@@ -55,8 +55,10 @@ def back_translate(selected_languages, text):
     model_name = model.split('-')
     back_translation = load_models_bt(f'Helsinki-NLP/opus-mt-{model_name[0]}-{model_name[1]}',
                                       f'Helsinki-NLP/opus-mt-{model_name[1]}-{model_name[0]}')
-    bt_sentence = back_translation.augment(text)
-    all_sentences.append(bt_sentence)
+    bt_sentence_1 = back_translation.augment(text)
+    bt_sentence_2 = back_translation.augment(bt_sentence_1)
+    all_sentences.append(bt_sentence_1)
+    all_sentences.append(bt_sentence_2)
 
   toc = time.perf_counter()
   loading_state_bt.write("Loading & Augmenting Back Translating Models done ✅: " + str(round(toc-tic, 3)) + " seconds")

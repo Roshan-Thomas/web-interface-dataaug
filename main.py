@@ -1,5 +1,5 @@
 import streamlit as st 
-from model import aug_bert, aug_w2v, back_translate, random_sentence, spl, aug_m2m, aug_GPT
+from model import aug_bert, aug_w2v, double_back_translate, random_sentence, spl, aug_m2m, aug_GPT
 from model import load_bert, load_GPT, load_m2m, load_w2v, models_data, farasa_pos_output, translate_user_text_input
 from citations import citations
 
@@ -329,16 +329,17 @@ with test_app_container:
 
     ## ------------------------------------- Back- Translation -------------------------------------- ##
 
-    if data['back-translation']:
+    if data['double-back-translation']:
       back_translation_container = st.container()
       with back_translation_container:
-        st.markdown(model_text_data["back-translation"]["header"])
+        st.markdown(model_text_data["double-back-translation"]["header"])
         available_languages = ['ar-en', 'ar-fr', 'ar-tr', 'ar-ru', 'ar-pl', 'ar-it', 'ar-es', 'ar-el', 'ar-de', 'ar-he']
         back_translated_sentences = []
-        st.markdown(model_text_data["back-translation"]["text"])
+        st.markdown(model_text_data["double-back-translation"]["text"])
+        st.markdown(model_text_data["double-back-translation"]["text-2"])
 
         back_translated_sentences = back_translate(available_languages, st.session_state['user_input'])
-        with st.expander(model_text_data["back-translation"]["results"]):
+        with st.expander(model_text_data["double-back-translation"]["results"]):
             st.write(back_translated_sentences)
 
     ## ------------------------------------- Text-to-Text -------------------------------------- ##

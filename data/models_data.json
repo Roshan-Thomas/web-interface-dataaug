@@ -68,9 +68,10 @@
         "text": "AraVec (W2V) is a pre-trained distributed word representation (word embedding) open-source project aiming to provide the Arabic NLP research community with free-to-use and powerful word embedding models. The recent version of AraVec provides 16-word embedding models built on top of two different Arabic content domains; Tweets and Wikipedia Arabic articles. This app uses the Twitter-trained model to augment the text. You can read more about it in this paper [here](https://www.researchgate.net/publication/319880027_AraVec_A_set_of_Arabic_Word_Embedding_Models_for_use_in_Arabic_NLP).",
         "results": "Open to see W2V results"
     },
-    "back-translation": {
-        "header": "### Back Translation Augmentation",
-        "text": "The languages we are back translating from are: *English (en) [0], French (fr) [1], Turkish (tr) [2], Russian (ru) [3], Polish (pl) [4], Italian (it) [5], Spanish (es) [6], Greek (el) [7], German (de) [8], and Hebrew (he) [9]*.",
+    "double-back-translation": {
+        "header": "### Double Back Translation Augmentation",
+        "text": "The languages we are back translating from are: *English (en) [0,1], French (fr) [2,3], Turkish (tr) [4,5], Russian (ru) [6,7], Polish (pl) [8,9], Italian (it) [10,11], Spanish (es) [12,13], Greek (el) [14,15], German (de) [16,17], and Hebrew (he) [18,19]*.",
+        "text-2": "For example, we are doing *AR > EN > AR_1 > EN > AR_2*. So AR_1 and AR_2 are the two augmented sentences giving us a much larger number of augmented sentences.",
         "results": "Open to see Back Translation results"
     },
     "m2m": {
