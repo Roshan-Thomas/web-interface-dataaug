@@ -1,21 +1,24 @@
+### ---------------------------- Imports ----------------------------------- ###
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
-import streamlit as st 
 import json
 import requests
-from transformers import GPT2LMHeadModel, pipeline, GPT2TokenizerFast, pipeline
-from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
-from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
-from transformers import MarianMTModel, MarianTokenizer
-import gensim
 import re
-from random import choice
 import time
-import nlpaug.augmenter.word as naw
-import tensorflow as tf
-from camel_tools.utils.charsets import AR_LETTERS_CHARSET
 import string
+
+import streamlit as st 
+from transformers import (GPT2LMHeadModel, pipeline, GPT2TokenizerFast, 
+                          pipeline, M2M100ForConditionalGeneration, 
+                          M2M100Tokenizer, MBartForConditionalGeneration, 
+                          MBart50TokenizerFast, MarianMTModel, MarianTokenizer)
+import gensim
+from random import choice
+import nlpaug.augmenter.word as naw
+from camel_tools.utils.charsets import AR_LETTERS_CHARSET
+import tensorflow as tf
+
+### ----------------------- End of Imports --------------------------------- ###
 
 ### ------------------------ Back Translation ------------------------------ ###
 @st.experimental_memo
@@ -68,7 +71,6 @@ def double_back_translate(selected_languages, text):
 ### ---------------------- End of Back Translation ------------------------- ###
 
 ### ------------------------------- W2V ------------------------------------ ###
-
 @st.cache(allow_output_mutation=True)
 def load_w2v(model_path):
   try:
@@ -139,7 +141,6 @@ def aug_w2v(model_path,text):   # text here is a list of sentences
 ### ------------------------ End of W2V ------------------------------------ ###
 
 ### ------------------------------- BERT ----------------------------------- ###
-
 @st.cache(allow_output_mutation=True)
 def load_bert(model):
   model = pipeline('fill-mask', model=model)
@@ -202,7 +203,6 @@ def aug_bert(model,text):  # text here is a list of sentences
 ### ------------------------ End of BERT ----------------------------------- ###
 
 ### -------------------------------- GPT ------------------------------------ ###
-
 @st.cache(allow_output_mutation=True)
 def load_GPT(model_name):
   model = GPT2LMHeadModel.from_pretrained(model_name)
@@ -261,7 +261,6 @@ def aug_GPT(model_name,text):  # text here can be list of sentences or on string
 ### ------------------------ End of GPT ------------------------------------ ###  
 
 ### ----------------------- Text-to-Text ----------------------------------- ###
-
 @st.experimental_memo
 def load_m2m(model_name): ## use the facebook/m2m100-12B-last-ckpt
   if "m2m" in model_name:
@@ -316,7 +315,6 @@ def aug_m2m(model_name,text):
 ### ------------------------ End of Text-to-Text --------------------------- ###
 
 ### ------------------------ General Functions ----------------------------- ###
-
 @st.cache(allow_output_mutation=True)
 def translate_user_text_input(user_input):
   user_text = user_input
@@ -420,7 +418,6 @@ def strip_punc(text):
 ### ----------------- End of General Functions ----------------------------- ###
 
 ### -------------------- Random Sentence Generator ------------------------- ###
-
 @st.experimental_memo
 def delete_unncessary_lines(file_name:str):
   sentences = []
@@ -461,7 +458,6 @@ def random_sentence(file_name:str):
 ### ------------------- End of Random Sentence Generator ------------------- ###
 
 ### ------------------------- Farasa API ----------------------------------- ###
-
 def pos(text):
   url = 'https://farasa.qcri.org/webapi/pos/'
   api_key = "KMxvdPGsKHXQAbRXGL"
