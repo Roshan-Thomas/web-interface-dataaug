@@ -547,6 +547,6 @@ def similarity_checker(sentences, user_text_input):
 def display_similarity_table(sentences_list, similarity_list): #TODO
   data = list(zip(sentences_list, similarity_list))
   df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
-  st.dataframe(df)
+  st.table(df)
 
 ### -------------------- End of Similarity Checker ------------------------- ###
