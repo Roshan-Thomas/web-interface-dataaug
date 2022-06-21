@@ -59,6 +59,16 @@ Run the web app in the background
 sudo docker run -p 8080:8501 -d dataaug-webapp
 ```
 
+### Build and Run in one command
+```sh
+sudo docker build -t dataaug-webapp:latest . && sudo docker run -p 8080:8501 -d dataaug-webapp
+```
+
+### Deleting unused docker containers
+```sh
+sudo docker rm $(sudo docker ps --filter status=exited -q)
+```
+
 ## Contribution
 
 If you plan on making any changes to the repo, follow these steps:

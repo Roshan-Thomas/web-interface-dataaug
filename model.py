@@ -509,11 +509,11 @@ def farasa_pos_output(text):
 def load_similarity_checker_model():
   tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
   model = AutoModel.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
-  tokens = {'input_ids': [], 'attention_mask': []}
-  return tokenizer, model, tokens
+  return tokenizer, model
 
 def similarity_checker(sentences, user_text_input):
-  tokenizer, model, tokens = load_similarity_checker_model()
+  tokenizer, model = load_similarity_checker_model()
+  tokens = {'input_ids': [], 'attention_mask': []}
   sentences.insert(0, user_text_input)
   for sentence in sentences:
     # tokenize sentence and append to dictionary lists
@@ -544,9 +544,9 @@ def similarity_checker(sentences, user_text_input):
 
   return cos_similarity[0]
 
-def display_similarity_table(sentences_list, similarity_list): #TODO
+def display_similarity_table(sentences_list, similarity_list):
   data = list(zip(sentences_list, similarity_list))
   df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
-  st.table(df)
+  st.table(df) #TODO: Styling
 
 ### -------------------- End of Similarity Checker ------------------------- ###
