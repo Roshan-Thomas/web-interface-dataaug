@@ -84,7 +84,7 @@ with test_app_container:
     farasa_pos_container.markdown(f"*Parts of Speech:* {farasa_pos_output(user_text_input)}")
 
     ## Translate the sentence from arabic to english for the user
-    # translated_input_container.markdown(f"*Translated sentence (EN):* {translate_user_text_input(user_text_input)}")
+    translated_input_container.markdown(f"*Translated sentence (EN):* {translate_user_text_input(user_text_input)}")
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
@@ -108,13 +108,12 @@ with test_app_container:
                           <span style="color:#7CFC00">{rep}</span> 
                           <span style="color:#ffffff">{shalf}</span>
                           </p> """
-
-        similarity_list = similarity_checker(sentences_bert, user_text_input)
         
         with st.expander(model_text_data["arabert"]["results"]):
           st.markdown(output_bert, unsafe_allow_html=True)
         
-        with st.expander("Expand to see Similarity Score (Confidence Score)"):
+        similarity_list = similarity_checker(sentences_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
           display_similarity_table(sentences_bert, similarity_list)
     
     ## -------------------------- qarib/bert-base-qarib ----------------------------------- ##
@@ -138,6 +137,10 @@ with test_app_container:
 
         with st.expander(model_text_data["qarib-bert"]["results"]):
           st.markdown(output_qarib_bert, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_qarib_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_qarib_bert, similarity_list)
 
     ## ----------------------------- xlm-roberta-base ------------------------------------- ##
     if data['xlm-roberta-bert']:
@@ -160,6 +163,10 @@ with test_app_container:
 
         with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
           st.markdown(output_xlm_bert, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_xlm_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_xlm_bert, similarity_list)
 
     ## ----------------------------- moussaKam/AraBART ------------------------------------ ##
     if data['arabart']:
@@ -183,6 +190,9 @@ with test_app_container:
         with st.expander(model_text_data["arabart"]["results"]):
           st.markdown(output_arabart_bert, unsafe_allow_html=True)
 
+        similarity_list = similarity_checker(sentences_arabart_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_arabart_bert, similarity_list)
 
     ## ---------------------- CAMeL-Lab/bert-base-arabic-camelbert-mix -------------------- ##
     if data['camelbert']:
@@ -206,6 +216,10 @@ with test_app_container:
         with st.expander(model_text_data["camelbert"]["results"]):
           st.markdown(output_camelbert_bert, unsafe_allow_html=True)
 
+        similarity_list = similarity_checker(sentences_camelbert_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_camelbert_bert, similarity_list)
+
     ## --------------------------- asafaya/bert-large-arabic ------------------------------ ##
     if data['bert-large-arabic']:
       large_arabic_bert_container = st.container()
@@ -227,6 +241,10 @@ with test_app_container:
 
         with st.expander(model_text_data["bert-large-arabic"]["results"]):
           st.markdown(output_large_arabic_bert, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_large_arabic_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_large_arabic_bert, similarity_list)
 
     ## --------------------------------- UBC-NLP/ARBERT ----------------------------------- ##
     if data['ubc-arbert']:
@@ -249,6 +267,10 @@ with test_app_container:
 
         with st.expander(model_text_data["ubc-arbert"]["results"]):
           st.markdown(output_ubc_arbert_bert, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_ubc_arbert_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_ubc_arbert_bert, similarity_list)
 
     ## --------------------------------- UBC-NLP/MARBERTv2 -------------------------------- ##
     if data['ubc-marbertv2']:
@@ -272,6 +294,10 @@ with test_app_container:
         with st.expander(model_text_data["ubc-marbertv2"]["results"]):
           st.markdown(output_ubc_marbertv2_bert, unsafe_allow_html=True)
 
+        similarity_list = similarity_checker(sentences_ubc_marbertv2_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_ubc_marbertv2_bert, similarity_list)
+
     ## ------------------------ aubmindlab/araelectra-base-generator ---------------------- ##
     if data['araelectra']:
       araelectra_bert_container = st.container()
@@ -293,6 +319,10 @@ with test_app_container:
 
         with st.expander(model_text_data["araelectra"]["results"]):
           st.markdown(output_araelectra_bert, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_araelectra_bert, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_araelectra_bert, similarity_list)
 
     ## ------------------------------------- araGPT2 -------------------------------------- ##
     if data['aragpt2']:
@@ -313,6 +343,10 @@ with test_app_container:
 
             with st.expander(model_text_data["aragpt2"]["results"]):
               st.markdown(output_gpt, unsafe_allow_html=True)
+            
+            similarity_list = similarity_checker(sentences_gpt, user_text_input)
+            with st.expander(model_text_data["common"]["similarity-expander"]):
+              display_similarity_table(sentences_gpt, similarity_list)
 
     ## ------------------------------------- AraVec -------------------------------------- ##
     if data['aravec']:
@@ -334,9 +368,12 @@ with test_app_container:
 
         with st.expander(model_text_data["aravec"]["results"]):
           st.markdown(output_w2v, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_w2v, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_w2v, similarity_list)
 
     ## ------------------------------------- Back- Translation -------------------------------------- ##
-
     if data['double-back-translation']:
       back_translation_container = st.container()
       with back_translation_container:
@@ -349,9 +386,12 @@ with test_app_container:
         back_translated_sentences = double_back_translate(available_languages, st.session_state['user_input'])
         with st.expander(model_text_data["double-back-translation"]["results"]):
             st.write(back_translated_sentences)
+        
+        similarity_list = similarity_checker(back_translated_sentences, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(back_translated_sentences, similarity_list)
 
     ## ------------------------------------- Text-to-Text -------------------------------------- ##
-
     if data['m2m']:
       text_to_text_container = st.container()
       with text_to_text_container:
@@ -369,6 +409,10 @@ with test_app_container:
 
         with st.expander(model_text_data["m2m"]["results"]):
           st.markdown(output_m2m, unsafe_allow_html=True)
+        
+        similarity_list = similarity_checker(sentences_m2m, user_text_input)
+        with st.expander(model_text_data["common"]["similarity-expander"]):
+          display_similarity_table(sentences_m2m, similarity_list)
 
 ## ---------------------------------------- End of Test the App -------------------------------------------- ##
 
