@@ -78,7 +78,6 @@
         "header": "### Text-to-Text Augmentation",
         "text": "MBART is a sequence-to-sequence de-noising auto-encoder pre-trained on large-scale monolingual corpora in many languages using the BART objective. mBART is one of the first methods for pre-training a complete sequence-to-sequence model by de-noising full texts in multiple languages. At the same time, previous approaches have focused only on the encoder, decoder, or reconstructing parts of the text. You can read more about it from this paper [here](https://arxiv.org/abs/2001.08210).",
         "url": "facebook/mbart-large-50-many-to-many-mmt",
-        "url-2": "facebook/m2m100_418M",
         "results": "Open to see Text-to-Text Results"
     }
 }

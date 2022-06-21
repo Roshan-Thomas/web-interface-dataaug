@@ -6,17 +6,21 @@ import requests
 import re
 import time
 import string
+import pandas as pd
 
 import streamlit as st 
 from transformers import (GPT2LMHeadModel, pipeline, GPT2TokenizerFast, 
                           pipeline, M2M100ForConditionalGeneration, 
                           M2M100Tokenizer, MBartForConditionalGeneration, 
-                          MBart50TokenizerFast, MarianMTModel, MarianTokenizer)
+                          MBart50TokenizerFast, MarianMTModel, MarianTokenizer,
+                          AutoTokenizer, AutoModel)
 import gensim
 from random import choice
 import nlpaug.augmenter.word as naw
 from camel_tools.utils.charsets import AR_LETTERS_CHARSET
+from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow as tf
+import torch
 
 ### ----------------------- End of Imports --------------------------------- ###
 
@@ -499,3 +503,50 @@ def farasa_pos_output(text):
   return ret.strip()
 
 ### ------------------------- End of Farasa API ---------------------------- ###
+
+### ---------------------- Similarity Checker----- ------------------------- ###
+@st.cache(allow_output_mutation=True)
+def load_similarity_checker_model():
+  tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
+  model = AutoModel.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
+  tokens = {'input_ids': [], 'attention_mask': []}
+  return tokenizer, model, tokens
+
+def similarity_checker(sentences, user_text_input):
+  tokenizer, model, tokens = load_similarity_checker_model()
+  sentences.insert(0, user_text_input)
+  for sentence in sentences:
+    # tokenize sentence and append to dictionary lists
+    new_tokens = tokenizer.encode_plus(sentence, max_length=128, truncation=True,
+                                      padding='max_length', return_tensors='pt')
+    tokens['input_ids'].append(new_tokens['input_ids'][0])
+    tokens['attention_mask'].append(new_tokens['attention_mask'][0])
+
+  # reformat list of tensors into single tensor
+  tokens['input_ids'] = torch.stack(tokens['input_ids'])
+  tokens['attention_mask'] = torch.stack(tokens['attention_mask'])
+
+  outputs = model(**tokens)
+  embeddings = outputs.last_hidden_state
+  attention_mask = tokens['attention_mask']
+  mask = attention_mask.unsqueeze(-1).expand(embeddings.size()).float()
+
+  masked_embeddings = embeddings * mask 
+  summed = torch.sum(masked_embeddings, 1)
+  summed_mask = torch.clamp(mask.sum(1), min=1e-9)
+  mean_pooled = summed / summed_mask
+
+  # Convert from PyTorch tensor to numpy array
+  mean_pooled = mean_pooled.detach().numpy()
+
+  # Calculate cosine similarity
+  cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
+
+  return cos_similarity[0]
+
+def display_similarity_table(sentences_list, similarity_list): #TODO
+  data = list(zip(sentences_list, similarity_list))
+  df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
+  st.dataframe(df)
+
+### -------------------- End of Similarity Checker ------------------------- ###
