@@ -5,7 +5,6 @@ from model import (aug_bert, aug_w2v, double_back_translate,
                   models_data, farasa_pos_output, translate_user_text_input,
                   display_similarity_table, similarity_checker)
 from citations import citations
-from annotated_text import annotated_text
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
 
@@ -96,25 +95,13 @@ with test_app_container:
       with bert_container:
         st.markdown(model_text_data["arabert"]["header"])
         st.markdown(model_text_data["arabert"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_bert = aug_bert(model_text_data["arabert"]["url"], st.session_state['user_input'])
-
-        output_bert = []
-        for sent in sentences_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_bert.append(annotated_text(fhalf, (rep, "#7cfc00"), shalf))
-          # output_bert += f"""<p>
-          #                 <span style="color:#ffffff">{fhalf}</span>
-          #                 <span style="color:#7CFC00">{rep}</span> 
-          #                 <span style="color:#ffffff">{shalf}</span>
-          #                 </p> """
-        
+       
         similarity_list = similarity_checker(sentences_bert, user_text_input)
         with st.expander(model_text_data["arabert"]["results"]):
-          display_similarity_table(output_bert, similarity_list)
+          display_similarity_table(sentences_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_bert, unsafe_allow_html=True)
           
     ## -------------------------- qarib/bert-base-qarib ----------------------------------- ##
     if data['qarib-bert']:
@@ -122,24 +109,13 @@ with test_app_container:
       with qarib_bert_container:
         st.markdown(model_text_data["qarib-bert"]["header"])
         st.markdown(model_text_data["qarib-bert"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_qarib_bert = aug_bert(model_text_data["qarib-bert"]["url"], st.session_state['user_input'])
-
-        output_qarib_bert = ""
-        for sent in sentences_qarib_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_qarib_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_qarib_bert, user_text_input)
         with st.expander(model_text_data["qarib-bert"]["results"]):
           display_similarity_table(sentences_qarib_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_qarib_bert, unsafe_allow_html=True)
       
     ## ----------------------------- xlm-roberta-base ------------------------------------- ##
     if data['xlm-roberta-bert']:
@@ -147,24 +123,13 @@ with test_app_container:
       with xlm_bert_container:
         st.markdown(model_text_data["xlm-roberta-bert"]["header"])
         st.markdown(model_text_data["xlm-roberta-bert"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_xlm_bert = aug_bert(model_text_data["xlm-roberta-bert"]["url"], st.session_state['user_input'])
-
-        output_xlm_bert = ""
-        for sent in sentences_xlm_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_xlm_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_xlm_bert, user_text_input)
         with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
           display_similarity_table(sentences_xlm_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_xlm_bert, unsafe_allow_html=True)
 
     ## ----------------------------- moussaKam/AraBART ------------------------------------ ##
     if data['arabart']:
@@ -172,24 +137,13 @@ with test_app_container:
       with arabart_bert_container:
         st.markdown(model_text_data["arabart"]["header"])
         st.markdown(model_text_data["arabart"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_arabart_bert = aug_bert(model_text_data["arabart"]["url"], st.session_state['user_input'])
-
-        output_arabart_bert = ""
-        for sent in sentences_arabart_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_arabart_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_arabart_bert, user_text_input)
         with st.expander(model_text_data["arabart"]["results"]):
           display_similarity_table(sentences_arabart_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_arabart_bert, unsafe_allow_html=True)
 
     ## ---------------------- CAMeL-Lab/bert-base-arabic-camelbert-mix -------------------- ##
     if data['camelbert']:
@@ -197,24 +151,13 @@ with test_app_container:
       with camelbert_bert_container:
         st.markdown(model_text_data["camelbert"]["header"])
         st.markdown(model_text_data["camelbert"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_camelbert_bert = aug_bert(model_text_data["camelbert"]["url"], st.session_state['user_input'])
-
-        output_camelbert_bert = ""
-        for sent in sentences_camelbert_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_camelbert_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_camelbert_bert, user_text_input)
         with st.expander(model_text_data["camelbert"]["results"]):
           display_similarity_table(sentences_camelbert_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_camelbert_bert, unsafe_allow_html=True)
         
     ## --------------------------- asafaya/bert-large-arabic ------------------------------ ##
     if data['bert-large-arabic']:
@@ -222,24 +165,13 @@ with test_app_container:
       with large_arabic_bert_container:
         st.markdown(model_text_data["bert-large-arabic"]["header"])
         st.markdown(model_text_data["bert-large-arabic"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_large_arabic_bert = aug_bert(model_text_data["bert-large-arabic"]["url"], st.session_state['user_input'])
-
-        output_large_arabic_bert = ""
-        for sent in sentences_large_arabic_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_large_arabic_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_large_arabic_bert, user_text_input)
         with st.expander(model_text_data["bert-large-arabic"]["results"]):
           display_similarity_table(sentences_large_arabic_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_large_arabic_bert, unsafe_allow_html=True)
         
     ## --------------------------------- UBC-NLP/ARBERT ----------------------------------- ##
     if data['ubc-arbert']:
@@ -247,24 +179,13 @@ with test_app_container:
       with ubc_arbert_bert_container:
         st.markdown(model_text_data["ubc-arbert"]["header"])
         st.markdown(model_text_data["ubc-arbert"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_ubc_arbert_bert = aug_bert(model_text_data["ubc-arbert"]["url"], st.session_state['user_input'])
-
-        output_ubc_arbert_bert = ""
-        for sent in sentences_ubc_arbert_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_ubc_arbert_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_ubc_arbert_bert, user_text_input)
         with st.expander(model_text_data["ubc-arbert"]["results"]):
           display_similarity_table(sentences_ubc_arbert_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_ubc_arbert_bert, unsafe_allow_html=True)
 
     ## --------------------------------- UBC-NLP/MARBERTv2 -------------------------------- ##
     if data['ubc-marbertv2']:
@@ -272,24 +193,13 @@ with test_app_container:
       with ubc_marbertv2_bert_container:
         st.markdown(model_text_data["ubc-marbertv2"]["header"])
         st.markdown(model_text_data["ubc-marbertv2"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_ubc_marbertv2_bert = aug_bert(model_text_data["ubc-marbertv2"]["url"], st.session_state['user_input'])
-
-        output_ubc_marbertv2_bert = ""
-        for sent in sentences_ubc_marbertv2_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_ubc_marbertv2_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_ubc_marbertv2_bert, user_text_input)
         with st.expander(model_text_data["ubc-marbertv2"]["results"]):
           display_similarity_table(sentences_ubc_marbertv2_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_ubc_marbertv2_bert, unsafe_allow_html=True)
          
     ## ------------------------ aubmindlab/araelectra-base-generator ---------------------- ##
     if data['araelectra']:
@@ -297,24 +207,13 @@ with test_app_container:
       with araelectra_bert_container:
         st.markdown(model_text_data["araelectra"]["header"])
         st.markdown(model_text_data["araelectra"]["text"])
-        st.markdown(model_text_data["common"]["bert-output"], unsafe_allow_html=True)
 
         sentences_araelectra_bert = aug_bert(model_text_data["araelectra"]["url"], st.session_state['user_input'])
-
-        output_araelectra_bert = ""
-        for sent in sentences_araelectra_bert:
-          rep, fhalf, shalf = spl(sent)
-          output_araelectra_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
 
         similarity_list = similarity_checker(sentences_araelectra_bert, user_text_input)
         with st.expander(model_text_data["araelectra"]["results"]):
           display_similarity_table(sentences_araelectra_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_araelectra_bert, unsafe_allow_html=True)
 
     ## ------------------------------------- araGPT2 -------------------------------------- ##
     if data['aragpt2']:
@@ -324,20 +223,10 @@ with test_app_container:
             st.markdown(model_text_data["aragpt2"]["text"])
             sentences_gpt = aug_GPT(model_text_data["aragpt2"]["url"], st.session_state['user_input'])
 
-            output_gpt = ""
-            for sent in sentences_gpt:
-              rep, fhalf, shalf = spl(sent)
-              output_gpt += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#D22B2B">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
-
             similarity_list = similarity_checker(sentences_gpt, user_text_input)
             with st.expander(model_text_data["aragpt2"]["results"]):
               display_similarity_table(sentences_gpt, similarity_list)
               st.markdown(model_text_data["common"]["word-info-expander"])
-              st.markdown(output_gpt, unsafe_allow_html=True)
 
     ## ------------------------------------- AraVec -------------------------------------- ##
     if data['aravec']:
@@ -345,23 +234,12 @@ with test_app_container:
       with w2v_container:
         st.markdown(model_text_data["aravec"]["header"])
         st.markdown(model_text_data["aravec"]["text"])
-        st.markdown(model_text_data["common"]["aravec-output"], unsafe_allow_html=True)
         sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', st.session_state['user_input'])
-        
-        output_w2v = ""
-        for sent in sentences_w2v:
-          rep, fhalf, shalf = spl(sent)
-          output_w2v += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#FFBF00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                        </p> """
 
         similarity_list = similarity_checker(sentences_w2v, user_text_input)
         with st.expander(model_text_data["aravec"]["results"]):
           display_similarity_table(sentences_w2v, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_w2v, unsafe_allow_html=True)
 
     ## ------------------------------------- Back- Translation -------------------------------------- ##
     if data['double-back-translation']:
@@ -386,19 +264,10 @@ with test_app_container:
         st.markdown(model_text_data["m2m"]["text"])
         sentences_m2m = aug_m2m(model_text_data["m2m"]["url"], st.session_state['user_input'])
 
-        output_m2m = ""
-
-        for sent in sentences_m2m:
-          output_m2m = f""" <p>
-                        <span style="color:#ffffff">MBART_Large: </span> 
-                        <span style="color:#ffffff">{sent}</span>
-                        </p> """
-
         similarity_list = similarity_checker(sentences_m2m, user_text_input)
         with st.expander(model_text_data["m2m"]["results"]):
           display_similarity_table(sentences_m2m, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
-          st.markdown(output_m2m, unsafe_allow_html=True)
 
 ## ---------------------------------------- End of 'Test the App' ------------------------------------------ ##
 
