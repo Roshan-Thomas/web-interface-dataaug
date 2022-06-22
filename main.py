@@ -5,6 +5,7 @@ from model import (aug_bert, aug_w2v, double_back_translate,
                   models_data, farasa_pos_output, translate_user_text_input,
                   display_similarity_table, similarity_checker)
 from citations import citations
+from annotated_text import annotated_text
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
 
@@ -83,7 +84,7 @@ with test_app_container:
     farasa_pos_container.markdown(f"*Parts of Speech:* {farasa_pos_output(user_text_input)}")
 
     ## Translate the sentence from arabic to english for the user
-    translated_input_container.markdown(f"*Translated sentence (EN):* {translate_user_text_input(user_text_input)}")
+    # translated_input_container.markdown(f"*Translated sentence (EN):* {translate_user_text_input(user_text_input)}")
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
@@ -99,18 +100,19 @@ with test_app_container:
 
         sentences_bert = aug_bert(model_text_data["arabert"]["url"], st.session_state['user_input'])
 
-        output_bert = ""
+        output_bert = []
         for sent in sentences_bert:
           rep, fhalf, shalf = spl(sent)
-          output_bert += f"""<p>
-                          <span style="color:#ffffff">{fhalf}</span>
-                          <span style="color:#7CFC00">{rep}</span> 
-                          <span style="color:#ffffff">{shalf}</span>
-                          </p> """
+          output_bert.append(annotated_text(fhalf, (rep, "#7cfc00"), shalf))
+          # output_bert += f"""<p>
+          #                 <span style="color:#ffffff">{fhalf}</span>
+          #                 <span style="color:#7CFC00">{rep}</span> 
+          #                 <span style="color:#ffffff">{shalf}</span>
+          #                 </p> """
         
         similarity_list = similarity_checker(sentences_bert, user_text_input)
         with st.expander(model_text_data["arabert"]["results"]):
-          display_similarity_table(sentences_bert, similarity_list)
+          display_similarity_table(output_bert, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
           st.markdown(output_bert, unsafe_allow_html=True)
           
