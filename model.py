@@ -551,6 +551,6 @@ def display_similarity_table(sentences_list, similarity_list):
   if len(sentences_list) > 0:
     data = list(zip(sentences_list, similarity_list))
     df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
-    st.table(df.style.background_gradient(cmap='Greens'))
+    st.table(df[1:].style.background_gradient(cmap='Greens'))
 
 ### -------------------- End of Similarity Checker ------------------------- ###
