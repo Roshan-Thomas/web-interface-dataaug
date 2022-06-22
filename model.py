@@ -7,6 +7,8 @@ import re
 import time
 import string
 import pandas as pd
+import numpy as np
+import matplotlib as plt
 
 import streamlit as st 
 from transformers import (GPT2LMHeadModel, pipeline, GPT2TokenizerFast, 
@@ -543,12 +545,12 @@ def similarity_checker(sentences, user_text_input):
     # Calculate cosine similarity
     cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
 
-    return cos_similarity[0]
+    return np.around(cos_similarity[0], decimals=6)
 
 def display_similarity_table(sentences_list, similarity_list):
   if len(sentences_list) > 0:
     data = list(zip(sentences_list, similarity_list))
     df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
-    st.table(df) #TODO: Styling
+    st.table(df.style.background_gradient(cmap='Greens'))
 
 ### -------------------- End of Similarity Checker ------------------------- ###
