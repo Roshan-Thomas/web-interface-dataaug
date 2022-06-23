@@ -875,13 +875,44 @@ def farasa_pos_output(text):
 
 ### ---------------------- Similarity Checker----- ------------------------- ###
 @st.cache(allow_output_mutation=True)
-def load_similarity_checker_model():
-  tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
-  model = AutoModel.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
+def load_similarity_checker_model(model_name):
+  """
+  Load a Similarity calculator model from HuggingFace. The model is downloaded and cached 
+  for futher use. Once cached it can be used multiple times without having to be downloaded
+  everytime.
+
+  Input Parameters
+  ================
+  model_name => Hugging Face link for the model (typically like this: sentence-transformers/bert-base-nli-mean-tokens).
+
+  Return Parameters
+  =================
+  tokenizer => Tokenizer for the model.
+  Model => Loaded model for the similarity calculator.
+  """
+
+  tokenizer = AutoTokenizer.from_pretrained(model_name)
+  model = AutoModel.from_pretrained(model_name)
   return tokenizer, model
 
 def similarity_checker(sentences, user_text_input):
-  tokenizer, model = load_similarity_checker_model()
+  """
+  Similarity calculator to calculate the cosine similarity between the original sentence and
+  augmented sentence. It first encodes the augmented sentences and then using PyTorch and 
+  Tensorflow it creates vectors. Then it calculates the cosine similarity and generates a list
+  of the similarities.
+
+  Input Parameters
+  ================
+  sentences => List of augmented sentences
+  user_text_input => Sentence given by the user (Original sentence)
+
+  Return Parameters
+  =================
+  cos_similarity => List of cosine similarities rounded up to 6 decimal places 
+  """
+
+  tokenizer, model = load_similarity_checker_model('sentence-transformers/bert-base-nli-mean-tokens')
   if (len(sentences) > 0):
     tokens = {'input_ids': [], 'attention_mask': []}
     sentences.insert(0, user_text_input)
@@ -915,6 +946,19 @@ def similarity_checker(sentences, user_text_input):
     return np.around(cos_similarity[0], decimals=6)
 
 def display_similarity_table(sentences_list, similarity_list):
+  """
+  Function to display the similarity table using streamlit. The function checks if there
+  are sentences in the list and then prints a pandas DataFrame of the sentences and their
+  coressponding similarities. The function also styles the similarities in a range of greens
+  to show the highest and lowest similarities in the table; indicated by white(lowest) and dark
+  green (highest).
+
+  Input Parameters
+  ================
+  sentences_list => List of augmented sentences.
+  similarity_list => List of the cosine similarities 
+  """
+  
   if len(sentences_list) > 0:
     data = list(zip(sentences_list, similarity_list))
     df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
