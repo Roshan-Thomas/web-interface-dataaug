@@ -110,6 +110,7 @@ def load_w2v(model_path):
   =================
   model => The loaded model 
   """
+
   try:
       model = gensim.models.KeyedVectors.load_word2vec_format(model_path,binary=True,unicode_errors='ignore')
   except:
@@ -210,16 +211,47 @@ def aug_w2v(model_path,text):
     augment_state_w2v.text("Augmenting with W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return all_sentences
 
-
 ### ------------------------ End of W2V ------------------------------------ ###
 
 ### ------------------------------- BERT ----------------------------------- ###
 @st.cache(allow_output_mutation=True)
 def load_bert(model):
+  """
+  Loads the BERT model and downloades it from HuggingFace using the transformers
+  package. This function is cached by streamlit so it can be loaded faster the next
+  time someone calls it.
+
+  Input Parameters
+  ================
+  model => HuggingFace path for the model (typically like this: aubmindlab/bert-large-arabertv2)
+
+  Return Parameters
+  =================
+  model => Returns the loaded model which can be used for augmenting 
+  """
+
   model = pipeline('fill-mask', model=model)
   return model
 
-def bert(model, sentence):    # Contextual word embeddings
+def bert(model, sentence):
+  """
+  This function uses the BERT model to augment the sentence. It first reads the sentence 
+  and then sees if its less that 15 words and greater than 2 words and then proceeds to 
+  process the sentence. Here the BERT models places a mask on a single word and then the 
+  model predicts the rest of the sentence.
+
+  The augmentation technique used is 'Contextual word embeddings'.
+
+  Input Parameters
+  ================
+  model => HuggingFace path for the model (typically like this: aubmindlab/bert-large-arabertv2)
+  sentence => A sentence for the model to augment (typically it is the user inputted sentence)
+
+  Return Parameters
+  =================
+  l => Returns the augmented sentences in a list
+  """
+
   cleaned = clean(sentence)
   sentence = seperate_punct(sentence)
   l = []
@@ -251,7 +283,23 @@ def bert(model, sentence):    # Contextual word embeddings
                         l.append(aug)
   return l
 
-def aug_bert(model,text,model_name:str):  # text here is a list of sentences
+def aug_bert(model,text,model_name:str):
+  """
+  This function is the display function of the BERT model where we call the 
+  load_bert() and bert() functions to process the given sentence or list of 
+  sentences to produce a list of augmented sentences.
+
+  Input Parameters
+  ================
+  model => HuggingFace link for the BERT model (typically like this: aubmindlab/bert-large-arabertv2)
+  text => Sentence for the model to augment (typically the user inputed sentence) 
+  model_name => A string which gives the display name of the model (This is because multiple BERT models use the same function)
+
+  Return Parameters
+  =================
+  all_sentences => Returns all the augmented sentences to the frontend
+  """
+
   loading_state_bert = st.text(f"Loading {model_name}...")
   tic = time.perf_counter()
   model = load_bert(model)
