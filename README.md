@@ -27,10 +27,10 @@ The project is based on Python and is using the package `streamlit` to host it o
     pip install -r requirements.txt
     ```
 
-4. You will need to download the W2V model from the script that is given in the 'data' folder.
+4. You will need to download the W2V model from the script that is given in the `/scripts` folder.
     ```sh
-    cd data
-    ./script.sh
+    cd scripts
+    ./aravec_download.sh
     ```
 
 5. Once all the packages are installed, you should be able to run the app on Streamlit locally
