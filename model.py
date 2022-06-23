@@ -723,6 +723,7 @@ def strip_punc(text):
   ================
   text => A sentence without any punctuations and all of them are replaced with a space.
   """
+
   remove = ""
   for l in reversed(text):
     if l in AR_LETTERS_CHARSET:
@@ -734,8 +735,21 @@ def strip_punc(text):
 ### ----------------- End of Helper Functions ----------------------------- ###
 
 ### -------------------- Random Sentence Generator ------------------------- ###
-@st.experimental_memo
+
 def delete_unncessary_lines(file_name:str):
+  """
+  Function to delete uncessary lines in the file which start with a '#' because
+  they are section headers and can be removed so it does not come in the final selection
+  of sentences. 
+
+  It generates a temp.txt file and writes the output to it and then renames it with the 
+  original name of the file.
+
+  Input Parameters
+  ================
+  file_name (str) => Name of the file to be processed
+  """
+
   sentences = []
   with open(file_name, 'r') as input:
     with open("./data/temp.txt", "w") as output:
@@ -745,6 +759,23 @@ def delete_unncessary_lines(file_name:str):
   os.replace('./data/temp.txt', file_name)
 
 def random_sentence(file_name:str):
+  """
+  Function to choose sentences with less than 15 words and
+  choose a random sentence from the generated list and send 
+  it to the frontend.
+
+  The function also removes stray sentences with only a quotation
+  mark.
+
+  Input Parameters
+  ================
+  file_name (str) => Name of the file.
+
+  Return Parameters
+  =================
+  selected_sentence => A randomly choosen sentence to be sent to the frontend.
+  """
+
   sentences = []
   temp_list = []  # temporary list (hold temp values)
   res = []        # temporary list (hold temp values)
