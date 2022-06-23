@@ -1,5 +1,5 @@
 import streamlit as st 
-from transformers import (MarianMTModel, MarianMTModel)
+from transformers import (MarianMTModel, MarianTokenizer)
 import tensorflow as tf
 import requests 
 import json
