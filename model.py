@@ -34,6 +34,10 @@ def load_models_bt(from_model_name, to_model_name):
   the system has GPU or not, and if it has GPU then the model will use GPU, and if it 
   doesnt have GPU then it will only use the CPU Resources.
 
+  Here we use an experimental cache system of Streamlit as it has shown to be faster 
+  when loading the models the second time. It initially takes longer than @st.cache but
+  in the long term its faster. 
+
   Input Parameters
   ===========
   from_model_name => Translating model which translated from arabic > english
@@ -326,12 +330,45 @@ def aug_bert(model,text,model_name:str):
 ### -------------------------------- GPT ------------------------------------ ###
 @st.cache(allow_output_mutation=True)
 def load_GPT(model_name):
+  """
+  Loads the AraGPT2 model from HuggingFace where it downloads it using the package
+  'transformers' and caches it so the augmentation can take place. 
+
+  Input Parameters
+  ================
+  model_name => Hugging Face link of the model (typically like this: aubmindlab/bert-large-arabertv2).
+
+  Return Parameters
+  =================
+  model => Loaded GPT2 model.
+  tokenizer => Tokenizer for the GPT2 model.
+  generation_pipeline => Pipeline for text generation by the GPT2 model.
+  """
+
   model = GPT2LMHeadModel.from_pretrained(model_name)
   tokenizer = GPT2TokenizerFast.from_pretrained(model_name)
   generation_pipeline = pipeline("text-generation",model=model,tokenizer=tokenizer)
   return model , tokenizer , generation_pipeline
 
-def GPT(model,tokenizer , generation_pipeline ,sentence):
+def GPT(model, tokenizer , generation_pipeline, sentence):
+  """
+  This function uses the GPT2 model to augment text. It takes in a sentence with less
+  than 15 words (as no. of words increase the no. of outputed sentences also increases)
+  and more than 2 words and generates a sentence. It usually removes the last word and 
+  generates 2 or 3 more words based on the context of the sentence.
+
+  Input Parameters
+  ================
+  model => Model path from HuggingFace (typically like this: aubmindlab/bert-large-arabertv2).
+  tokenizer => Tokenizer for the AraGPT2 model.
+  generation_pipeline => Pipeline for text generation by the GPT2 model.
+  sentence => A sentence for augmenting (typically user inputed sentence).
+
+  Return Parameters
+  =================
+  l => Returns a list of the augmented sentences.
+  """
+
   org_text = sentence
   sentence = clean(sentence)
   l = []
@@ -357,7 +394,22 @@ def GPT(model,tokenizer , generation_pipeline ,sentence):
             l.append(pred)
   return l
 
-def aug_GPT(model_name,text):  # text here can be list of sentences or on string sentence
+def aug_GPT(model_name, text):
+  """
+  This is the display function of the GPT2 model where the load_GPT() and GPT() functions are 
+  called to augment either a sentence or a list of sentences. This function also calculates the 
+  time it takes for loading and augmenting sentences with the AraGPT2 model so the user can see it.
+
+  Input Parameters
+  ================
+  model_name => HuggingFace link for the model (typically like this: aubmindlab/bert-large-arabertv2).
+  text => A sentence or list of sentences (typically the user inputed sentence).
+
+  Return Parameters
+  =================
+  all_sentences => Returns all the augmented sentences by the GPT2 model.
+  """
+
   loading_state_gpt = st.text("Loading AraGPT2...")
   tic = time.perf_counter()
   model , tokenizer , generation_pipeline = load_GPT(model_name)
