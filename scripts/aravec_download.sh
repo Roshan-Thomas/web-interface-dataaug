@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd ..
+cd data
+
 filename="full_grams_cbow_100_twitter.zip"
 mdlFilename="full_grams_cbow_100_twitter.mdl"
 npyTrainablesFilename="full_grams_cbow_100_twitter.mdl.trainables.syn1neg.npy"
@@ -29,5 +32,7 @@ else
 	echo "$filename exists. All good!! 👍"
 fi
 
-echo "Downloading AraVec model complete"
+echo "Downloading AraVec model complete! 🍾"
+echo " "
+
 exit 0
