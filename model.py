@@ -97,6 +97,19 @@ def double_back_translate(selected_languages, text):
 ### ------------------------------- W2V ------------------------------------ ###
 @st.cache(allow_output_mutation=True)
 def load_w2v(model_path):
+  """
+  This function loads the aravec model from our local directories. It also is a cached 
+  function using streamlit that only needs to be loaded once and the next time someone
+  uses the function it loads immedietly because it is present in the cache.
+
+  Input Parameters
+  ================
+  model_path => The local path of the aravec model to be imported
+
+  Return Parameters
+  =================
+  model => The loaded model 
+  """
   try:
       model = gensim.models.KeyedVectors.load_word2vec_format(model_path,binary=True,unicode_errors='ignore')
   except:
@@ -104,6 +117,20 @@ def load_w2v(model_path):
   return model
 
 def w2v(model,sentence):
+  """
+  This function uses the aravec model and a sentence (user inputed) and cleans it and then 
+  augments the sentence based on the pretrained aravec model.
+
+  Input Parameters
+  ================
+  model => Aravec model (from Local Directories)
+  sentence => A sentence to augment using the Aravec model (typically the user inputed sentence from the frontend)
+
+  Return Parameters
+  =================
+  l => A list of the augmented sentences
+  """
+
   cleaned = clean(sentence)
   sentence = seperate_punct(sentence)
   l = []
@@ -139,7 +166,29 @@ def w2v(model,sentence):
                         l.append(aug)
   return l
 
-def aug_w2v(model_path,text):   # text here is a list of sentences
+def aug_w2v(model_path,text):
+  """
+  This function is the main augmenting code of the aravec model. This function calls the 
+  load_w2v() and w2v() functions. This function also calculates the total time it takes to
+  load the model and augment the sentence and it outputs it so the user has a better idea of 
+  how long it takes for the model to run. 
+
+  This function also has the capability to take an input of multiple sentences (in a list)
+  and augment them as well. 
+  
+  Note: Right now we are only using the function to augment one sentence, but it can also augment
+  an entire list of sentences.
+
+  Input Parameters
+  ================
+  model_path => The local path of the Aravec Model.
+  text => A sentence to be augmented (typically the user's input).
+
+  Return Parameters
+  =================
+  all_sentences => Returns all the augmented sentence from the Aravec model.
+  """
+
   loading_state_w2v = st.text("Loading W2V...")
   tic = time.perf_counter()
   model = load_w2v(model_path)
