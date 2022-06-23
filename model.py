@@ -634,7 +634,21 @@ def spl(text):
   shalf = " ".join(shalf)
   return rep, fhalf, shalf
 
-def ner(text): #TODO: Documentation
+def ner(text):
+  """
+  Helper function to check if the sentence contains a named entinty such as country, 
+  famous person, names, places etc. so they are removed as those words contian meanings
+  and cant be augmented.
+
+  Input Parameters
+  ================
+  text => Input text
+
+  Return Parameters
+  =================
+  result => Sentece with the named entities marked 
+  """
+
   url = 'https://farasa.qcri.org/webapi/ner/'
   api_key = "KMxvdPGsKHXQAbRXGL"
   payload = {'text': text, 'api_key': api_key}
