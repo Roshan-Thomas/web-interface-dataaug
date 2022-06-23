@@ -96,7 +96,10 @@ with test_app_container:
         st.markdown(model_text_data["arabert"]["header"])
         st.markdown(model_text_data["arabert"]["text"])
 
-        sentences_bert = aug_bert(model_text_data["arabert"]["url"], st.session_state['user_input'])
+        sentences_bert = aug_bert(model_text_data["arabert"]["url"], 
+                                  st.session_state['user_input'], 
+                                  model_text_data["arabert"]["name"]
+                                )
        
         similarity_list = similarity_checker(sentences_bert, user_text_input)
         with st.expander(model_text_data["arabert"]["results"]):
@@ -110,7 +113,10 @@ with test_app_container:
         st.markdown(model_text_data["qarib-bert"]["header"])
         st.markdown(model_text_data["qarib-bert"]["text"])
 
-        sentences_qarib_bert = aug_bert(model_text_data["qarib-bert"]["url"], st.session_state['user_input'])
+        sentences_qarib_bert = aug_bert(model_text_data["qarib-bert"]["url"], 
+                                        st.session_state['user_input'],
+                                        model_text_data["qarib-bert"]["name"]
+                                        )
 
         similarity_list = similarity_checker(sentences_qarib_bert, user_text_input)
         with st.expander(model_text_data["qarib-bert"]["results"]):
@@ -124,7 +130,10 @@ with test_app_container:
         st.markdown(model_text_data["xlm-roberta-bert"]["header"])
         st.markdown(model_text_data["xlm-roberta-bert"]["text"])
 
-        sentences_xlm_bert = aug_bert(model_text_data["xlm-roberta-bert"]["url"], st.session_state['user_input'])
+        sentences_xlm_bert = aug_bert(model_text_data["xlm-roberta-bert"]["url"], 
+                                      st.session_state['user_input'],
+                                      model_text_data["xlm-roberta-bert"]["name"]
+                                      )
 
         similarity_list = similarity_checker(sentences_xlm_bert, user_text_input)
         with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
@@ -138,7 +147,10 @@ with test_app_container:
         st.markdown(model_text_data["arabart"]["header"])
         st.markdown(model_text_data["arabart"]["text"])
 
-        sentences_arabart_bert = aug_bert(model_text_data["arabart"]["url"], st.session_state['user_input'])
+        sentences_arabart_bert = aug_bert(model_text_data["arabart"]["url"], 
+                                          st.session_state['user_input'],
+                                          model_text_data["arabart"]["name"]
+                                          )
 
         similarity_list = similarity_checker(sentences_arabart_bert, user_text_input)
         with st.expander(model_text_data["arabart"]["results"]):
@@ -152,7 +164,10 @@ with test_app_container:
         st.markdown(model_text_data["camelbert"]["header"])
         st.markdown(model_text_data["camelbert"]["text"])
 
-        sentences_camelbert_bert = aug_bert(model_text_data["camelbert"]["url"], st.session_state['user_input'])
+        sentences_camelbert_bert = aug_bert(model_text_data["camelbert"]["url"], 
+                                            st.session_state['user_input'],
+                                            model_text_data["camelbert"]["name"]
+                                            )
 
         similarity_list = similarity_checker(sentences_camelbert_bert, user_text_input)
         with st.expander(model_text_data["camelbert"]["results"]):
@@ -166,7 +181,10 @@ with test_app_container:
         st.markdown(model_text_data["bert-large-arabic"]["header"])
         st.markdown(model_text_data["bert-large-arabic"]["text"])
 
-        sentences_large_arabic_bert = aug_bert(model_text_data["bert-large-arabic"]["url"], st.session_state['user_input'])
+        sentences_large_arabic_bert = aug_bert(model_text_data["bert-large-arabic"]["url"], 
+                                              st.session_state['user_input'],
+                                              model_text_data["bert-large-arabic"]["name"]
+                                              )
 
         similarity_list = similarity_checker(sentences_large_arabic_bert, user_text_input)
         with st.expander(model_text_data["bert-large-arabic"]["results"]):
@@ -180,7 +198,10 @@ with test_app_container:
         st.markdown(model_text_data["ubc-arbert"]["header"])
         st.markdown(model_text_data["ubc-arbert"]["text"])
 
-        sentences_ubc_arbert_bert = aug_bert(model_text_data["ubc-arbert"]["url"], st.session_state['user_input'])
+        sentences_ubc_arbert_bert = aug_bert(model_text_data["ubc-arbert"]["url"], 
+                                            st.session_state['user_input'],
+                                            model_text_data["ubc-arbert"]["name"]
+                                            )
 
         similarity_list = similarity_checker(sentences_ubc_arbert_bert, user_text_input)
         with st.expander(model_text_data["ubc-arbert"]["results"]):
@@ -194,7 +215,10 @@ with test_app_container:
         st.markdown(model_text_data["ubc-marbertv2"]["header"])
         st.markdown(model_text_data["ubc-marbertv2"]["text"])
 
-        sentences_ubc_marbertv2_bert = aug_bert(model_text_data["ubc-marbertv2"]["url"], st.session_state['user_input'])
+        sentences_ubc_marbertv2_bert = aug_bert(model_text_data["ubc-marbertv2"]["url"], 
+                                                st.session_state['user_input'],
+                                                model_text_data["ubc-marbertv2"]["name"]
+                                                )
 
         similarity_list = similarity_checker(sentences_ubc_marbertv2_bert, user_text_input)
         with st.expander(model_text_data["ubc-marbertv2"]["results"]):
@@ -208,7 +232,10 @@ with test_app_container:
         st.markdown(model_text_data["araelectra"]["header"])
         st.markdown(model_text_data["araelectra"]["text"])
 
-        sentences_araelectra_bert = aug_bert(model_text_data["araelectra"]["url"], st.session_state['user_input'])
+        sentences_araelectra_bert = aug_bert(model_text_data["araelectra"]["url"], 
+                                            st.session_state['user_input'],
+                                            model_text_data["araelectra"]["name"]
+                                            )
 
         similarity_list = similarity_checker(sentences_araelectra_bert, user_text_input)
         with st.expander(model_text_data["araelectra"]["results"]):

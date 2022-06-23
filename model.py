@@ -184,18 +184,18 @@ def bert(model, sentence):    # Contextual word embeddings
                         l.append(aug)
   return l
 
-def aug_bert(model,text):  # text here is a list of sentences
-  loading_state_bert = st.text("Loading AraBERT...")
+def aug_bert(model,text,model_name:str):  # text here is a list of sentences
+  loading_state_bert = st.text(f"Loading {model_name}...")
   tic = time.perf_counter()
   model = load_bert(model)
   toc = time.perf_counter()
-  loading_state_bert.text("Loading AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
-  augment_state_bert = st.text("Augmenting with AraBERT...")
+  loading_state_bert.text(f"Loading {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
+  augment_state_bert = st.text(f"Augmenting with {model_name}...")
   tic = time.perf_counter()
   if isinstance(text, str):
     ret = bert(model, text)
     toc = time.perf_counter()
-    augment_state_bert.text("Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
+    augment_state_bert.text(f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return ret
   else:
     all_sentences = []
@@ -203,7 +203,7 @@ def aug_bert(model,text):  # text here is a list of sentences
       sentence = sentence.strip()
       all_sentences.append([sentence,bert(model, sentence)])
     toc = time.perf_counter()
-    augment_state_bert.text("Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
+    augment_state_bert.text(f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return all_sentences
 
 ### ------------------------ End of BERT ----------------------------------- ###
