@@ -76,14 +76,19 @@ with test_app_container:
     user_text_input = random_sentence('./data/WikiNewsTruth.txt')
     st.session_state.user_input = user_text_input
     text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
-    st.markdown("""*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*""")
+    st.markdown("""
+                <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
+                unsafe_allow_html=True
+                )
 
   if user_text_input:
     # Farasa POS output
-    farasa_pos_container.markdown(f"*Parts of Speech:* {farasa_pos_output(user_text_input)}")
+    farasa_pos_container.markdown(f"""*<span style="color:#AAFF00">Parts of Speech:</span>* {farasa_pos_output(user_text_input)}""", 
+                                  unsafe_allow_html=True)
 
     ## Translate the sentence from arabic to english for the user
-    translated_input_container.markdown(f"*Translated sentence (EN):* {translate_user_text_input(user_text_input)}")
+    translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input(user_text_input)}""", 
+                                        unsafe_allow_html=True)
 
     ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
     data = models_data('./data/models.json')
