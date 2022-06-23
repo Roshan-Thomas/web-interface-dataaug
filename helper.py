@@ -1,6 +1,7 @@
 import streamlit as st 
 from transformers import (MarianMTModel, MarianTokenizer)
 import tensorflow as tf
+import re
 import requests 
 import json
 from camel_tools.utils.charsets import AR_LETTERS_CHARSET
