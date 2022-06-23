@@ -806,6 +806,19 @@ def random_sentence(file_name:str):
 
 ### ------------------------- Farasa API ----------------------------------- ###
 def pos(text):
+  """
+  Function calls the Farasa API and get the Parts of Speech Tagger to read the sentence
+  and split it into the different parts of the sentence and returns a dictionary.
+
+  Input Parameters
+  ================
+  text => Sentence to be parsed with the Farasa API
+
+  Return Parameters
+  =================
+  pos_dict => Dictionary of the parts of speech
+  """
+
   url = 'https://farasa.qcri.org/webapi/pos/'
   api_key = "KMxvdPGsKHXQAbRXGL"
   payload = {'text': text, 'api_key': api_key}
@@ -832,6 +845,19 @@ def pos(text):
   return pos_dict
 
 def farasa_pos_output(text):
+  """
+  Function to use the Farasa API to read only the NOUNS, VERBS and ADJECTIVES in
+  a sentence so it can be processed by the augmentation functions.
+
+  Input Parameters
+  ================
+  text => Sentence to be processed by the Farasa API
+
+  Return Parameters
+  =================
+  ret => Processed sentence where the NOUNS, VERBS and ADJECTIVES are marked
+  """
+
   url = 'https://farasa.qcri.org/webapi/pos/'
   api_key = "KMxvdPGsKHXQAbRXGL"
   payload = {'text': text, 'api_key': api_key}
