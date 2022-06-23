@@ -82,7 +82,7 @@ with test_app_container:
                 )
 
   if user_text_input:
-    # Farasa POS output
+    # Farasa 'Parts of Speech tagger' output
     farasa_pos_container.markdown(f"""*<span style="color:#AAFF00">Parts of Speech:</span>* {farasa_pos_output(user_text_input)}""", 
                                   unsafe_allow_html=True)
 

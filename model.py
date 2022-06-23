@@ -29,6 +29,16 @@ import torch
 ### ------------------------ Back Translation ------------------------------ ###
 @st.experimental_memo
 def load_models_bt(from_model_name, to_model_name):
+  """
+  This function loads the Back Translation Models from Huggingface. It also checks if
+  the system has GPU or not, and if it has GPU then the model will use GPU, and if it 
+  doesnt have GPU then it will only use the CPU Resources.
+
+  Input Parameters
+  ===========
+  from_model_name => Translating model which translated from arabic > english
+  to_model_name => Translating model with translates the sentences from english > arabic
+  """
   device = 'cpu'
   if tf.test.gpu_device_name():
     device = 'cuda'
@@ -41,7 +51,10 @@ def load_models_bt(from_model_name, to_model_name):
 
 def double_back_translate(selected_languages, text):
   """
-  List of Languages Used
+  This function does double back translation, so it does ar > en > ar_1 > en > ar_2. This gives
+  us two augmented arabic sentences. 
+
+  The list of Languages Used:
     - ar-en	(English)
     - ar-fr	(French)	
     - ar-tr	(Turkish)
@@ -52,6 +65,11 @@ def double_back_translate(selected_languages, text):
     - ar-el (Greek)
     - ar-de (German)
     - ar-he (Hebrew)
+
+  Input Parameters
+  ================
+  selected_languages => These are the languages which are selected by the user to run double back translation on
+  text => This is the user inputed text which is to be back translated using the multiple languages
   """
 
   all_sentences = []
