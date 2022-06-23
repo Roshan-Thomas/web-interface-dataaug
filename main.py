@@ -1,10 +1,7 @@
 import streamlit as st 
-from model import (aug_bert, aug_w2v, double_back_translate, 
-                  random_sentence, spl, aug_m2m, aug_GPT,
-                  load_bert, load_GPT, load_m2m, load_w2v, 
-                  models_data, farasa_pos_output, translate_user_text_input,
-                  display_similarity_table, similarity_checker)
-from citations import citations
+from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_m2m, aug_GPT, load_bert, 
+                  load_GPT, load_m2m, load_w2v, farasa_pos_output, display_similarity_table, similarity_checker)
+from helper import (translate_user_text_input, models_data)
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
 
@@ -77,7 +74,7 @@ with test_app_container:
     st.session_state.user_input = user_text_input
     text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
     st.markdown("""
-                <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
+                <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, STOP the running, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
                 unsafe_allow_html=True
                 )
 
