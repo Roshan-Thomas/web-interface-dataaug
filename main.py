@@ -18,7 +18,6 @@ if 'user_input' not in st.session_state:
 
 ## ------------------------------------------------- Introduction ------------------------------------------ ##
 
-
 st.title("Data augmentation - Web Interface")
 st.markdown(
   """

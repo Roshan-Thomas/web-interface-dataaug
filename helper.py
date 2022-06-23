@@ -6,7 +6,6 @@ import requests
 import json
 from camel_tools.utils.charsets import AR_LETTERS_CHARSET
 
-
 ### ------------------------ Helper Functions ----------------------------- ###
 @st.cache(allow_output_mutation=True)
 def load_translator(model_name):
