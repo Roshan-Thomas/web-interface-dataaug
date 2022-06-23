@@ -533,19 +533,19 @@ def aug_m2m(model_name, text):
 
 ### ------------------------ End of Text-to-Text --------------------------- ###
 
-### ------------------------ General Functions ----------------------------- ###
+### ------------------------ Helper Functions ----------------------------- ###
 @st.cache(allow_output_mutation=True)
-def translate_user_text_input(user_input):
-  user_text = user_input
-  model_name = "Helsinki-NLP/opus-mt-ar-en"
-
+def load_translator(model_name):
   tokenizer = MarianTokenizer.from_pretrained(model_name)
   model = MarianMTModel.from_pretrained(model_name)
-  translated = model.generate(**tokenizer(user_text, return_tensors="pt", padding=True))
+  return model, tokenizer
+
+def translate_user_text_input(user_input):
+  model, tokenizer = load_translator("Helsinki-NLP/opus-mt-ar-en")
+  translated = model.generate(**tokenizer(user_input, return_tensors="pt", padding=True))
   translated_sentence = ""
   for t in translated:
     translated_sentence = tokenizer.decode(t, skip_special_tokens=True)
-  
   return translated_sentence
 
 def process(text):
@@ -634,7 +634,7 @@ def strip_punc(text):
       remove += l
   return text.replace(remove[::-1],"")
 
-### ----------------- End of General Functions ----------------------------- ###
+### ----------------- End of Helper Functions ----------------------------- ###
 
 ### -------------------- Random Sentence Generator ------------------------- ###
 @st.experimental_memo
