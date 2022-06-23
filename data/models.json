@@ -1,15 +1,15 @@
 {
-    "arabert": 0,
-    "qarib-bert": 0,
-    "xlm-roberta-bert": 0,
+    "arabert": 1,
+    "qarib-bert": 1,
+    "xlm-roberta-bert": 1,
     "arabart": 1,
-    "camelbert": 0,
-    "bert-large-arabic": 0,
-    "ubc-arbert": 0,
-    "ubc-marbertv2": 0,
-    "araelectra": 0,
-    "aragpt2": 0,
-    "aravec": 0,
-    "double-back-translation": 0,
-    "m2m": 0
+    "camelbert": 1,
+    "bert-large-arabic": 1,
+    "ubc-arbert": 1,
+    "ubc-marbertv2": 1,
+    "araelectra": 1,
+    "aragpt2": 1,
+    "aravec": 1,
+    "double-back-translation": 1,
+    "m2m": 1
 }
