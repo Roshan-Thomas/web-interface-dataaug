@@ -1,8 +1,26 @@
 # Web Interface for Data Augmentation Project (QCRI)
 
-The project is based on Python and is using the package `streamlit` to host it on the web. 
+This project aims to understand the various outputs of natural language processing for an Arabic sentence with the pre-existing models available. 
 
-## Setup (Local Machine)
+We use the models to augment a sentence and gauge the output using cosine similarity. We used 13 models from [HuggingFace ](https://huggingface.co/) to do the data augmentation. This repo is the code for the web interface hosting all those above methods. The project is based on Python and uses the package `streamlit` to host it on the web. 
+
+Data Augmentation Techniques / Machine Learning Models Used:
+
+* [AraBERT](https://huggingface.co/aubmindlab/bert-base-arabert) 
+* [QARiB](https://huggingface.co/qarib/bert-base-qarib) 
+* [XLM-RoBERTa](https://huggingface.co/xlm-roberta-base) 
+* [AraBART](https://huggingface.co/moussaKam/AraBART)
+* [CAMeLBERT-Mix NER](https://huggingface.co/CAMeL-Lab/bert-base-arabic-camelbert-mix-ner) 
+* [Arabic BERT (Large)](https://huggingface.co/asafaya/bert-large-arabic) 
+* [ARBERT](https://huggingface.co/UBC-NLP/ARBERT) 
+* [MARBERTv2](https://huggingface.co/UBC-NLP/MARBERTv2) 
+* [AraELECTRA](https://huggingface.co/aubmindlab/araelectra-base-generator) 
+* [AraGPT2](https://huggingface.co/aubmindlab/aragpt2-base) 
+* [W2V (AraVec)](https://github.com/bakrianoo/aravec)
+* [Text-to-Text Augmentation](https://huggingface.co/facebook/mbart-large-50-many-to-many-mmt)
+* [Back Translation](https://huggingface.co/Helsinki-NLP)
+
+# Setup (Local Machine)
 1. Clone the Github repo to your local machine and follow the steps below.
 
     ```sh
@@ -39,7 +57,7 @@ The project is based on Python and is using the package `streamlit` to host it o
     streamlit run main.py
     ```
 
-## Deploying on a `Docker` Container
+# Deploying on a `Docker` Container
 
 1. Build the docker app
     ```sh
@@ -85,7 +103,7 @@ Then run either of the two commands based on what you want to do:
 
 ## Contribution
 
-If you plan on making any changes to the repo, follow these steps:
+If you want to make any changes to the repo, follow these steps:
 * Fork it to your own Github profile
 * Make the changes 
 * Create a pull request
