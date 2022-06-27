@@ -138,6 +138,7 @@ with test_app_container:
     translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input(user_text_input)}""", 
                                         unsafe_allow_html=True)
 
+    st.sidebar.write("--------------------------")
     st.sidebar.markdown(f"""*<span style="color:#AAFF00">Original Sentence:</span>* <br /> {user_text_input}""", 
                         unsafe_allow_html=True)
 
