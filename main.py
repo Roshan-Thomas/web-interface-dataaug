@@ -98,17 +98,36 @@ with test_app_container:
   user_text_input = text_input_container.text_input("Enter your text here (AR):", 
                                                     placeholder="وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة")
 
-  
-  random_sentence_generator = st.checkbox('Use a Random Sentence (AR)?')
-  if random_sentence_generator:
-    text_input_container.empty()
-    user_text_input = random_sentence('./data/WikiNewsTruth.txt')
-    st.session_state.user_input = user_text_input
-    text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
-    st.markdown("""
-                <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, STOP the running, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
-                unsafe_allow_html=True
-                )
+  random_sentence_container = st.empty()
+  random_sentence_checkbox = random_sentence_container.checkbox("Use a Random Sentence (AR)?")
+
+  if random_sentence_checkbox:
+    msa_or_dialectal_radio_button = random_sentence_container.radio(
+      "Choose variety of Arabic sentence used (for the random sentence):", 
+      ('Modern Standard Arabic (MSA)', 'Dialectal Arabic'), horizontal=True
+    )
+    
+    if msa_or_dialectal_radio_button == 'Modern Standard Arabic (MSA)':
+      random_sentence_generator = st.checkbox('Use a Random MSA Sentence (AR)?')
+      if random_sentence_generator:
+        text_input_container.empty()
+        user_text_input = random_sentence('./data/WikiNewsTruth.txt')
+        text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
+        st.markdown("""
+                    <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, STOP the running, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
+                    unsafe_allow_html=True
+                    )
+    else:
+      random_sentence_generator = st.checkbox('Use a Random Dialectal Arabic Sentence (AR)?')
+      if random_sentence_generator:
+        text_input_container.empty()
+        user_text_input = random_sentence('./data/WikiNewsTruth.txt')
+        text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
+        st.markdown("""
+                    <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, STOP the running, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
+                    unsafe_allow_html=True
+                    )
+
 
   if user_text_input:
     # Farasa 'Parts of Speech tagger' output
@@ -119,7 +138,6 @@ with test_app_container:
     translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input(user_text_input)}""", 
                                         unsafe_allow_html=True)
 
-    
     model_text_data = models_data('./data/models_data.json')
 
     ## ---------------------------- aubmindlab/bert-large-arabertv2 ----------------------- ##
