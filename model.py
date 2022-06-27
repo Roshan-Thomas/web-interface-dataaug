@@ -8,6 +8,7 @@ import string
 import pandas as pd
 import numpy as np
 import matplotlib as plt
+from statistics import mean
 
 import streamlit as st 
 from transformers import (GPT2LMHeadModel, pipeline, GPT2TokenizerFast, 
@@ -742,7 +743,10 @@ def similarity_checker(sentences, user_text_input):
     # Calculate cosine similarity
     cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
 
-    return np.around(cos_similarity[0], decimals=6)
+    # Calculate average of similarities
+    average_similarity = mean(cos_similarity[0])
+
+    return np.around(cos_similarity[0], decimals=6), round(average_similarity, 6)
 
 def display_similarity_table(sentences_list, similarity_list):
   """
