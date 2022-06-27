@@ -2,6 +2,7 @@ import streamlit as st
 from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_m2m, aug_GPT, load_bert, 
                   load_GPT, load_m2m, load_w2v, farasa_pos_output, display_similarity_table, similarity_checker)
 from helper import (translate_user_text_input, models_data)
+import time
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
 
@@ -48,6 +49,41 @@ st.markdown(
 )
 
 ## --------------------------------------- End of Introduction --------------------------------------------- ##
+
+
+## ----------------------------------------------- Sidebar ------------------------------------------------- ##
+
+with st.sidebar:
+  st.markdown("# Test out our app :blush:")
+  st.write("Choose the data augmentation techniques below 👇")
+
+  col1, col2 = st.columns(2)
+  
+  with col1:
+    arabert = st.checkbox('AraBERT', value=True)
+    qarib_bert = st.checkbox('QARiB')
+    xlm_roberta_bert = st.checkbox('XLM-RoBERTa')
+    arabart = st.checkbox('AraBART', value=True)
+    camelbert = st.checkbox('CAMeLBERT', value=True)
+    bert_large_arabic = st.checkbox('Arabic BERT (Large)')
+    ubc_arbert = st.checkbox('ARBERT')
+  
+  with col2:
+    ubc_marbertv2 = st.checkbox('MARBERTv2', value=True)
+    araelectra = st.checkbox('AraELECTRA', value=True)
+    aragpt2 = st.checkbox('AraGPT2', value=True)
+    aravec = st.checkbox('AraVec (W2V)')
+    back_translation = st.checkbox('Double Back Translation')
+    m2m = st.checkbox('Text-to-Text')
+
+
+
+
+
+
+## -------------------------------------------- End of Sidebar --------------------------------------------- ##
+
+
 
 
 ## ---------------------------------------- 'Test the App' ------------------------------------------------- ##
