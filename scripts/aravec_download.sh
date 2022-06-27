@@ -11,21 +11,19 @@ npyVectorsFilename="full_grams_cbow_100_twitter.mdl.wv.vectors.npy"
 if [[ ! -f $filename ]]
 then
 	echo "$filename does not exist."
-	echo " "
-	echo " "
+	echo; echo 
 	echo "Downloading $filename now..."
-	echo " "
+	echo 
 	wget https://bakrianoo.ewr1.vultrobjects.com/aravec/full_grams_cbow_100_twitter.zip
 	echo "Download $filename complete"
-	echo " "
-	echo " "
+	echo; echo
 	python3 pyunzip.py full_grams_cbow_100_twitter.zip
 	echo "Unzipping Complete"
 
 elif [[ -f $filename ]] && [[ ! -f $mdlFilename ]] && [[ ! -f $npyTrainablesFilename ]] && [[ ! -f $npyVectorsFilename ]]
 then
 	echo "Unzipping $filename..."
-	echo " "
+	echo
 	python3 pyunzip.py full_grams_cbow_100_twitter.zip
 
 else
@@ -33,6 +31,6 @@ else
 fi
 
 echo "Downloading AraVec model complete! 🍾"
-echo " "
+echo
 
 exit 0
