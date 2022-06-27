@@ -103,13 +103,13 @@ def double_back_translate(selected_languages, text):
 @st.cache(allow_output_mutation=True)
 def load_w2v(model_path):
   """
-  This function loads the aravec model from our local directories. It also is a cached 
+  This function loads the word-to-vector (w2v) model from our local directories. It also is a cached 
   function using streamlit that only needs to be loaded once and the next time someone
   uses the function it loads immedietly because it is present in the cache.
 
   Input Parameters
   ================
-  model_path => The local path of the aravec model to be imported
+  model_path => The local path of the w2v model to be imported
 
   Return Parameters
   =================
@@ -124,13 +124,13 @@ def load_w2v(model_path):
 
 def w2v(model,sentence):
   """
-  This function uses the aravec model and a sentence (user inputed) and cleans it and then 
-  augments the sentence based on the pretrained aravec model.
+  This function uses a word-to-vector (w2v) model and a sentence (user inputed) and cleans it and then 
+  augments the sentence based on the pretrained w2v model.
 
   Input Parameters
   ================
-  model => Aravec model (from Local Directories)
-  sentence => A sentence to augment using the Aravec model (typically the user inputed sentence from the frontend)
+  model => w2v model (from Local Directories)
+  sentence => A sentence to augment using the w2v model (typically the user inputed sentence from the frontend)
 
   Return Parameters
   =================
@@ -174,7 +174,7 @@ def w2v(model,sentence):
 
 def aug_w2v(model_path,text):
   """
-  This function is the main augmenting code of the aravec model. This function calls the 
+  This function is the main augmenting code of the word-to-vector (w2v) model. This function calls the 
   load_w2v() and w2v() functions. This function also calculates the total time it takes to
   load the model and augment the sentence and it outputs it so the user has a better idea of 
   how long it takes for the model to run. 
@@ -187,12 +187,12 @@ def aug_w2v(model_path,text):
 
   Input Parameters
   ================
-  model_path => The local path of the Aravec Model.
+  model_path => The local path of the w2v Model.
   text => A sentence to be augmented (typically the user's input).
 
   Return Parameters
   =================
-  all_sentences => Returns all the augmented sentence from the Aravec model.
+  all_sentences => Returns all the augmented sentence from the w2v model.
   """
 
   loading_state_w2v = st.text("Loading W2V...")
@@ -710,6 +710,7 @@ def similarity_checker(sentences, user_text_input):
   Return Parameters
   =================
   cos_similarity => List of cosine similarities rounded up to 6 decimal places 
+  average_similarity => Average similarity for the entire model (rounded to 6 decimal places)
   """
 
   tokenizer, model = load_similarity_checker_model('sentence-transformers/bert-base-nli-mean-tokens')
@@ -746,7 +747,7 @@ def similarity_checker(sentences, user_text_input):
     # Calculate average of similarities
     average_similarity = mean(cos_similarity[0])
 
-    return np.around(cos_similarity[0], decimals=6), round(average_similarity, 6)
+    return (np.around(cos_similarity[0], decimals=6), np.around(average_similarity, decimals=6))
 
 def display_similarity_table(sentences_list, similarity_list):
   """
