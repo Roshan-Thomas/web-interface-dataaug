@@ -15,6 +15,9 @@ st.set_page_config(
 if 'user_input' not in st.session_state:
   st.session_state['user_input'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
 
+## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
+data = models_data('./data/models.json')
+
 ## --------------------------------------------- End of Page Config ---------------------------------------- ##
 
 ## ------------------------------------------------- Introduction ------------------------------------------ ##
@@ -54,37 +57,30 @@ st.markdown(
 ## ----------------------------------------------- Sidebar ------------------------------------------------- ##
 
 with st.sidebar:
-  st.markdown("# Test out our app :blush:")
   st.write("Choose the data augmentation techniques below 👇")
 
   col1, col2 = st.columns(2)
   
   with col1:
-    arabert = st.checkbox('AraBERT', value=True)
-    qarib_bert = st.checkbox('QARiB')
-    xlm_roberta_bert = st.checkbox('XLM-RoBERTa')
-    arabart = st.checkbox('AraBART', value=True)
-    camelbert = st.checkbox('CAMeLBERT', value=True)
-    bert_large_arabic = st.checkbox('Arabic BERT (Large)')
-    ubc_arbert = st.checkbox('ARBERT')
+    data['arabert'] = st.checkbox('AraBERT', value=True)
+    data['qarib_bert'] = st.checkbox('QARiB')
+    data['xlm_roberta_bert'] = st.checkbox('XLM-RoBERTa', value=True)
+    data['arabart'] = st.checkbox('AraBART')
+    data['camelbert'] = st.checkbox('CAMeLBERT', value=True)
+    data['bert-large-arabic'] = st.checkbox('Arabic BERT (Large)')
+    data['ubc-arbert'] = st.checkbox('ARBERT', value=True)
   
   with col2:
-    ubc_marbertv2 = st.checkbox('MARBERTv2', value=True)
-    araelectra = st.checkbox('AraELECTRA', value=True)
-    aragpt2 = st.checkbox('AraGPT2', value=True)
-    aravec = st.checkbox('AraVec (W2V)')
-    back_translation = st.checkbox('Double Back Translation')
-    m2m = st.checkbox('Text-to-Text')
-
-
-
+    data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
+    data['araelectra'] = st.checkbox('AraELECTRA', value=True)
+    data['aragpt2'] = st.checkbox('AraGPT2')
+    data['aravec'] = st.checkbox('AraVec (W2V)')
+    data['double-back-translation'] = st.checkbox('Double Back Translation', value=True)
+    data['m2m'] = st.checkbox('Text-to-Text')
 
 
 
 ## -------------------------------------------- End of Sidebar --------------------------------------------- ##
-
-
-
 
 ## ---------------------------------------- 'Test the App' ------------------------------------------------- ##
 
@@ -92,6 +88,7 @@ test_app_container = st.container()
 
 with test_app_container:
   st.markdown("# Test out our app here :blush::")
+  st.markdown("Write a sentence you want to augment below (in the text field) and choose the augmentation techniques in the sidebar.")
   # test_text = "وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة" # text to be used for testing purposes only
 
   text_input_container = st.empty()
@@ -122,8 +119,7 @@ with test_app_container:
     translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input(user_text_input)}""", 
                                         unsafe_allow_html=True)
 
-    ## Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
-    data = models_data('./data/models.json')
+    
     model_text_data = models_data('./data/models_data.json')
 
     ## ---------------------------- aubmindlab/bert-large-arabertv2 ----------------------- ##
