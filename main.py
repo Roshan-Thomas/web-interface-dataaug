@@ -64,7 +64,7 @@ with st.sidebar:
   with col1:
     data['arabert'] = st.checkbox('AraBERT', value=True)
     data['qarib_bert'] = st.checkbox('QARiB')
-    data['xlm_roberta_bert'] = st.checkbox('XLM-RoBERTa', value=True)
+    data['xlm-roberta-bert'] = st.checkbox('XLM-RoBERTa', value=True)
     data['arabart'] = st.checkbox('AraBART')
     data['camelbert'] = st.checkbox('CAMeLBERT', value=True)
     data['bert-large-arabic'] = st.checkbox('Arabic BERT (Large)')
