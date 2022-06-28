@@ -317,7 +317,7 @@ with test_app_container:
 
             similarity_list, average_similarity = similarity_checker(sentences_gpt, user_text_input)
             with st.expander(model_text_data["aragpt2"]["results"]):
-              st.markdown(f"Average Similarity: {round(average_similarity, 6)}")
+              st.markdown(f"Average Similarity: {average_similarity:06f}")
               display_similarity_table(sentences_gpt, similarity_list)
               st.markdown(model_text_data["common"]["word-info-expander"])
 
