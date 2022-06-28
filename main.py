@@ -327,9 +327,16 @@ with test_app_container:
       with w2v_container:
         st.markdown(model_text_data["aravec"]["header"])
         st.markdown(model_text_data["aravec"]["text"])
-        sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', user_text_input)
+        
+        sentences_w2v_model_1 = aug_w2v('./data/full_grams_cbow_300_twitter.mdl', user_text_input, 'Aravec Twitter (CBOW)')
+        sentences_w2v_model_2 = aug_w2v('./data/full_grams_sg_300_twitter.mdl', user_text_input, 'Aravec Twitter (SkipGram)')
+        sentences_w2v_model_3 = aug_w2v('./data/full_grams_cbow_300_wiki.mdl', user_text_input, 'Aravec Wikipedia (CBOW)')
+        sentences_w2v_model_4 = aug_w2v('./data/full_grams_sg_300_wiki.mdl', user_text_input, 'Aravec Wikipedia (SkipGram)')
+
+        sentences_w2v = sentences_w2v_model_1 + sentences_w2v_model_2 + sentences_w2v_model_3 + sentences_w2v_model_4
 
         similarity_list, average_similarity = similarity_checker(sentences_w2v, user_text_input)
+
         with st.expander(model_text_data["aravec"]["results"]):
           st.markdown(f"Average Similarity: {round(average_similarity, 6)}")
           display_similarity_table(sentences_w2v, similarity_list)
