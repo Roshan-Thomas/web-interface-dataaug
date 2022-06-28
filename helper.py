@@ -221,6 +221,6 @@ def strip_punc(text):
 
 @st.cache(allow_output_mutation=True)
 def convert_df_to_csv(df):
-  return df.to_csv().encode('utf-8')
+  return df.to_csv().encode('utf-8-sig')
 
 ### ----------------- End of Helper Functions ----------------------------- ###
