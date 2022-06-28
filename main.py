@@ -350,6 +350,7 @@ with test_app_container:
         with st.expander(model_text_data["double-back-translation"]["results"]):
           st.markdown(f"Average Similarity: {round(average_similarity, 6)}")
           display_similarity_table(back_translated_sentences, similarity_list)
+          st.markdown(model_text_data["double-back-translation"]["results-info"])
 
     ## ------------------------------------- Text-to-Text -------------------------------------- ##
     if data['m2m']:
