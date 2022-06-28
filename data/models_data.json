@@ -73,7 +73,7 @@
         "results": "Open to see AraGPT2 results"
     },
     "aravec": {
-        "header": "### AraVec (W2V) Data Augmentation",
+        "header": "### Word-to-Vector (W2V) Data Augmentation",
         "text": "AraVec (W2V) is a pre-trained distributed word representation (word embedding) open-source project aiming to provide the Arabic NLP research community with free-to-use and powerful word embedding models. The recent version of AraVec provides 16-word embedding models built on top of two different Arabic content domains; Tweets and Wikipedia Arabic articles. This app uses the Twitter-trained model to augment the text. You can read more about it in this paper [here](https://www.researchgate.net/publication/319880027_AraVec_A_set_of_Arabic_Word_Embedding_Models_for_use_in_Arabic_NLP).",
         "results": "Open to see W2V results"
     },
