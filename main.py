@@ -152,7 +152,7 @@ with test_app_container:
         st.markdown(model_text_data["arabert"]["text"])
 
         sentences_bert = aug_bert(model_text_data["arabert"]["url"], 
-                                  st.session_state['user_input'], 
+                                  user_text_input, 
                                   model_text_data["arabert"]["name"]
                                 )
        
@@ -170,7 +170,7 @@ with test_app_container:
         st.markdown(model_text_data["qarib-bert"]["text"])
 
         sentences_qarib_bert = aug_bert(model_text_data["qarib-bert"]["url"], 
-                                        st.session_state['user_input'],
+                                        user_text_input,
                                         model_text_data["qarib-bert"]["name"]
                                         )
 
@@ -188,7 +188,7 @@ with test_app_container:
         st.markdown(model_text_data["xlm-roberta-bert"]["text"])
 
         sentences_xlm_bert = aug_bert(model_text_data["xlm-roberta-bert"]["url"], 
-                                      st.session_state['user_input'],
+                                      user_text_input,
                                       model_text_data["xlm-roberta-bert"]["name"]
                                       )
 
@@ -206,7 +206,7 @@ with test_app_container:
         st.markdown(model_text_data["arabart"]["text"])
 
         sentences_arabart_bert = aug_bert(model_text_data["arabart"]["url"], 
-                                          st.session_state['user_input'],
+                                          user_text_input,
                                           model_text_data["arabart"]["name"]
                                           )
 
@@ -224,7 +224,7 @@ with test_app_container:
         st.markdown(model_text_data["camelbert"]["text"])
 
         sentences_camelbert_bert = aug_bert(model_text_data["camelbert"]["url"], 
-                                            st.session_state['user_input'],
+                                            user_text_input,
                                             model_text_data["camelbert"]["name"]
                                             )
 
@@ -242,7 +242,7 @@ with test_app_container:
         st.markdown(model_text_data["bert-large-arabic"]["text"])
 
         sentences_large_arabic_bert = aug_bert(model_text_data["bert-large-arabic"]["url"], 
-                                              st.session_state['user_input'],
+                                              user_text_input,
                                               model_text_data["bert-large-arabic"]["name"]
                                               )
 
@@ -260,7 +260,7 @@ with test_app_container:
         st.markdown(model_text_data["ubc-arbert"]["text"])
 
         sentences_ubc_arbert_bert = aug_bert(model_text_data["ubc-arbert"]["url"], 
-                                            st.session_state['user_input'],
+                                            user_text_input,
                                             model_text_data["ubc-arbert"]["name"]
                                             )
 
@@ -278,7 +278,7 @@ with test_app_container:
         st.markdown(model_text_data["ubc-marbertv2"]["text"])
 
         sentences_ubc_marbertv2_bert = aug_bert(model_text_data["ubc-marbertv2"]["url"], 
-                                                st.session_state['user_input'],
+                                                user_text_input,
                                                 model_text_data["ubc-marbertv2"]["name"]
                                                 )
 
@@ -296,7 +296,7 @@ with test_app_container:
         st.markdown(model_text_data["araelectra"]["text"])
 
         sentences_araelectra_bert = aug_bert(model_text_data["araelectra"]["url"], 
-                                            st.session_state['user_input'],
+                                            user_text_input,
                                             model_text_data["araelectra"]["name"]
                                             )
 
@@ -312,7 +312,7 @@ with test_app_container:
       with gpt2_container:
             st.markdown(model_text_data["aragpt2"]["header"])
             st.markdown(model_text_data["aragpt2"]["text"])
-            sentences_gpt = aug_GPT(model_text_data["aragpt2"]["url"], st.session_state['user_input'])
+            sentences_gpt = aug_GPT(model_text_data["aragpt2"]["url"], user_text_input)
 
             similarity_list, average_similarity = similarity_checker(sentences_gpt, user_text_input)
             with st.expander(model_text_data["aragpt2"]["results"]):
@@ -326,7 +326,7 @@ with test_app_container:
       with w2v_container:
         st.markdown(model_text_data["aravec"]["header"])
         st.markdown(model_text_data["aravec"]["text"])
-        sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', st.session_state['user_input'])
+        sentences_w2v = aug_w2v('./data/full_grams_cbow_100_twitter.mdl', user_text_input)
 
         similarity_list, average_similarity = similarity_checker(sentences_w2v, user_text_input)
         with st.expander(model_text_data["aravec"]["results"]):
@@ -344,7 +344,7 @@ with test_app_container:
         st.markdown(model_text_data["double-back-translation"]["text"])
         st.markdown(model_text_data["double-back-translation"]["text-2"])
 
-        back_translated_sentences = double_back_translate(available_languages, st.session_state['user_input'])
+        back_translated_sentences = double_back_translate(available_languages, user_text_input)
         similarity_list, average_similarity = similarity_checker(back_translated_sentences, user_text_input)
         with st.expander(model_text_data["double-back-translation"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity}")
@@ -356,7 +356,7 @@ with test_app_container:
       with text_to_text_container:
         st.markdown(model_text_data["m2m"]["header"])
         st.markdown(model_text_data["m2m"]["text"])
-        sentences_m2m = aug_m2m(model_text_data["m2m"]["url"], st.session_state['user_input'])
+        sentences_m2m = aug_m2m(model_text_data["m2m"]["url"], user_text_input)
 
         similarity_list, average_similarity = similarity_checker(sentences_m2m, user_text_input)
         with st.expander(model_text_data["m2m"]["results"]):
