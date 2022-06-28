@@ -321,13 +321,13 @@ with test_app_container:
               display_similarity_table(sentences_gpt, similarity_list)
               st.markdown(model_text_data["common"]["word-info-expander"])
 
-    ## ------------------------------------- AraVec -------------------------------------- ##
+    ## ------------------------------------- AraVec --------------------------------------- ##
     if data['aravec']:
       w2v_container = st.container()
       with w2v_container:
         st.markdown(model_text_data["aravec"]["header"])
         st.markdown(model_text_data["aravec"]["text"])
-        
+
         sentences_w2v_model_1 = aug_w2v('./data/full_grams_cbow_300_twitter.mdl', user_text_input, 'Aravec Twitter (CBOW)')
         sentences_w2v_model_2 = aug_w2v('./data/full_grams_sg_300_twitter.mdl', user_text_input, 'Aravec Twitter (SkipGram)')
         sentences_w2v_model_3 = aug_w2v('./data/full_grams_cbow_300_wiki.mdl', user_text_input, 'Aravec Wikipedia (CBOW)')
@@ -342,7 +342,7 @@ with test_app_container:
           display_similarity_table(sentences_w2v, similarity_list)
           st.markdown(model_text_data["common"]["word-info-expander"])
 
-    ## ------------------------------------- Back- Translation -------------------------------------- ##
+    ## ------------------------------------- Back- Translation ---------------------------- ##
     if data['double-back-translation']:
       back_translation_container = st.container()
       with back_translation_container:
@@ -359,7 +359,7 @@ with test_app_container:
           display_similarity_table(back_translated_sentences, similarity_list)
           st.markdown(model_text_data["double-back-translation"]["results-info"])
 
-    ## ------------------------------------- Text-to-Text -------------------------------------- ##
+    ## ------------------------------- Text-to-Text --------------------------------------- ##
     if data['m2m']:
       text_to_text_container = st.container()
       with text_to_text_container:
