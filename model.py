@@ -23,7 +23,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow as tf
 import torch
 
-from helper import (is_replacable, seperate_punct, clean, strip_punc)
+from helper import (is_replacable, seperate_punct, clean, strip_punc, convert_df_to_csv)
 
 ### ----------------------- End of Imports --------------------------------- ###
 
@@ -750,7 +750,7 @@ def similarity_checker(sentences, user_text_input):
 
     return (np.around(cos_similarity[0], decimals=6), average_similarity)
 
-def display_similarity_table(sentences_list, similarity_list):
+def display_similarity_table(sentences_list, similarity_list, model_name):
   """
   Function to display the similarity table using streamlit. The function checks if there
   are sentences in the list and then prints a pandas DataFrame of the sentences and their
@@ -767,6 +767,13 @@ def display_similarity_table(sentences_list, similarity_list):
   if len(sentences_list) > 0:
     data = list(zip(sentences_list, similarity_list))
     df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
+    csv_file = convert_df_to_csv(df)
+    st.download_button(
+      label="Download data as CSV",
+      data=csv_file,
+      file_name=f'{model_name}-output.csv',
+      mime='text/csv',
+    )
     st.table(df[1:].style.background_gradient(cmap='Greens'))
 
 ### -------------------- End of Similarity Checker ------------------------- ###
