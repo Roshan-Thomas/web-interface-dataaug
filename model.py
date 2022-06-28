@@ -122,7 +122,7 @@ def load_w2v(model_path):
       model = gensim.models.Word2Vec.load(model_path)
   return model
 
-def w2v(model,sentence):
+def w2v(model, sentence):
   """
   This function uses a word-to-vector (w2v) model and a sentence (user inputed) and cleans it and then 
   augments the sentence based on the pretrained w2v model.
@@ -172,7 +172,7 @@ def w2v(model,sentence):
                         l.append(aug)
   return l
 
-def aug_w2v(model_path, text, model_name):
+def aug_w2v(model_path, text, model_name:str):
   """
   This function is the main augmenting code of the word-to-vector (w2v) model. This function calls the 
   load_w2v() and w2v() functions. This function also calculates the total time it takes to
@@ -289,7 +289,7 @@ def bert(model, sentence):
                         l.append(aug)
   return l
 
-def aug_bert(model,text,model_name:str):
+def aug_bert(model, text, model_name:str):
   """
   This function is the display function of the BERT model where we call the 
   load_bert() and bert() functions to process the given sentence or list of 
@@ -352,7 +352,7 @@ def load_GPT(model_name):
   generation_pipeline = pipeline("text-generation",model=model,tokenizer=tokenizer)
   return model , tokenizer , generation_pipeline
 
-def GPT(model, tokenizer , generation_pipeline, sentence):
+def GPT(model, tokenizer, generation_pipeline, sentence):
   """
   This function uses the GPT2 model to augment text. It takes in a sentence with less
   than 15 words (as no. of words increase the no. of outputed sentences also increases)
