@@ -74,7 +74,7 @@ with st.sidebar:
     data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
     data['araelectra'] = st.checkbox('AraELECTRA', value=True)
     data['aragpt2'] = st.checkbox('AraGPT2')
-    data['aravec'] = st.checkbox('AraVec (W2V)')
+    # data['aravec'] = st.checkbox('AraVec (W2V)')
     data['double-back-translation'] = st.checkbox('Double Back Translation', value=True)
     data['m2m'] = st.checkbox('Text-to-Text')
 
@@ -337,14 +337,14 @@ with test_app_container:
         st.write(sentences_w2v_model_2)
         st.write(sentences_w2v_model_3)
         st.write(sentences_w2v_model_4)
-        # sentences_w2v = sentences_w2v_model_1 + sentences_w2v_model_2 + sentences_w2v_model_3 + sentences_w2v_model_4
+        sentences_w2v = sentences_w2v_model_1 + sentences_w2v_model_2 + sentences_w2v_model_3 + sentences_w2v_model_4
 
-        # similarity_list, average_similarity = similarity_checker(sentences_w2v, user_text_input)
+        similarity_list, average_similarity = similarity_checker(sentences_w2v, user_text_input)
 
-        # with st.expander(model_text_data["aravec"]["results"]):
-        #   st.markdown(f"Average Similarity: {average_similarity:.6f)}")
-        #   display_similarity_table(sentences_w2v, similarity_list)
-        #   st.markdown(model_text_data["common"]["word-info-expander"])
+        with st.expander(model_text_data["aravec"]["results"]):
+          st.markdown(f"Average Similarity: {average_similarity:.6f}")
+          display_similarity_table(sentences_w2v, similarity_list)
+          st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ------------------------------------- Back- Translation ---------------------------- ##
     if data['double-back-translation']:
