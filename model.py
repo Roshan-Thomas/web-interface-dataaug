@@ -172,7 +172,7 @@ def w2v(model,sentence):
                         l.append(aug)
   return l
 
-def aug_w2v(model_path,text):
+def aug_w2v(model_path, text, model_name):
   """
   This function is the main augmenting code of the word-to-vector (w2v) model. This function calls the 
   load_w2v() and w2v() functions. This function also calculates the total time it takes to
@@ -189,23 +189,24 @@ def aug_w2v(model_path,text):
   ================
   model_path => The local path of the w2v Model.
   text => A sentence to be augmented (typically the user's input).
+  model_name => Custom name of the model (to be displayed to user).
 
   Return Parameters
   =================
   all_sentences => Returns all the augmented sentence from the w2v model.
   """
 
-  loading_state_w2v = st.text("Loading W2V...")
+  loading_state_w2v = st.text(f"Loading {model_name}...")
   tic = time.perf_counter()
   model = load_w2v(model_path)
   toc = time.perf_counter()
   loading_state_w2v.text("Loading W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
-  augment_state_w2v = st.text("Augmenting with W2V...")
+  augment_state_w2v = st.text(f"Augmenting with {model_name}...")
   tic = time.perf_counter()
   if isinstance(text, str):
     ret = w2v(model,text)
     toc = time.perf_counter()
-    augment_state_w2v.text("Augmenting with W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
+    augment_state_w2v.text(f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return ret
   else:
     all_sentences = []
@@ -213,7 +214,7 @@ def aug_w2v(model_path,text):
        sentence = sentence.strip()
        all_sentences.append([sentence,w2v(model,sentence)])
     toc = time.perf_counter()
-    augment_state_w2v.text("Augmenting with W2V done ✅: " + str(round(toc-tic, 3)) + " seconds")
+    augment_state_w2v.text(f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
     return all_sentences
 
 ### ------------------------ End of W2V ------------------------------------ ###
