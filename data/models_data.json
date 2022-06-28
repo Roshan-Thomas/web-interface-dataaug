@@ -67,17 +67,20 @@
         "results": "Open to see AraELECTRA results"
     },
     "aragpt2": {
+        "name": "AraGPT2",
         "header": "### AraGPT2 Data Augmentation",
         "text": "AraGPT2 is a pre-trained transformer for the Arabic Language Generation. The model successfully uses synthetic news generation and zero-shot question answering and has a 98% accuracy in detecting model-generated text. They are publicly available, and you can read the paper [here](https://arxiv.org/abs/2012.15520).",
         "url": "aubmindlab/aragpt2-medium",
         "results": "Open to see AraGPT2 results"
     },
     "aravec": {
+        "name": "AraVec",
         "header": "### Word-to-Vector (W2V) Data Augmentation",
         "text": "AraVec (W2V) is a pre-trained distributed word representation (word embedding) open-source project aiming to provide the Arabic NLP research community with free-to-use and powerful word embedding models. The recent version of AraVec provides 16-word embedding models built on top of two different Arabic content domains; Tweets and Wikipedia Arabic articles. This app uses the Twitter-trained model to augment the text. You can read more about it in this paper [here](https://www.researchgate.net/publication/319880027_AraVec_A_set_of_Arabic_Word_Embedding_Models_for_use_in_Arabic_NLP).",
         "results": "Open to see W2V results"
     },
     "double-back-translation": {
+        "name": "Double Back Translation",
         "header": "### Double Back Translation Augmentation",
         "text": "The languages we are back translating from are: *English (en), French (fr), Turkish (tr), Russian (ru), Polish (pl), Italian (it), Spanish (es), Greek (el), German (de), and Hebrew (he)*.",
         "text-2": "For example, we are doing **AR > EN > AR_1 > EN > AR_2**. So AR_1 and AR_2 are the two augmented sentences giving us a much larger number of augmented sentences.",
@@ -85,6 +88,7 @@
         "results-info": "The output of the translated languages (respectively) are: **English (1, 2), French (3, 4), Turkish (5, 6), Russian (7, 8), Polish (9, 10), Italian (11, 12), Spanish (13, 14), Greek (15, 16), German (17, 18), and Hebrew (19, 20)**"
     },
     "m2m": {
+        "name": "m2m",
         "header": "### Text-to-Text Augmentation",
         "text": "MBART is a sequence-to-sequence de-noising auto-encoder pre-trained on large-scale monolingual corpora in many languages using the BART objective. mBART is one of the first methods for pre-training a complete sequence-to-sequence model by de-noising full texts in multiple languages. At the same time, previous approaches have focused only on the encoder, decoder, or reconstructing parts of the text. You can read more about it from this paper [here](https://arxiv.org/abs/2001.08210).",
         "url": "facebook/mbart-large-50-many-to-many-mmt",

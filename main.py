@@ -160,7 +160,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_bert, user_text_input)
         with st.expander(model_text_data["arabert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_bert, similarity_list)
+          display_similarity_table(sentences_bert, similarity_list, model_text_data["arabert"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
           
     ## -------------------------- qarib/bert-base-qarib ----------------------------------- ##
@@ -178,7 +178,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_qarib_bert, user_text_input)
         with st.expander(model_text_data["qarib-bert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_qarib_bert, similarity_list)
+          display_similarity_table(sentences_qarib_bert, similarity_list, model_text_data["qarib-bert"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
       
     ## ----------------------------- xlm-roberta-base ------------------------------------- ##
@@ -196,7 +196,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_xlm_bert, user_text_input)
         with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_xlm_bert, similarity_list)
+          display_similarity_table(sentences_xlm_bert, similarity_list, model_text_data["xlm-roberta-bert"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ----------------------------- moussaKam/AraBART ------------------------------------ ##
@@ -214,7 +214,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_arabart_bert, user_text_input)
         with st.expander(model_text_data["arabart"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_arabart_bert, similarity_list)
+          display_similarity_table(sentences_arabart_bert, similarity_list, model_text_data["arabart"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ---------------------- CAMeL-Lab/bert-base-arabic-camelbert-mix -------------------- ##
@@ -232,7 +232,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_camelbert_bert, user_text_input)
         with st.expander(model_text_data["camelbert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_camelbert_bert, similarity_list)
+          display_similarity_table(sentences_camelbert_bert, similarity_list, model_text_data["camelbert"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
         
     ## --------------------------- asafaya/bert-large-arabic ------------------------------ ##
@@ -250,7 +250,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_large_arabic_bert, user_text_input)
         with st.expander(model_text_data["bert-large-arabic"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_large_arabic_bert, similarity_list)
+          display_similarity_table(sentences_large_arabic_bert, similarity_list, model_text_data["bert-large-arabic"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
         
     ## --------------------------------- UBC-NLP/ARBERT ----------------------------------- ##
@@ -268,7 +268,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_ubc_arbert_bert, user_text_input)
         with st.expander(model_text_data["ubc-arbert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_ubc_arbert_bert, similarity_list)
+          display_similarity_table(sentences_ubc_arbert_bert, similarity_list, model_text_data["ubc-arbert"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## --------------------------------- UBC-NLP/MARBERTv2 -------------------------------- ##
@@ -286,7 +286,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_ubc_marbertv2_bert, user_text_input)
         with st.expander(model_text_data["ubc-marbertv2"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_ubc_marbertv2_bert, similarity_list)
+          display_similarity_table(sentences_ubc_marbertv2_bert, similarity_list, model_text_data["ubc-marbertv2"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
          
     ## ------------------------ aubmindlab/araelectra-base-generator ---------------------- ##
@@ -304,7 +304,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_araelectra_bert, user_text_input)
         with st.expander(model_text_data["araelectra"]["results"]):
           st.markdown(f"Average Similarity: {raverage_similarity:.6f}")
-          display_similarity_table(sentences_araelectra_bert, similarity_list)
+          display_similarity_table(sentences_araelectra_bert, similarity_list, model_text_data["araelectra"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ------------------------------------- araGPT2 -------------------------------------- ##
@@ -318,7 +318,7 @@ with test_app_container:
             similarity_list, average_similarity = similarity_checker(sentences_gpt, user_text_input)
             with st.expander(model_text_data["aragpt2"]["results"]):
               st.markdown(f"Average Similarity: {average_similarity:.6f}")
-              display_similarity_table(sentences_gpt, similarity_list)
+              display_similarity_table(sentences_gpt, similarity_list, model_text_data["aragpt2"]["name"])
               st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ------------------------------------- AraVec --------------------------------------- ##
@@ -343,7 +343,7 @@ with test_app_container:
 
         with st.expander(model_text_data["aravec"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_w2v, similarity_list)
+          display_similarity_table(sentences_w2v, similarity_list, model_text_data["aravec"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ------------------------------------- Back- Translation ---------------------------- ##
@@ -360,7 +360,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(back_translated_sentences, user_text_input)
         with st.expander(model_text_data["double-back-translation"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(back_translated_sentences, similarity_list)
+          display_similarity_table(back_translated_sentences, similarity_list, model_text_data["double-back-translation"]["name"])
           st.markdown(model_text_data["double-back-translation"]["results-info"])
 
     ## ------------------------------- Text-to-Text --------------------------------------- ##
@@ -374,7 +374,7 @@ with test_app_container:
         similarity_list, average_similarity = similarity_checker(sentences_m2m, user_text_input)
         with st.expander(model_text_data["m2m"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
-          display_similarity_table(sentences_m2m, similarity_list)
+          display_similarity_table(sentences_m2m, similarity_list, model_text_data["m2m"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
 
 ## ---------------------------------------- End of 'Test the App' ------------------------------------------ ##

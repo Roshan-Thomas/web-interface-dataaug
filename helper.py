@@ -219,4 +219,8 @@ def strip_punc(text):
       remove += l
   return text.replace(remove[::-1],"")
 
+@st.cache(allow_output_mutation=True)
+def convert_df_to_csv(df):
+  return df.to_csv().encode('utf-8')
+
 ### ----------------- End of Helper Functions ----------------------------- ###
