@@ -745,7 +745,7 @@ def similarity_checker(sentences, user_text_input):
     cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
 
     # Calculate average of similarities
-    average_similarity = np.round(mean(cos_similarity[0]), 6)
+    average_similarity = mean(cos_similarity[0])
 
     return (np.around(cos_similarity[0], decimals=6), average_similarity)
 
