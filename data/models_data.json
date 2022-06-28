@@ -79,9 +79,10 @@
     },
     "double-back-translation": {
         "header": "### Double Back Translation Augmentation",
-        "text": "The languages we are back translating from are: *English (en) [0,1], French (fr) [2,3], Turkish (tr) [4,5], Russian (ru) [6,7], Polish (pl) [8,9], Italian (it) [10,11], Spanish (es) [12,13], Greek (el) [14,15], German (de) [16,17], and Hebrew (he) [18,19]*.",
-        "text-2": "For example, we are doing *AR > EN > AR_1 > EN > AR_2*. So AR_1 and AR_2 are the two augmented sentences giving us a much larger number of augmented sentences.",
-        "results": "Open to see Back Translation results"
+        "text": "The languages we are back translating from are: *English (en), French (fr), Turkish (tr), Russian (ru), Polish (pl), Italian (it), Spanish (es), Greek (el), German (de), and Hebrew (he)*.",
+        "text-2": "For example, we are doing **AR > EN > AR_1 > EN > AR_2**. So AR_1 and AR_2 are the two augmented sentences giving us a much larger number of augmented sentences.",
+        "results": "Open to see Back Translation results",
+        "results-info": "The output of the translated languages (respectively) are: **English (1, 2), French (3, 4), Turkish (5, 6), Russian (7, 8), Polish (9, 10), Italian (11, 12), Spanish (13, 14), Greek (15, 16), German (17, 18), and Hebrew (19, 20)**"
     },
     "m2m": {
         "header": "### Text-to-Text Augmentation",
