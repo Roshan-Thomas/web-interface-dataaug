@@ -276,7 +276,7 @@ def download_all_outputs(list_of_dataframes):
   df = pd.concat(list_of_dataframes, axis=0)
   csv_file = convert_df_to_csv(df)
   st.download_button(
-    label="Download all outputs as CSV",
+    label="Download CSV",
     data=csv_file,
     file_name='all-outputs.csv',
     mime='text/csv',

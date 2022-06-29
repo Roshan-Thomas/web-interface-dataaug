@@ -404,8 +404,10 @@ with test_app_container:
           display_similarity_table(sentences_m2m, similarity_list, model_text_data["m2m"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
     
-    ## ------------------------------- Download All Outputs --------------------------------- ##
+    ## ----------------------- Download All Outputs to CSV -------------------------------- ##
     if len(list_of_dataframes) > 0:
+      st.write("----------------------------")
+      st.markdown("### Download all outputs as *one* CSV File?")
       download_all_outputs(list_of_dataframes)
 
 ## ---------------------------------------- End of 'Test the App' ------------------------------------------ ##
