@@ -273,6 +273,15 @@ def show_selected_models(data):
   return selected_models
 
 def download_all_outputs(list_of_dataframes):
+  """
+  Helper function to download all the concated dataframes from the selected models to
+  a CSV file. It also displays the button to the user.
+
+  Input Parameters
+  ================
+  list_of_dataframes => List of dataframes containing the augmented sentences
+  """
+
   df = pd.concat(list_of_dataframes, axis=0)
   csv_file = convert_df_to_csv(df)
   st.download_button(
@@ -283,6 +292,23 @@ def download_all_outputs(list_of_dataframes):
   )
 
 def get_df_data(sentences_list, similarity_list):
+  """
+  Helper function to get a new dataframe after conjoining the sentences list
+  and similarity list. 
+
+  There is a check to see if the sentences_list > 0 so that empty sentences
+  list are not processed.
+
+  Input Parameters
+  ================
+  sentence_list => A list of augmented sentences
+  similarity_list => List of cosine similarities for each sentence
+
+  Output Parameters
+  =================
+  df => Resulting dataframe after adding both the Sentences and Similarities Scores 
+  """
+
   if len(sentences_list) > 0:
     data = list(zip(sentences_list, similarity_list))
     df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
