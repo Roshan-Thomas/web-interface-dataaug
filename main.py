@@ -1,7 +1,7 @@
 import streamlit as st 
 from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_m2m, aug_GPT, load_bert, 
                   load_GPT, load_m2m, load_w2v, farasa_pos_output, display_similarity_table, similarity_checker)
-from helper import (translate_user_text_input, models_data)
+from helper import (translate_user_text_input, models_data, get_df_data)
 import time
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
@@ -145,6 +145,9 @@ with test_app_container:
 
     model_text_data = models_data('./data/models_data.json')
 
+    ## List of all dataframes (for export)
+    list_of_dataframes = []
+
     ## ---------------------------- aubmindlab/bert-large-arabertv2 ----------------------- ##
     if data['arabert']:
       bert_container = st.container()
@@ -158,6 +161,8 @@ with test_app_container:
                                 )
        
         similarity_list, average_similarity = similarity_checker(sentences_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_bert, similarity_list))
+
         with st.expander(model_text_data["arabert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_bert, similarity_list, model_text_data["arabert"]["name"])
@@ -176,6 +181,8 @@ with test_app_container:
                                         )
 
         similarity_list, average_similarity = similarity_checker(sentences_qarib_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_qarib_bert, similarity_list))
+
         with st.expander(model_text_data["qarib-bert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_qarib_bert, similarity_list, model_text_data["qarib-bert"]["name"])
@@ -194,6 +201,8 @@ with test_app_container:
                                       )
 
         similarity_list, average_similarity = similarity_checker(sentences_xlm_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_xlm_bert, similarity_list))
+
         with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_xlm_bert, similarity_list, model_text_data["xlm-roberta-bert"]["name"])
@@ -212,6 +221,8 @@ with test_app_container:
                                           )
 
         similarity_list, average_similarity = similarity_checker(sentences_arabart_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_arabart_bert, similarity_list))
+
         with st.expander(model_text_data["arabart"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_arabart_bert, similarity_list, model_text_data["arabart"]["name"])
@@ -230,6 +241,8 @@ with test_app_container:
                                             )
 
         similarity_list, average_similarity = similarity_checker(sentences_camelbert_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_camelbert_bert, similarity_list))
+
         with st.expander(model_text_data["camelbert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_camelbert_bert, similarity_list, model_text_data["camelbert"]["name"])
@@ -248,6 +261,8 @@ with test_app_container:
                                               )
 
         similarity_list, average_similarity = similarity_checker(sentences_large_arabic_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_large_arabic_bert, similarity_list))
+
         with st.expander(model_text_data["bert-large-arabic"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_large_arabic_bert, similarity_list, model_text_data["bert-large-arabic"]["name"])
@@ -266,6 +281,8 @@ with test_app_container:
                                             )
 
         similarity_list, average_similarity = similarity_checker(sentences_ubc_arbert_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_ubc_arbert_bert, similarity_list))
+
         with st.expander(model_text_data["ubc-arbert"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_ubc_arbert_bert, similarity_list, model_text_data["ubc-arbert"]["name"])
@@ -284,6 +301,8 @@ with test_app_container:
                                                 )
 
         similarity_list, average_similarity = similarity_checker(sentences_ubc_marbertv2_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_ubc_marbertv2_bert, similarity_list))
+
         with st.expander(model_text_data["ubc-marbertv2"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_ubc_marbertv2_bert, similarity_list, model_text_data["ubc-marbertv2"]["name"])
@@ -302,6 +321,8 @@ with test_app_container:
                                             )
 
         similarity_list, average_similarity = similarity_checker(sentences_araelectra_bert, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_araelectra_bert, similarity_list))
+
         with st.expander(model_text_data["araelectra"]["results"]):
           st.markdown(f"Average Similarity: {raverage_similarity:.6f}")
           display_similarity_table(sentences_araelectra_bert, similarity_list, model_text_data["araelectra"]["name"])
@@ -316,6 +337,8 @@ with test_app_container:
             sentences_gpt = aug_GPT(model_text_data["aragpt2"]["url"], user_text_input)
 
             similarity_list, average_similarity = similarity_checker(sentences_gpt, user_text_input)
+            list_of_dataframes.append(get_df_data(sentences_gpt, similarity_list))
+
             with st.expander(model_text_data["aragpt2"]["results"]):
               st.markdown(f"Average Similarity: {average_similarity:.6f}")
               display_similarity_table(sentences_gpt, similarity_list, model_text_data["aragpt2"]["name"])
@@ -358,6 +381,8 @@ with test_app_container:
 
         back_translated_sentences = double_back_translate(available_languages, user_text_input)
         similarity_list, average_similarity = similarity_checker(back_translated_sentences, user_text_input)
+        list_of_dataframes.append(get_df_data(back_translated_sentences, similarity_list))
+
         with st.expander(model_text_data["double-back-translation"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(back_translated_sentences, similarity_list, model_text_data["double-back-translation"]["name"])
@@ -372,9 +397,15 @@ with test_app_container:
         sentences_m2m = aug_m2m(model_text_data["m2m"]["url"], user_text_input)
 
         similarity_list, average_similarity = similarity_checker(sentences_m2m, user_text_input)
+        list_of_dataframes.append(get_df_data(sentences_m2m, similarity_list))
+
         with st.expander(model_text_data["m2m"]["results"]):
           st.markdown(f"Average Similarity: {average_similarity:.6f}")
           display_similarity_table(sentences_m2m, similarity_list, model_text_data["m2m"]["name"])
           st.markdown(model_text_data["common"]["word-info-expander"])
+    
+    ## ------------------------------- Download All Outputs --------------------------------- ##
+    if len(list_of_dataframes) > 0:
+      download_all_outputs(list_of_dataframes)
 
 ## ---------------------------------------- End of 'Test the App' ------------------------------------------ ##
