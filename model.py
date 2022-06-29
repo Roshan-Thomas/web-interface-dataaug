@@ -769,7 +769,7 @@ def display_similarity_table(sentences_list, similarity_list, model_name):
     df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
     csv_file = convert_df_to_csv(df)
     st.download_button(
-      label="Download data as CSV",
+      label=f"Download {model_name} results as a CSV",
       data=csv_file,
       file_name=f'{model_name}-output.csv',
       mime='text/csv',
