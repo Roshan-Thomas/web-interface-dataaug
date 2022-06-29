@@ -343,7 +343,7 @@ with test_app_container:
               st.markdown(model_text_data["common"]["word-info-expander"])
 
     ## ------------------------------------- AraVec --------------------------------------- ##
-    if data['aravec']:
+    if data['aravec']: # model not function currently 
       w2v_container = st.container()
       with w2v_container:
         st.markdown(model_text_data["aravec"]["header"])
