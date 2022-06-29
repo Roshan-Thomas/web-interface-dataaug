@@ -1,6 +1,7 @@
 import streamlit as st 
 from transformers import (MarianMTModel, MarianTokenizer)
 import tensorflow as tf
+import pandas as pd
 import re
 import requests 
 import json
@@ -271,7 +272,8 @@ def show_selected_models(data):
       selected_models.append(available_languages[i])
   return selected_models
 
-def download_all_outputs(selected_models, df):
+def download_all_outputs(list_of_dataframes):
+  df = pd.concat(list_of_dataframes, axis=0)
   csv_file = convert_df_to_csv(df)
   st.download_button(
     label="Download all outputs as CSV",
@@ -279,5 +281,11 @@ def download_all_outputs(selected_models, df):
     file_name='all-outputs.csv',
     mime='text/csv',
   )
+
+def get_df_data(sentences_list, similarity_list):
+  if len(sentences_list) > 0:
+    data = list(zip(sentences_list, similarity_list))
+    df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
+    return df
 
 ### ----------------- End of Helper Functions ----------------------------- ###
