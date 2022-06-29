@@ -1,7 +1,7 @@
 import streamlit as st 
 from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_m2m, aug_GPT, load_bert, 
                   load_GPT, load_m2m, load_w2v, farasa_pos_output, display_similarity_table, similarity_checker)
-from helper import (translate_user_text_input, models_data, get_df_data)
+from helper import (translate_user_text_input, models_data, get_df_data, download_all_outputs)
 import time
 
 ## ----------------------------------------------- Page Config --------------------------------------------- ##
