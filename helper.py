@@ -225,17 +225,17 @@ def convert_df_to_csv(df):
   """
   Helper funciton to convert pandas dataframe to CSV with encoding 'utf-8-sig'. This
   particular encoding allows for arabic characters to be displayed properly in the 
-  CSV file.
+  CSV file. 
 
   Input Parameters
   ================
-  df => Pandas Dataframe
+  df => Pandas Dataframe.
 
   Output Parameters
   =================
-  Return dataframe to CSV with encoding
+  Return dataframe to CSV with encoding and removed index numbers.
   """
-  return df.to_csv().encode('utf-8-sig')
+  return df.to_csv(index=False).encode('utf-8-sig')
 
 def show_selected_models(data):
   """
