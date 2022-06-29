@@ -236,4 +236,48 @@ def convert_df_to_csv(df):
   """
   return df.to_csv().encode('utf-8-sig')
 
+def show_selected_models(data):
+  """
+  Helper function to return a dict with selected models choosen
+  by the user.
+
+  Input Parameters
+  ================
+  data => JSON object containing user selected models.
+
+  Output Parameters
+  =================
+  selected_models => Dict containing all the selected models.
+  """
+
+  available_models = [
+    'arabert', 
+    'qarib-bert', 
+    'xlm-roberta-bert', 
+    'arabart', 
+    'camelbert', 
+    'bert-large-arabic', 
+    'ubc-arbert', 
+    'ubc-marbertv2', 
+    'araelectra', 
+    'aragpt2', 
+    'aravec', 
+    'double-back-translation', 
+    'm2m'
+    ]
+  selected_models = []
+  for i in range(len(data)):
+    if data[available_models[i] == 1]:
+      selected_models.append(available_languages[i])
+  return selected_models
+
+def download_all_outputs(selected_models, df):
+  csv_file = convert_df_to_csv(df)
+  st.download_button(
+    label="Download all outputs as CSV",
+    data=csv_file,
+    file_name='all-outputs.csv',
+    mime='text/csv',
+  )
+
 ### ----------------- End of Helper Functions ----------------------------- ###
