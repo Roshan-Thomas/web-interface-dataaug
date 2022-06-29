@@ -78,8 +78,6 @@ with st.sidebar:
     data['double-back-translation'] = st.checkbox('Double Back Translation', value=True)
     data['m2m'] = st.checkbox('Text-to-Text')
 
-
-
 ## -------------------------------------------- End of Sidebar --------------------------------------------- ##
 
 ## ---------------------------------------- 'Test the App' ------------------------------------------------- ##
