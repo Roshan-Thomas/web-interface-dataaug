@@ -221,6 +221,20 @@ def strip_punc(text):
 
 @st.cache(allow_output_mutation=True)
 def convert_df_to_csv(df):
+  """
+  Helper funciton to convert pandas dataframe to CSV with encoding 'utf-8-sig'. This
+  particular encoding allows for arabic characters to be displayed properly in the 
+  CSV file.
+
+  Input Parameters
+  ================
+  df => Pandas Dataframe
+
+  Output Parameters
+  =================
+  Return dataframe to CSV with encoding
+  """
   return df.to_csv().encode('utf-8-sig')
+
 
 ### ----------------- End of Helper Functions ----------------------------- ###
