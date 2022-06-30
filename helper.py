@@ -43,7 +43,7 @@ def translate_user_text_input(user_input):
   translated_sentence => Returns the English translation of the arabic sentence back to the front-end.
   """
   
-  model, tokenizer = load_translator("Helsinki-NLP/opus-mt-ar-en")
+  model, tokenizer = load_translator("Helsinki-NLP/opus-mt-tc-big-ar-en")
   translated = model.generate(**tokenizer(user_input, return_tensors="pt", padding=True))
   translated_sentence = ""
   for t in translated:
