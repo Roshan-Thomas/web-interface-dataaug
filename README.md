@@ -20,6 +20,8 @@ Data Augmentation Techniques / Machine Learning Models Used:
 * [Text-to-Text Augmentation](https://huggingface.co/facebook/mbart-large-50-many-to-many-mmt)
 * [Back Translation](https://huggingface.co/Helsinki-NLP)
 
+![Web Interface Screenshot](/public/web-interface-screenshot.png)
+
 # Setup (Local Machine)
 1. Clone the Github repo to your local machine and follow the steps below.
 
