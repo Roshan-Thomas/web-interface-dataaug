@@ -537,28 +537,6 @@ def aug_m2m(model_name, text):
 
 ### -------------------- Random Sentence Generator ------------------------- ###
 
-def delete_unncessary_lines(file_name:str):
-  """
-  Function to delete uncessary lines in the file which start with a '#' because
-  they are section headers and can be removed so it does not come in the final selection
-  of sentences. 
-
-  It generates a temp.txt file and writes the output to it and then renames it with the 
-  original name of the file.
-
-  Input Parameters
-  ================
-  file_name (str) => Name of the file to be processed
-  """
-
-  sentences = []
-  with open(file_name, 'r') as input:
-    with open("./data/temp.txt", "w") as output:
-      for line in input:
-        if "#" not in line.strip("\n"):
-          output.write(line)
-  os.replace('./data/temp.txt', file_name)
-
 def random_sentence(file_name:str):
   """
   Function to choose sentences with less than 15 words and
@@ -580,7 +558,6 @@ def random_sentence(file_name:str):
   sentences = []
   temp_list = []  # temporary list (hold temp values)
   res = []        # temporary list (hold temp values)
-  delete_unncessary_lines(file_name)
 
   with open(file_name, 'r') as f:
     x = f.readlines()

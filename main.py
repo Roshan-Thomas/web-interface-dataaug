@@ -119,7 +119,7 @@ with test_app_container:
       random_sentence_generator = st.checkbox('Use a Random Dialectal Arabic Sentence (AR)?')
       if random_sentence_generator:
         text_input_container.empty()
-        user_text_input = random_sentence('./data/WikiNewsTruth.txt')
+        user_text_input = random_sentence('./data/ArSAS-train-clean.txt')
         text_input_container.text_input("Enter your text here (AR):", value=user_text_input)
         st.markdown("""
                     <span style="color:#b0b3b8">*Note: If you want to generate a new sentence, STOP the running, uncheck and recheck the 'Use a Random Sentence (AR)?' checkbox.*</span>""", 
