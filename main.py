@@ -134,8 +134,12 @@ with test_app_container:
   if user_text_input:
 
     # Farasa 'Parts of Speech tagger' output
-    farasa_pos_container.markdown(f"""*<span style="color:#AAFF00">Parts of Speech:</span>* {farasa_pos_output(user_text_input)}""", 
-                                  unsafe_allow_html=True)
+    try:
+      farasa_pos_container.markdown(f"""*<span style="color:#AAFF00">Parts of Speech:</span>* {farasa_pos_output(user_text_input)}""", 
+                                    unsafe_allow_html=True)
+    except:
+      st.error("We are facing issues with the Farasa API. Please try again later.")
+      st.stop()
 
     ## Translate the sentence from arabic to english for the user
     translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input("Helsinki-NLP/opus-mt-ar-en", user_text_input)}""", 

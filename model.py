@@ -640,12 +640,7 @@ def farasa_pos_output(text):
   api_key = "KMxvdPGsKHXQAbRXGL"
   payload = {'text': text, 'api_key': api_key}
   data = requests.post(url, data=payload)
-
-  try:
-    result = json.loads(data.text)
-  except MissingFarasaAPI:
-    st.error("We are facing issues with the Farasa API. Please try again later.")
-  
+  result = json.loads(data.text)
   ret = ""
   for i in result['text']:
     if bool(set(i['POS'].split("+")) & set(['NOUN','V','ADJ'])):
