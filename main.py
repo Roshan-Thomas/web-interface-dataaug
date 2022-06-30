@@ -101,12 +101,14 @@ with test_app_container:
 
   if random_sentence_checkbox:
     msa_or_dialectal_radio_button = random_sentence_container.radio(
-      "Choose variety of Arabic sentence used (for the random sentence):", 
-      ('Modern Standard Arabic (MSA)', 'Dialectal Arabic'), horizontal=True
+      "Choose the type of Arabic sentence used for the random sentence:", 
+      ('Modern Standard Arabic (MSA)', 'Dialectal Arabic'), horizontal=True,
     )
     
     if msa_or_dialectal_radio_button == 'Modern Standard Arabic (MSA)':
-      random_sentence_generator = st.checkbox('Use a Random MSA Sentence (AR)?')
+      st.markdown("""<span style="color:#b0b3b8">*We are using a dataset from WikiNewsTruth from 2013 and 2014 to give a random news title with Modern Standard Arabic for augmentation.*</span>""",
+                  unsafe_allow_html=True)
+      random_sentence_generator = st.checkbox('Use a Random MSA Sentence?')
       if random_sentence_generator:
         text_input_container.empty()
         user_text_input = random_sentence('./data/WikiNewsTruth.txt')
@@ -116,7 +118,9 @@ with test_app_container:
                     unsafe_allow_html=True
                     )
     else:
-      random_sentence_generator = st.checkbox('Use a Random Dialectal Arabic Sentence (AR)?')
+      st.markdown("""<span style="color:#b0b3b8">*We are using the ArSAS Training dataset (16k tweets) to generate some random tweets with Dialectal Arabic for augmentation.*</span>""",
+                  unsafe_allow_html=True)
+      random_sentence_generator = st.checkbox('Use a Random Dialectal Arabic Sentence?')
       if random_sentence_generator:
         text_input_container.empty()
         user_text_input = random_sentence('./data/ArSAS-train-clean.txt')
