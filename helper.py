@@ -28,7 +28,7 @@ def load_translator(model_name):
   model = MarianMTModel.from_pretrained(model_name)
   return model, tokenizer
 
-def translate_user_text_input(user_input):
+def translate_user_text_input(model_name : str, user_input):
   """
   Function translates the user text input from arabic to english using a Helsinki-NLP model
   from HuggingFace. The model translates the sentence and then sends it to the frontend for 
@@ -43,7 +43,7 @@ def translate_user_text_input(user_input):
   translated_sentence => Returns the English translation of the arabic sentence back to the front-end.
   """
   
-  model, tokenizer = load_translator("Helsinki-NLP/opus-mt-tc-big-ar-en")
+  model, tokenizer = load_translator(model_name)
   translated = model.generate(**tokenizer(user_input, return_tensors="pt", padding=True))
   translated_sentence = ""
   for t in translated:

@@ -138,7 +138,7 @@ with test_app_container:
                                   unsafe_allow_html=True)
 
     ## Translate the sentence from arabic to english for the user
-    translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input(user_text_input)}""", 
+    translated_input_container.markdown(f"""*<span style="color:#AAFF00">Translated sentence (EN):</span>* {translate_user_text_input("Helsinki-NLP/opus-mt-ar-en", user_text_input)}""", 
                                         unsafe_allow_html=True)
 
     st.sidebar.write("--------------------------")
