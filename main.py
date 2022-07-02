@@ -45,7 +45,7 @@ st.markdown(
       * MARBERTv2 (Machine Learning Model)
       * AraELECTRA (Machine Learning Model)
       * AraGPT2 (Machine Learning Model)
-      * Word-to-Vector (W2V) Data Augmentation
+      * Word-to-Vector (W2V) Augmentation
       * Text-to-Text Augmentation
       * Back Translation
   """
