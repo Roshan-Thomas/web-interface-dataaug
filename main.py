@@ -508,7 +508,7 @@ with test_app_container:
 
                 # Augment sentences with back translation
                 back_translated_sentences = double_back_translate(
-                    available_languages, user_text_input)
+                    user_text_input)
 
                 # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
