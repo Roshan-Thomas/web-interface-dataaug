@@ -45,7 +45,7 @@ st.markdown(
       * MARBERTv2 (Machine Learning Model)
       * AraELECTRA (Machine Learning Model)
       * AraGPT2 (Machine Learning Model)
-      * W2V (Machine Learning Model)
+      * Word-to-Vector (W2V) Data Augmentation
       * Text-to-Text Augmentation
       * Back Translation
   """
@@ -148,7 +148,7 @@ with test_app_container:
             farasa_pos_container.markdown(f"""*<span style="color:#AAFF00">Parts of Speech:</span>* {farasa_pos_output(user_text_input)}""",
                                           unsafe_allow_html=True)
         except:
-            # 'Except' case where Farasa API is not functional (and not returning any output)
+            # 'Except' case when Farasa API is not functional (and not returning any output)
             st.error(
                 "We are facing issues with the Farasa API. Please try again later.")
             st.stop()
