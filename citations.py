@@ -1,9 +1,10 @@
 import streamlit as st
 
+
 def citations():
-  st.header("Citations")
-  with st.expander("Expand to see the citations"):
-    aragpt2_citation = '''
+    st.header("Citations")
+    with st.expander("Expand to see the citations"):
+        aragpt2_citation = '''
       @inproceedings{antoun-etal-2021-aragpt2,
         title = "{A}ra{GPT}2: Pre-Trained Transformer for {A}rabic Language Generation",
         author = "Antoun, Wissam  and
@@ -18,7 +19,7 @@ def citations():
         pages = "196--207",
       }
     '''
-    arabert_citation = '''
+        arabert_citation = '''
       @inproceedings{antoun2020arabert,
         title={AraBERT: Transformer-based Model for Arabic Language Understanding},
         author={Antoun, Wissam and Baly, Fady and Hajj, Hazem},
@@ -26,7 +27,7 @@ def citations():
         pages={9}
       }
     '''
-    w2v_citation = '''
+        w2v_citation = '''
       @article{article,
         author = {Mohammad, Abu Bakr and Eissa, Kareem and El-Beltagy, Samhaa},
         year = {2017},
@@ -39,7 +40,7 @@ def citations():
       }
     '''
 
-    bt_citation = '''
+        bt_citation = '''
       @InProceedings{TiedemannThottingal:EAMT2020,
         author = {J{\"o}rg Tiedemann and Santhosh Thottingal},
         title = {{OPUS-MT} — {B}uilding open translation services for the {W}orld},
@@ -48,7 +49,7 @@ def citations():
         address = {Lisbon, Portugal}
       }
     '''
-    st.code(aragpt2_citation)
-    st.code(arabert_citation)
-    st.code(w2v_citation)
-    st.code(bt_citation)
+        st.code(aragpt2_citation)
+        st.code(arabert_citation)
+        st.code(w2v_citation)
+        st.code(bt_citation)
