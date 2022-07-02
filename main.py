@@ -11,10 +11,6 @@ st.set_page_config(
     page_icon='📈'
 )
 
-# Session states - Initialization
-if 'user_input' not in st.session_state:
-    st.session_state['user_input'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
-
 # Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
 data = models_data('./data/models.json')
 
@@ -45,7 +41,7 @@ st.markdown(
       * MARBERTv2 (Machine Learning Model)
       * AraELECTRA (Machine Learning Model)
       * AraGPT2 (Machine Learning Model)
-      * W2V (Machine Learning Model)
+      * Word-to-Vector (W2V) Augmentation
       * Text-to-Text Augmentation
       * Back Translation
   """
@@ -57,6 +53,7 @@ st.markdown(
 ## ----------------------------------------------- Sidebar ------------------------------------------------- ##
 
 with st.sidebar:
+    # Display choices of data augmentation techniques in the sidebar
     st.write("Choose the data augmentation techniques below 👇")
 
     col1, col2 = st.columns(2)
@@ -74,7 +71,7 @@ with st.sidebar:
         data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
         data['araelectra'] = st.checkbox('AraELECTRA', value=True)
         data['aragpt2'] = st.checkbox('AraGPT2')
-        # data['aravec'] = st.checkbox('AraVec (W2V)')
+        # data['aravec'] = st.checkbox('AraVec (W2V)')  # Model not working on streamlit
         data['double-back-translation'] = st.checkbox(
             'Double Back Translation', value=True)
         data['m2m'] = st.checkbox('Text-to-Text')
@@ -102,12 +99,14 @@ with test_app_container:
         "Use a Random Sentence (AR)?")
 
     if random_sentence_checkbox:
+        # Radio buttons to allow the user to choose MSA or Dialectal Arabic
         msa_or_dialectal_radio_button = random_sentence_container.radio(
             "Choose the type of Arabic sentence used for the random sentence:",
             ('Modern Standard Arabic (MSA)', 'Dialectal Arabic'), horizontal=True,
         )
 
         if msa_or_dialectal_radio_button == 'Modern Standard Arabic (MSA)':
+            # Run the code below if MSA Arabic is choosen
             st.markdown("""<span style="color:#b0b3b8">*We are using a dataset from WikiNewsTruth from 2013 and 2014 to give a random news title with Modern Standard Arabic for augmentation.*</span>""",
                         unsafe_allow_html=True)
             random_sentence_generator = st.checkbox(
@@ -122,6 +121,7 @@ with test_app_container:
                             unsafe_allow_html=True
                             )
         else:
+            # Run the code below if Dialectal Arabic is choosen
             st.markdown("""<span style="color:#b0b3b8">*We are using the ArSAS Training dataset (16k tweets) to generate some random tweets with Dialectal Arabic for augmentation.*</span>""",
                         unsafe_allow_html=True)
             random_sentence_generator = st.checkbox(
@@ -144,6 +144,7 @@ with test_app_container:
             farasa_pos_container.markdown(f"""*<span style="color:#AAFF00">Parts of Speech:</span>* {farasa_pos_output(user_text_input)}""",
                                           unsafe_allow_html=True)
         except:
+            # 'Except' case when Farasa API is not functional (and not returning any output)
             st.error(
                 "We are facing issues with the Farasa API. Please try again later.")
             st.stop()
@@ -158,26 +159,30 @@ with test_app_container:
 
         model_text_data = models_data('./data/models_data.json')
 
-        # List of all dataframes (for export)
+        # List of all dataframes of augmented text (for export to csv)
         list_of_dataframes = []
 
         ## ---------------------------- aubmindlab/bert-large-arabertv2 ----------------------- ##
         if data['arabert']:
             bert_container = st.container()
             with bert_container:
+                # Details of Arabert for the user
                 st.markdown(model_text_data["arabert"]["header"])
                 st.markdown(model_text_data["arabert"]["text"])
 
+                # Augment sentences with Arabert
                 sentences_bert = aug_bert(model_text_data["arabert"]["url"],
                                           user_text_input,
                                           model_text_data["arabert"]["name"]
                                           )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_bert, similarity_list))
 
+                # Show Arabert results to the user
                 with st.expander(model_text_data["arabert"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -190,19 +195,23 @@ with test_app_container:
         if data['qarib-bert']:
             qarib_bert_container = st.container()
             with qarib_bert_container:
+                # Details of Qarib for the user
                 st.markdown(model_text_data["qarib-bert"]["header"])
                 st.markdown(model_text_data["qarib-bert"]["text"])
 
+                # Augment sentences with Qarib
                 sentences_qarib_bert = aug_bert(model_text_data["qarib-bert"]["url"],
                                                 user_text_input,
                                                 model_text_data["qarib-bert"]["name"]
                                                 )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_qarib_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_qarib_bert, similarity_list))
 
+                # Show Qarib results to the user
                 with st.expander(model_text_data["qarib-bert"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -215,19 +224,23 @@ with test_app_container:
         if data['xlm-roberta-bert']:
             xlm_bert_container = st.container()
             with xlm_bert_container:
+                # Details of XLM-RoBERTa for the user
                 st.markdown(model_text_data["xlm-roberta-bert"]["header"])
                 st.markdown(model_text_data["xlm-roberta-bert"]["text"])
 
+                # Augment sentences with XLM-RoBERTa
                 sentences_xlm_bert = aug_bert(model_text_data["xlm-roberta-bert"]["url"],
                                               user_text_input,
                                               model_text_data["xlm-roberta-bert"]["name"]
                                               )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_xlm_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_xlm_bert, similarity_list))
 
+                # Show results of XLM-RoBERTa to the user
                 with st.expander(model_text_data["xlm-roberta-bert"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -240,19 +253,23 @@ with test_app_container:
         if data['arabart']:
             arabart_bert_container = st.container()
             with arabart_bert_container:
+                # Details about Arabart for the user
                 st.markdown(model_text_data["arabart"]["header"])
                 st.markdown(model_text_data["arabart"]["text"])
 
+                # Augment sentences with Arabart
                 sentences_arabart_bert = aug_bert(model_text_data["arabart"]["url"],
                                                   user_text_input,
                                                   model_text_data["arabart"]["name"]
                                                   )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_arabart_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_arabart_bert, similarity_list))
 
+                # Display Arabart results for the user
                 with st.expander(model_text_data["arabart"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -265,19 +282,23 @@ with test_app_container:
         if data['camelbert']:
             camelbert_bert_container = st.container()
             with camelbert_bert_container:
+                # Camelbert details for the user
                 st.markdown(model_text_data["camelbert"]["header"])
                 st.markdown(model_text_data["camelbert"]["text"])
 
+                # Augment sentences with Camelbert
                 sentences_camelbert_bert = aug_bert(model_text_data["camelbert"]["url"],
                                                     user_text_input,
                                                     model_text_data["camelbert"]["name"]
                                                     )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_camelbert_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_camelbert_bert, similarity_list))
 
+                # Display Camelbert results for the user
                 with st.expander(model_text_data["camelbert"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -290,19 +311,23 @@ with test_app_container:
         if data['bert-large-arabic']:
             large_arabic_bert_container = st.container()
             with large_arabic_bert_container:
+                # Bert Large Arabic Details for the user.
                 st.markdown(model_text_data["bert-large-arabic"]["header"])
                 st.markdown(model_text_data["bert-large-arabic"]["text"])
 
+                # Augment sentences with Bert Large Arabic
                 sentences_large_arabic_bert = aug_bert(model_text_data["bert-large-arabic"]["url"],
                                                        user_text_input,
                                                        model_text_data["bert-large-arabic"]["name"]
                                                        )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_large_arabic_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_large_arabic_bert, similarity_list))
 
+                # Display results of Bert Large Arabic to the user
                 with st.expander(model_text_data["bert-large-arabic"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -315,19 +340,23 @@ with test_app_container:
         if data['ubc-arbert']:
             ubc_arbert_bert_container = st.container()
             with ubc_arbert_bert_container:
+                # UBC-Arbert details for the user.
                 st.markdown(model_text_data["ubc-arbert"]["header"])
                 st.markdown(model_text_data["ubc-arbert"]["text"])
 
+                # Augment sentences with UBC Arbert
                 sentences_ubc_arbert_bert = aug_bert(model_text_data["ubc-arbert"]["url"],
                                                      user_text_input,
                                                      model_text_data["ubc-arbert"]["name"]
                                                      )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_ubc_arbert_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_ubc_arbert_bert, similarity_list))
 
+                # Display results of UBC-Arbert to the user.
                 with st.expander(model_text_data["ubc-arbert"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -340,19 +369,23 @@ with test_app_container:
         if data['ubc-marbertv2']:
             ubc_marbertv2_bert_container = st.container()
             with ubc_marbertv2_bert_container:
+                # Show details of UBC-Marbertv2 to the user
                 st.markdown(model_text_data["ubc-marbertv2"]["header"])
                 st.markdown(model_text_data["ubc-marbertv2"]["text"])
 
+                # Augment sentences with UBC-MarbertV2
                 sentences_ubc_marbertv2_bert = aug_bert(model_text_data["ubc-marbertv2"]["url"],
                                                         user_text_input,
                                                         model_text_data["ubc-marbertv2"]["name"]
                                                         )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_ubc_marbertv2_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_ubc_marbertv2_bert, similarity_list))
 
+                # Display results of UBC-MarbertV2 to the user
                 with st.expander(model_text_data["ubc-marbertv2"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -365,19 +398,23 @@ with test_app_container:
         if data['araelectra']:
             araelectra_bert_container = st.container()
             with araelectra_bert_container:
+                # Show Araelectra details to the user
                 st.markdown(model_text_data["araelectra"]["header"])
                 st.markdown(model_text_data["araelectra"]["text"])
 
+                # Augment sentences with Araelectra
                 sentences_araelectra_bert = aug_bert(model_text_data["araelectra"]["url"],
                                                      user_text_input,
                                                      model_text_data["araelectra"]["name"]
                                                      )
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_araelectra_bert, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     sentences_araelectra_bert, similarity_list))
 
+                # Display Araelectra results to the user
                 with st.expander(model_text_data["araelectra"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -390,16 +427,21 @@ with test_app_container:
         if data['aragpt2']:
             gpt2_container = st.container()
             with gpt2_container:
+                # Show AraGPT2 details to the user
                 st.markdown(model_text_data["aragpt2"]["header"])
                 st.markdown(model_text_data["aragpt2"]["text"])
+
+                # Augment sentences with AraGPT2
                 sentences_gpt = aug_GPT(
                     model_text_data["aragpt2"]["url"], user_text_input)
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_gpt, user_text_input)
                 list_of_dataframes.append(
                     get_df_data(sentences_gpt, similarity_list))
 
+                # Display results of AraGPT2 to the user
                 with st.expander(model_text_data["aragpt2"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -412,9 +454,11 @@ with test_app_container:
         if data['aravec']:  # model not function currently
             w2v_container = st.container()
             with w2v_container:
+                # Show details of Aravec model to the user
                 st.markdown(model_text_data["aravec"]["header"])
                 st.markdown(model_text_data["aravec"]["text"])
 
+                # Augment sentences with aravec using different models
                 sentences_w2v_model_1 = aug_w2v(
                     './data/full_grams_cbow_300_twitter.mdl', user_text_input, 'Aravec Twitter (CBOW)')
                 sentences_w2v_model_2 = aug_w2v(
@@ -431,9 +475,11 @@ with test_app_container:
                 sentences_w2v = sentences_w2v_model_1 + sentences_w2v_model_2 + \
                     sentences_w2v_model_3 + sentences_w2v_model_4
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_w2v, user_text_input)
 
+                # Display results of Aravec to the user
                 with st.expander(model_text_data["aravec"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -446,6 +492,7 @@ with test_app_container:
         if data['double-back-translation']:
             back_translation_container = st.container()
             with back_translation_container:
+                # Show details of Back translation to the user
                 st.markdown(
                     model_text_data["double-back-translation"]["header"])
                 available_languages = ['ar-en', 'ar-fr', 'ar-tr', 'ar-ru',
@@ -455,13 +502,17 @@ with test_app_container:
                 st.markdown(
                     model_text_data["double-back-translation"]["text-2"])
 
+                # Augment sentences with back translation
                 back_translated_sentences = double_back_translate(
-                    available_languages, user_text_input)
+                    user_text_input)
+
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     back_translated_sentences, user_text_input)
                 list_of_dataframes.append(get_df_data(
                     back_translated_sentences, similarity_list))
 
+                # Display results of Double Back translation to the user
                 with st.expander(model_text_data["double-back-translation"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -474,16 +525,21 @@ with test_app_container:
         if data['m2m']:
             text_to_text_container = st.container()
             with text_to_text_container:
+                # Show details of m2m to the user
                 st.markdown(model_text_data["m2m"]["header"])
                 st.markdown(model_text_data["m2m"]["text"])
+
+                # Augment sentences with m2m
                 sentences_m2m = aug_m2m(
                     model_text_data["m2m"]["url"], user_text_input)
 
+                # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_m2m, user_text_input)
                 list_of_dataframes.append(
                     get_df_data(sentences_m2m, similarity_list))
 
+                # Display results of m2m to the user
                 with st.expander(model_text_data["m2m"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
@@ -494,6 +550,7 @@ with test_app_container:
 
         ## ----------------------- Download All Outputs to CSV -------------------------------- ##
         if len(list_of_dataframes) > 0:
+            # Download Button for exporting outputs to csv file
             st.write("----------------------------")
             st.markdown("### Download all outputs as *one* CSV File?")
             download_all_outputs(list_of_dataframes)

@@ -26,6 +26,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 ### ----------------------- End of Imports --------------------------------- ###
 
+
 ### ------------------------ Back Translation ------------------------------ ###
 
 @st.experimental_memo
@@ -44,6 +45,7 @@ def load_models_bt(from_model_name, to_model_name):
     from_model_name => Translating model which translated from arabic > english
     to_model_name => Translating model with translates the sentences from english > arabic
     """
+
     device = 'cpu'
     if tf.test.gpu_device_name():
         device = 'cuda'
@@ -55,7 +57,7 @@ def load_models_bt(from_model_name, to_model_name):
     return (back_translation)
 
 
-def double_back_translate(selected_languages, text):
+def double_back_translate(text):
     """
     This function does double back translation, so it does ar > en > ar_1 > en > ar_2. This gives
     us two augmented arabic sentences. 
@@ -74,7 +76,6 @@ def double_back_translate(selected_languages, text):
 
     Input Parameters
     ================
-    selected_languages => These are the languages which are selected by the user to run double back translation on
     text => This is the user inputed text which is to be back translated using the multiple languages
     """
 
@@ -102,6 +103,7 @@ def double_back_translate(selected_languages, text):
     return all_sentences
 
 ### ---------------------- End of Back Translation ------------------------- ###
+
 
 ### ------------------------------- W2V ------------------------------------ ###
 
@@ -231,6 +233,7 @@ def aug_w2v(model_path, text, model_name: str):
 
 ### ------------------------ End of W2V ------------------------------------ ###
 
+
 ### ------------------------------- BERT ----------------------------------- ###
 
 
@@ -348,6 +351,7 @@ def aug_bert(model, text, model_name: str):
 
 ### ------------------------ End of BERT ----------------------------------- ###
 
+
 ### -------------------------------- GPT ------------------------------------ ###
 
 
@@ -463,6 +467,7 @@ def aug_GPT(model_name, text):
 
 ### ------------------------ End of GPT ------------------------------------ ###
 
+
 ### ----------------------- Text-to-Text ----------------------------------- ###
 
 
@@ -545,6 +550,7 @@ def aug_m2m(model_name, text):
     =================
     all_sentences => Returns a list of all the augmented sentences.
     """
+
     loading_state_m2m = st.text("Loading M2M...")
     tic = time.perf_counter()
     model, tokenizer, token = load_m2m(model_name)
@@ -571,6 +577,7 @@ def aug_m2m(model_name, text):
         return all_sentences
 
 ### ------------------------ End of Text-to-Text --------------------------- ###
+
 
 ### -------------------- Random Sentence Generator ------------------------- ###
 
@@ -619,6 +626,7 @@ def random_sentence(file_name: str):
     return selected_sentence
 
 ### ------------------- End of Random Sentence Generator ------------------- ###
+
 
 ### ------------------------- Farasa API ----------------------------------- ###
 
@@ -693,6 +701,7 @@ def farasa_pos_output(text):
     return ret.strip()
 
 ### ------------------------- End of Farasa API ---------------------------- ###
+
 
 ### ---------------------- Similarity Checker----- ------------------------- ###
 
