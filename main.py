@@ -11,10 +11,6 @@ st.set_page_config(
     page_icon='📈'
 )
 
-# Session states - Initialization
-if 'user_input' not in st.session_state:
-    st.session_state['user_input'] = 'وبذلك تشتد المنافسة بين فايبر وبرنامج سكايب الذي يقدم خدمات مماثلة'
-
 # Read the models.json to see which all models to be run. Change the flags to run only certain models. (1 = ON; 0 = OFF)
 data = models_data('./data/models.json')
 
