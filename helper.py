@@ -281,7 +281,7 @@ def show_selected_models(data):
     selected_models = []
     for i in range(len(data)):
         if data[available_models[i] == 1]:
-            selected_models.append(available_languages[i])
+            selected_models.append(available_models[i])
     return selected_models
 
 
