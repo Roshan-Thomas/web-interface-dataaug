@@ -10,7 +10,7 @@ fi
 if [ $1 == 'stop' ]
 then
 	sudo docker stop $(sudo docker ps -q --filter ancestor=$image_name) 
-	sudo docker rm $(sudo docker ps -q --filter ancestor=$image_name)
+	sudo docker rm $(sudo docker ps --filter status=exited -q)
 	echo
 	sudo docker system prune -f
 	echo; echo
