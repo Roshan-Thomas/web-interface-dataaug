@@ -1,5 +1,5 @@
 import streamlit as st
-from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_m2m, aug_GPT,
+from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_GPT,
                    farasa_pos_output, display_similarity_table, similarity_checker)
 from helper import (translate_user_text_input, models_data,
                     get_df_data, download_all_outputs)
@@ -73,7 +73,6 @@ with st.sidebar:
         data['aravec'] = st.checkbox('Word-to-Vector')
         data['double-back-translation'] = st.checkbox(
             'Double Back Translation', value=True)
-        # data['m2m'] = st.checkbox('Text-to-Text')
 
 ## -------------------------------------------- End of Sidebar --------------------------------------------- ##
 
