@@ -13,6 +13,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import nlpaug.augmenter.word as naw
 from random import choice
 import gensim
+import gensim.downloader
 from statistics import mean
 import numpy as np
 import pandas as pd
