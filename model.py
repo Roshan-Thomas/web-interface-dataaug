@@ -815,7 +815,7 @@ def similarity_checker(sentences, user_text_input):
 
         # Calculate average of similarities
         if len(sentences) > 2:
-            average_similarity = mean(cos_similarity[0])
+            average_similarity = mean(cos_similarity[0][1:])
 
         return np.around(cos_similarity[0], decimals=6), average_similarity
 
