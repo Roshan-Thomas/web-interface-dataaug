@@ -814,7 +814,6 @@ def similarity_checker(sentences, user_text_input):
         cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
 
         # Calculate average of similarities
-        st.write(len(sentences))
         if len(sentences) >= 2:
             average_similarity = mean(cos_similarity[0][1:])
 
