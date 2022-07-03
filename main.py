@@ -459,21 +459,8 @@ with test_app_container:
                 st.markdown(model_text_data["aravec"]["text"])
 
                 # Augment sentences with aravec using different models
-                sentences_w2v_model_1 = aug_w2v(
-                    './data/full_grams_cbow_300_twitter.mdl', user_text_input, 'Aravec Twitter (CBOW)')
-                sentences_w2v_model_2 = aug_w2v(
-                    './data/full_grams_sg_300_twitter.mdl', user_text_input, 'Aravec Twitter (SkipGram)')
-                sentences_w2v_model_3 = aug_w2v(
-                    './data/full_grams_cbow_300_wiki.mdl', user_text_input, 'Aravec Wikipedia (CBOW)')
-                sentences_w2v_model_4 = aug_w2v(
-                    './data/full_grams_sg_300_wiki.mdl', user_text_input, 'Aravec Wikipedia (SkipGram)')
-
-                st.write(sentences_w2v_model_1)
-                st.write(sentences_w2v_model_2)
-                st.write(sentences_w2v_model_3)
-                st.write(sentences_w2v_model_4)
-                sentences_w2v = sentences_w2v_model_1 + sentences_w2v_model_2 + \
-                    sentences_w2v_model_3 + sentences_w2v_model_4
+                sentences_w2v = aug_w2v(
+                    './data/full_grams_cbow_100_twitter.mdl', 'glove-twitter-25', user_text_input)
 
                 # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(

@@ -109,7 +109,7 @@ def double_back_translate(text):
 
 
 @st.cache(allow_output_mutation=True)
-def load_w2v(model_path):
+def load_w2v(ar_model, en_model):
     """
     This function loads the word-to-vector (w2v) model from our local directories. It also is a cached 
     function using streamlit that only needs to be loaded once and the next time someone
@@ -125,14 +125,15 @@ def load_w2v(model_path):
     """
 
     try:
-        model = gensim.models.KeyedVectors.load_word2vec_format(
-            model_path, binary=True, unicode_errors='ignore')
+        ar_model = gensim.models.KeyedVectors.load_word2vec_format(
+            ar_model, binary=True, unicode_errors='ignore')
     except:
-        model = gensim.models.Word2Vec.load(model_path)
-    return model
+        ar_model = gensim.models.Word2Vec.load(ar_model)
+    en_model = gensim.downloader.load(en_model)
+    return ar_model, en_model
 
 
-def w2v(model, sentence):
+def w2v(ar_model, en_model, sentence):
     """
     This function uses a word-to-vector (w2v) model and a sentence (user inputed) and cleans it and then 
     augments the sentence based on the pretrained w2v model.
@@ -153,37 +154,44 @@ def w2v(model, sentence):
     augs = []
     if len(sentence.split()) < 15 and len(sentence.split()) > 2:
         for i, token in enumerate(sentence.split()):
-            if token in cleaned and is_replacable(token, pos(cleaned)):
+            pos_dict = pos(cleaned)
+            if token in cleaned and is_replacable(token, pos_dict):
+                if pos_dict[token] == 'FOREIGN':
+                    model_to_use = en_model
+                else:
+                    model_to_use = ar_model
                 try:
-                    word_vectors = model.wv
+                    word_vectors = model_to_use.wv
                     if token in word_vectors.key_to_index:
                         exist = True
                     else:
                         exist = False
                 except:
-                    if token in model:
+                    if token in model_to_use:
                         exist = True
                     else:
                         exist = False
                     if exist:
                         try:
-                            most_similar = model.wv.most_similar(token, topn=5)
+                            most_similar = model_to_use.wv.most_similar(
+                                token, topn=5)
                         except:
-                            most_similar = model.most_similar(token, topn=5)
-                        for term, score in most_similar:
-                            if term != token:
-                                term = "*" + term
-                                s = sentence.split()
-                                s[i] = term
-                                aug = " ".join(s)
-                                if not clean(aug) in augs:
-                                    augs.append(clean(aug))
-                                    aug = " ".join(aug.split())
-                                    l.append(aug)
+                            most_similar = model_to_use.most_similar(
+                                token, topn=5)
+                for term, score in most_similar:
+                    if term != token:
+                        term = "*" + term
+                        s = sentence.split()
+                        s[i] = term
+                        aug = " ".join(s)
+                        if not clean(aug) in augs:
+                            augs.append(clean(aug))
+                            aug = " ".join(aug.split())
+                            l.append(aug)
     return l
 
 
-def aug_w2v(model_path, text, model_name: str):
+def aug_w2v(ar_model, en_model, text, model_name):
     """
     This function is the main augmenting code of the word-to-vector (w2v) model. This function calls the 
     load_w2v() and w2v() functions. This function also calculates the total time it takes to
@@ -209,14 +217,14 @@ def aug_w2v(model_path, text, model_name: str):
 
     loading_state_w2v = st.text(f"Loading {model_name}...")
     tic = time.perf_counter()
-    model = load_w2v(model_path)
+    ar_model, en_model = load_w2v(ar_model, en_model)
     toc = time.perf_counter()
     loading_state_w2v.text("Loading W2V done ✅: " +
                            str(round(toc-tic, 3)) + " seconds")
     augment_state_w2v = st.text(f"Augmenting with {model_name}...")
     tic = time.perf_counter()
     if isinstance(text, str):
-        ret = w2v(model, text)
+        ret = w2v(ar_model, en_model, text)
         toc = time.perf_counter()
         augment_state_w2v.text(
             f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -225,7 +233,7 @@ def aug_w2v(model_path, text, model_name: str):
         all_sentences = []
         for sentence in text:
             sentence = sentence.strip()
-            all_sentences.append([sentence, w2v(model, sentence)])
+            all_sentences.append([sentence, w2v(ar_model, en_model, sentence)])
         toc = time.perf_counter()
         augment_state_w2v.text(
             f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -308,7 +316,30 @@ def bert(model, sentence):
     return l
 
 
-def aug_bert(model, text, model_name: str):
+def multi_bert(ar_model, en_model, sentence):
+    """
+    This function augments a given sentence two times using the same bert model
+    so as to give more data augmented sentences.
+
+    Input Parameters
+    ================
+    ar_model => Arabic Model
+    en_model => English Model
+    sentence => User inputed sentence
+
+    Output Parameters
+    =================
+    ret => A list of all augmented sentences
+    """
+
+    l = bert(ar_model, en_model, sentence)
+    ret = []
+    for i in l:
+        ret += bert(ar_model, en_model, i)
+    return ret
+
+
+def aug_bert(ar_model, en_model, text, model_name):
     """
     This function is the display function of the BERT model where we call the 
     load_bert() and bert() functions to process the given sentence or list of 
@@ -327,14 +358,14 @@ def aug_bert(model, text, model_name: str):
 
     loading_state_bert = st.text(f"Loading {model_name}...")
     tic = time.perf_counter()
-    model = load_bert(model)
+    ar_model, en_model = load_bert(ar_model, en_model)
     toc = time.perf_counter()
     loading_state_bert.text(
         f"Loading {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
     augment_state_bert = st.text(f"Augmenting with {model_name}...")
     tic = time.perf_counter()
     if isinstance(text, str):
-        ret = bert(model, text)
+        ret = multi_bert(ar_model, en_model, text)
         toc = time.perf_counter()
         augment_state_bert.text(
             f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -343,7 +374,8 @@ def aug_bert(model, text, model_name: str):
         all_sentences = []
         for sentence in text:
             sentence = sentence.strip()
-            all_sentences.append([sentence, bert(model, sentence)])
+            all_sentences.append(
+                [sentence, multi_bert(ar_model, en_model, sentence)])
         toc = time.perf_counter()
         augment_state_bert.text(
             f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -658,18 +690,18 @@ def pos(text):
             word = "".join(s.strip()
                            for s in result["text"][n-1]['surface'].split("+"))
             word = word + i['surface'].replace("+", "").strip()
-            if word in text:
-                pos_dict[word] = result["text"][n-1]['POS']
+        if word in text:
+            pos_dict[word] = result["text"][n-1]['POS']
         if "+" == i['surface'][-1]:
             word = "".join(s.strip()
                            for s in result["text"][n+1]['surface'].split("+"))
             word = i['surface'].replace("+", "").strip() + word
-            if word in text:
-                pos_dict[word] = result["text"][n+1]['POS']
+        if word in text:
+            pos_dict[word] = result["text"][n+1]['POS']
         else:
             word = "".join(s.strip() for s in i['surface'].split("+"))
-            if word in text:
-                pos_dict[word] = i['POS']
+        if word in text:
+            pos_dict[word] = i['POS']
     return pos_dict
 
 

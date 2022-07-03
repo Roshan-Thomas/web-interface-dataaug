@@ -70,8 +70,6 @@ def is_replacable(token, pos_dict):
     True/False (bool value) => tells the user whether there are POS which can be replaced.
     """
 
-    if ner(token) != 'O':
-        return False
     if token in pos_dict:
         if bool(set(pos_dict[token].split("+")) & set(['NOUN', 'V', 'ADJ'])):
             return True
@@ -172,11 +170,12 @@ def seperate_punct(text):
     text = text.strip()
     text = " ".join(text.split())
     ret = ""
+    letter = str("".join(AR_LETTERS_CHARSET) + string.ascii_letters)
     for i, l in enumerate(text):
         if not i == len(text) - 1:
-            if l in AR_LETTERS_CHARSET and text[i+1] != " " and not text[i+1] in AR_LETTERS_CHARSET:
+            if (l in letter or l == "*") and text[i+1] != " " and not text[i+1] in letter:
                 ret += l + " "
-            elif not l in AR_LETTERS_CHARSET and text[i+1] != " " and text[i+1] in AR_LETTERS_CHARSET:
+            elif not (l in letter or l == "*") and text[i+1] != " " and text[i+1] in letter:
                 ret += l + " "
             else:
                 ret += l
@@ -204,8 +203,6 @@ def clean(text):
     for l in text:
         if l in punc and l != " ":
             text = text.replace(l, "")
-    # keep only arabic text
-    text = " ".join(re.findall(r'[\u0600-\u06FF]+', text))
     return text
 
 
