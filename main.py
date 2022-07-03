@@ -1,5 +1,5 @@
 import streamlit as st
-from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_m2m, aug_GPT,
+from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_GPT,
                    farasa_pos_output, display_similarity_table, similarity_checker)
 from helper import (translate_user_text_input, models_data,
                     get_df_data, download_all_outputs)
@@ -29,7 +29,7 @@ st.markdown(
   data by adding slightly modified copies of already existing data or newly
   created synthetic data from existing data. Read more [here](https://en.wikipedia.org/wiki/Data_augmentation).
 
-  We are using thirteen machine learning models to do data augmentation on Arabic text: 
+  We are using twelve machine learning models to do data augmentation on Arabic text: 
       
       * AraBERT (Machine Learning Model)
       * QARiB (Machine Learning Model)
@@ -42,7 +42,6 @@ st.markdown(
       * AraELECTRA (Machine Learning Model)
       * AraGPT2 (Machine Learning Model)
       * Word-to-Vector (W2V) Augmentation
-      * Text-to-Text Augmentation
       * Back Translation
   """
 )
@@ -71,10 +70,9 @@ with st.sidebar:
         data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
         data['araelectra'] = st.checkbox('AraELECTRA', value=True)
         data['aragpt2'] = st.checkbox('AraGPT2')
-        # data['aravec'] = st.checkbox('AraVec (W2V)')  # Model not working on streamlit
+        data['aravec'] = st.checkbox('Word-to-Vector')
         data['double-back-translation'] = st.checkbox(
             'Double Back Translation', value=True)
-        data['m2m'] = st.checkbox('Text-to-Text')
 
 ## -------------------------------------------- End of Sidebar --------------------------------------------- ##
 
@@ -451,7 +449,7 @@ with test_app_container:
                         model_text_data["common"]["word-info-expander"])
 
         ## ------------------------------------- AraVec --------------------------------------- ##
-        if data['aravec']:  # model not function currently
+        if data['aravec']:
             w2v_container = st.container()
             with w2v_container:
                 # Show details of Aravec model to the user
@@ -460,11 +458,13 @@ with test_app_container:
 
                 # Augment sentences with aravec using different models
                 sentences_w2v = aug_w2v(
-                    './data/full_grams_cbow_100_twitter.mdl', 'glove-twitter-25', user_text_input)
+                    './data/full_grams_cbow_100_twitter.mdl', 'glove-twitter-25', user_text_input, "Aravec")
 
                 # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_w2v, user_text_input)
+                list_of_dataframes.append(
+                    get_df_data(sentences_w2v, similarity_list))
 
                 # Display results of Aravec to the user
                 with st.expander(model_text_data["aravec"]["results"]):
@@ -507,33 +507,6 @@ with test_app_container:
                         back_translated_sentences, similarity_list, model_text_data["double-back-translation"]["name"])
                     st.markdown(
                         model_text_data["double-back-translation"]["results-info"])
-
-        ## ------------------------------- Text-to-Text --------------------------------------- ##
-        if data['m2m']:
-            text_to_text_container = st.container()
-            with text_to_text_container:
-                # Show details of m2m to the user
-                st.markdown(model_text_data["m2m"]["header"])
-                st.markdown(model_text_data["m2m"]["text"])
-
-                # Augment sentences with m2m
-                sentences_m2m = aug_m2m(
-                    model_text_data["m2m"]["url"], user_text_input)
-
-                # Generate List of similarity score for each augmented sentence and average similarity scores
-                similarity_list, average_similarity = similarity_checker(
-                    sentences_m2m, user_text_input)
-                list_of_dataframes.append(
-                    get_df_data(sentences_m2m, similarity_list))
-
-                # Display results of m2m to the user
-                with st.expander(model_text_data["m2m"]["results"]):
-                    st.markdown(
-                        f"Average Similarity: {average_similarity:.6f}")
-                    display_similarity_table(
-                        sentences_m2m, similarity_list, model_text_data["m2m"]["name"])
-                    st.markdown(
-                        model_text_data["common"]["word-info-expander"])
 
         ## ----------------------- Download All Outputs to CSV -------------------------------- ##
         if len(list_of_dataframes) > 0:

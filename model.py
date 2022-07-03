@@ -1,9 +1,7 @@
 ### ---------------------------- Imports ----------------------------------- ###
 from transformers import (
     GPT2LMHeadModel, pipeline, GPT2TokenizerFast,
-    pipeline, M2M100ForConditionalGeneration,
-    M2M100Tokenizer, MBartForConditionalGeneration,
-    MBart50TokenizerFast, AutoTokenizer, AutoModel)
+    pipeline, AutoTokenizer, AutoModel)
 import streamlit as st
 from helper import (is_replacable, seperate_punct,
                     clean, strip_punc, convert_df_to_csv)
@@ -13,10 +11,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 import nlpaug.augmenter.word as naw
 from random import choice
 import gensim
+import gensim.downloader
 from statistics import mean
 import numpy as np
 import pandas as pd
-import string
 import time
 import requests
 import json
@@ -152,7 +150,7 @@ def w2v(ar_model, en_model, sentence):
     sentence = seperate_punct(sentence)
     l = []
     augs = []
-    if len(sentence.split()) < 15 and len(sentence.split()) > 2:
+    if len(sentence.split()) < 20 and len(sentence.split()) > 2:
         for i, token in enumerate(sentence.split()):
             pos_dict = pos(cleaned)
             if token in cleaned and is_replacable(token, pos_dict):
@@ -171,23 +169,22 @@ def w2v(ar_model, en_model, sentence):
                         exist = True
                     else:
                         exist = False
-                    if exist:
-                        try:
-                            most_similar = model_to_use.wv.most_similar(
-                                token, topn=5)
-                        except:
-                            most_similar = model_to_use.most_similar(
-                                token, topn=5)
-                for term, score in most_similar:
-                    if term != token:
-                        term = "*" + term
-                        s = sentence.split()
-                        s[i] = term
-                        aug = " ".join(s)
-                        if not clean(aug) in augs:
-                            augs.append(clean(aug))
-                            aug = " ".join(aug.split())
-                            l.append(aug)
+                if exist:
+                    try:
+                        most_similar = model_to_use.wv.most_similar(
+                            token, topn=5)
+                    except:
+                        most_similar = model_to_use.most_similar(token, topn=5)
+                    for term, score in most_similar:
+                        if term != token:
+                            term = "*" + term
+                            s = sentence.split()
+                            s[i] = term
+                            aug = " ".join(s)
+                            if not clean(aug) in augs:
+                                augs.append(clean(aug))
+                                aug = " ".join(aug.split())
+                                l.append(aug)
     return l
 
 
@@ -411,7 +408,7 @@ def load_GPT(model_name):
     return model, tokenizer, generation_pipeline
 
 
-def GPT(model, tokenizer, generation_pipeline, sentence):
+def GPT(tokenizer, generation_pipeline, sentence):
     """
     This function uses the GPT2 model to augment text. It takes in a sentence with less
     than 15 words (as no. of words increase the no. of outputed sentences also increases)
@@ -481,7 +478,7 @@ def aug_GPT(model_name, text):
     augment_state_gpt = st.text("Augmenting with AraGPT2...")
     tic = time.perf_counter()
     if isinstance(text, str):
-        ret = GPT(model, tokenizer, generation_pipeline, text)
+        ret = GPT(tokenizer, generation_pipeline, text)
         toc = time.perf_counter()
         augment_state_gpt.text(
             "Augmenting with AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -491,124 +488,13 @@ def aug_GPT(model_name, text):
         for sentence in text:
             sentence = sentence.strip()
             all_sentences.append(
-                [sentence, GPT(model, tokenizer, generation_pipeline, sentence)])
+                [sentence, GPT(tokenizer, generation_pipeline, sentence)])
         toc = time.perf_counter()
         augment_state_gpt.text(
             "Augmenting with AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
         return all_sentences
 
 ### ------------------------ End of GPT ------------------------------------ ###
-
-
-### ----------------------- Text-to-Text ----------------------------------- ###
-
-
-@st.experimental_memo
-def load_m2m(model_name):
-    """
-    Loads the m2m (Text-to-Text) model from HuggingFace to the streamlit app. It 
-    downloaded and caches the model so it can be used further for whichever user
-    uses it.
-
-    Input Parameters
-    ================
-    model_name => HuggingFace link for the model (typically like this: aubmindlab/bert-large-arabertv2).
-
-    Return Parameters
-    =================
-    model => Loaded m2m model.
-    tokenizer => Tokenizer for the m2m model.
-    token => token is 'ar' or 'ar_AR' based on which m2m model is used .
-    """
-
-    if "m2m" in model_name:
-        model = M2M100ForConditionalGeneration.from_pretrained(model_name)
-        tokenizer = M2M100Tokenizer.from_pretrained(model_name)
-        token = "ar"
-    else:
-        model = MBartForConditionalGeneration.from_pretrained(model_name)
-        tokenizer = MBart50TokenizerFast.from_pretrained(model_name)
-        token = "ar_AR"
-    return model, tokenizer, token
-
-
-def m2m(model, tokenizer, token, sentence):
-    """
-    Uses the m2m model to augment a sentence if its less than 15 words and more than 2 words long.
-    It uses the text-to-text data augmentation technique to generate sentences.
-
-    Input Parameters
-    ================
-    model => HuggingFace link for the model (typically like this: aubmindlab/bert-large-arabertv2).
-    tokenizer => Tokenizer for the m2m model.
-    token => Token for the m2m model (decided in the load_m2m() function).
-    sentence => Sentence to be augmented by the m2m model.
-
-    Return Parameters
-    =================
-    aug => Returns the augmented sentence to the frontend.
-    """
-
-    org_text = sentence
-    sentence = clean(sentence)
-    if len(sentence.split()) < 15 and len(sentence.split()) > 2:
-        if token == "ar":
-            id = tokenizer.get_lang_id(token)
-        else:
-            id = tokenizer.lang_code_to_id[token]
-        tokenizer.src_lang = token
-        encoded_hi = tokenizer(sentence, return_tensors="pt")
-        generated_tokens = model.generate(**encoded_hi, forced_bos_token_id=id)
-        aug = tokenizer.batch_decode(
-            generated_tokens, skip_special_tokens=True)[0]
-        if not clean(aug) == clean(org_text):
-            if not any(p in aug for p in string.ascii_letters):
-                return [aug]
-    return []
-
-
-def aug_m2m(model_name, text):
-    """
-    This is the display function for the m2m model where the load_m2m() and m2m() 
-    functions are called. The function also calculates the time it takes to load 
-    the model and augment the sentence and display it to the user as well. 
-
-    Input Parameters
-    ================
-    model_name => HuggingFace link of the model (typically like this: aubmindlab/bert-large-arabertv2).
-    text => Sentence or a list of sentences (typically user inputed sentence).
-
-    Return Parameters
-    =================
-    all_sentences => Returns a list of all the augmented sentences.
-    """
-
-    loading_state_m2m = st.text("Loading M2M...")
-    tic = time.perf_counter()
-    model, tokenizer, token = load_m2m(model_name)
-    toc = time.perf_counter()
-    loading_state_m2m.text("Loading M2M done ✅: " +
-                           str(round(toc-tic, 3)) + " seconds")
-    augment_state_m2m = st.text("Augmenting with M2M...")
-    tic = time.perf_counter()
-    if isinstance(text, str):
-        ret = m2m(model, tokenizer, token, text)
-        toc = time.perf_counter()
-        augment_state_m2m.text(
-            "Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
-        return ret
-    else:
-        all_sentences = []
-        for sentence in text:
-            sentence = sentence.strip()
-            all_sentences.append(
-                [sentence, m2m(model, tokenizer, token, sentence)])
-        toc = time.perf_counter()
-        augment_state_m2m.text(
-            "Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
-        return all_sentences
-
-### ------------------------ End of Text-to-Text --------------------------- ###
 
 
 ### -------------------- Random Sentence Generator ------------------------- ###
@@ -690,18 +576,18 @@ def pos(text):
             word = "".join(s.strip()
                            for s in result["text"][n-1]['surface'].split("+"))
             word = word + i['surface'].replace("+", "").strip()
-        if word in text:
-            pos_dict[word] = result["text"][n-1]['POS']
+            if word in text:
+                pos_dict[word] = result["text"][n-1]['POS']
         if "+" == i['surface'][-1]:
             word = "".join(s.strip()
                            for s in result["text"][n+1]['surface'].split("+"))
             word = i['surface'].replace("+", "").strip() + word
-        if word in text:
-            pos_dict[word] = result["text"][n+1]['POS']
+            if word in text:
+                pos_dict[word] = result["text"][n+1]['POS']
         else:
             word = "".join(s.strip() for s in i['surface'].split("+"))
-        if word in text:
-            pos_dict[word] = i['POS']
+            if word in text:
+                pos_dict[word] = i['POS']
     return pos_dict
 
 
@@ -780,40 +666,53 @@ def similarity_checker(sentences, user_text_input):
 
     tokenizer, model = load_similarity_checker_model(
         'sentence-transformers/bert-base-nli-mean-tokens')
-    if (len(sentences) > 0):
-        tokens = {'input_ids': [], 'attention_mask': []}
-        sentences.insert(0, user_text_input)
-        for sentence in sentences:
-            # tokenize sentence and append to dictionary lists
-            new_tokens = tokenizer.encode_plus(sentence, max_length=128, truncation=True,
-                                               padding='max_length', return_tensors='pt')
-            tokens['input_ids'].append(new_tokens['input_ids'][0])
-            tokens['attention_mask'].append(new_tokens['attention_mask'][0])
+    average_similarity = 0
 
-        # reformat list of tensors into single tensor
-        tokens['input_ids'] = torch.stack(tokens['input_ids'])
-        tokens['attention_mask'] = torch.stack(tokens['attention_mask'])
+    try:
+        if (len(sentences) > 0) and (not any(isinstance(sent, type(None)) for sent in sentences)):
+            tokens = {'input_ids': [], 'attention_mask': []}
+            sentences.insert(0, user_text_input)
+            for sentence in sentences:
+                # tokenize sentence and append to dictionary lists
+                new_tokens = tokenizer.encode_plus(sentence, max_length=128, truncation=True,
+                                                   padding='max_length', return_tensors='pt')
+                tokens['input_ids'].append(new_tokens['input_ids'][0])
+                tokens['attention_mask'].append(
+                    new_tokens['attention_mask'][0])
 
-        outputs = model(**tokens)
-        embeddings = outputs.last_hidden_state
-        attention_mask = tokens['attention_mask']
-        mask = attention_mask.unsqueeze(-1).expand(embeddings.size()).float()
+            # reformat list of tensors into single tensor
+            tokens['input_ids'] = torch.stack(tokens['input_ids'])
+            tokens['attention_mask'] = torch.stack(tokens['attention_mask'])
 
-        masked_embeddings = embeddings * mask
-        summed = torch.sum(masked_embeddings, 1)
-        summed_mask = torch.clamp(mask.sum(1), min=1e-9)
-        mean_pooled = summed / summed_mask
+            outputs = model(**tokens)
+            embeddings = outputs.last_hidden_state
+            attention_mask = tokens['attention_mask']
+            mask = attention_mask.unsqueeze(
+                -1).expand(embeddings.size()).float()
 
-        # Convert from PyTorch tensor to numpy array
-        mean_pooled = mean_pooled.detach().numpy()
+            masked_embeddings = embeddings * mask
+            summed = torch.sum(masked_embeddings, 1)
+            summed_mask = torch.clamp(mask.sum(1), min=1e-9)
+            mean_pooled = summed / summed_mask
 
-        # Calculate cosine similarity
-        cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
+            # Convert from PyTorch tensor to numpy array
+            mean_pooled = mean_pooled.detach().numpy()
 
-        # Calculate average of similarities
-        average_similarity = mean(cos_similarity[0])
+            # Calculate cosine similarity
+            cos_similarity = cosine_similarity(
+                [mean_pooled[0]], mean_pooled[1:])
 
-        return (np.around(cos_similarity[0], decimals=6), average_similarity)
+            # Calculate average of similarities
+            if len(sentences) >= 2:
+                try:
+                    average_similarity = mean(cos_similarity[0][1:])
+                except:
+                    st.warning(
+                        "No augmented sentences by the model. So average similarity was not calculated.")
+
+            return np.around(cos_similarity[0], decimals=6), average_similarity
+    except:
+        st.warning("No augmented sentences by the model.")
 
 
 def display_similarity_table(sentences_list, similarity_list, model_name):
@@ -829,17 +728,19 @@ def display_similarity_table(sentences_list, similarity_list, model_name):
     sentences_list => List of augmented sentences.
     similarity_list => List of the cosine similarities 
     """
-
-    if len(sentences_list) > 0:
-        data = list(zip(sentences_list, similarity_list))
-        df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
-        csv_file = convert_df_to_csv(df)
-        st.download_button(
-            label=f"Download {model_name} results as a CSV",
-            data=csv_file,
-            file_name=f'{model_name}-output.csv',
-            mime='text/csv',
-        )
-        st.table(df[1:].style.background_gradient(cmap='Greens'))
+    try:
+        if (len(sentences_list) > 0) and (not any(isinstance(sent, type(None)) for sent in sentences_list)):
+            data = list(zip(sentences_list, similarity_list))
+            df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
+            csv_file = convert_df_to_csv(df)
+            st.download_button(
+                label=f"Download {model_name} results as a CSV",
+                data=csv_file,
+                file_name=f'{model_name}-output.csv',
+                mime='text/csv',
+            )
+            st.table(df[1:].style.background_gradient(cmap='Greens'))
+    except:
+        st.warning(f"No augmented sentences by {model_name}.")
 
 ### -------------------- End of Similarity Checker ------------------------- ###

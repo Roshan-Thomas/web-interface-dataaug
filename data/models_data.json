@@ -70,7 +70,7 @@
         "name": "AraGPT2",
         "header": "### AraGPT2 Data Augmentation",
         "text": "AraGPT2 is a pre-trained transformer for the Arabic Language Generation. The model successfully uses synthetic news generation and zero-shot question answering and has a 98% accuracy in detecting model-generated text. They are publicly available, and you can read the paper [here](https://arxiv.org/abs/2012.15520).",
-        "url": "aubmindlab/aragpt2-mega",
+        "url": "aubmindlab/aragpt2-medium",
         "results": "Open to see AraGPT2 results"
     },
     "aravec": {
@@ -86,12 +86,5 @@
         "text-2": "For example, we are doing **AR > EN > AR_1 > EN > AR_2**. So AR_1 and AR_2 are the two augmented sentences giving us a much larger number of augmented sentences.",
         "results": "Open to see Back Translation results",
         "results-info": "The output of the translated languages (respectively) are: **English (1, 2), French (3, 4), Turkish (5, 6), Russian (7, 8), Polish (9, 10), Italian (11, 12), Spanish (13, 14), Greek (15, 16), German (17, 18), and Hebrew (19, 20)**"
-    },
-    "m2m": {
-        "name": "m2m",
-        "header": "### Text-to-Text Augmentation",
-        "text": "MBART is a sequence-to-sequence de-noising auto-encoder pre-trained on large-scale monolingual corpora in many languages using the BART objective. mBART is one of the first methods for pre-training a complete sequence-to-sequence model by de-noising full texts in multiple languages. At the same time, previous approaches have focused only on the encoder, decoder, or reconstructing parts of the text. You can read more about it from this paper [here](https://arxiv.org/abs/2001.08210).",
-        "url": "facebook/mbart-large-50-many-to-many-mmt",
-        "results": "Open to see Text-to-Text Results"
     }
 }

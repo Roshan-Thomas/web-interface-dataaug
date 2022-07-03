@@ -1,9 +1,9 @@
 import streamlit as st
 from transformers import (MarianMTModel, MarianTokenizer)
 import pandas as pd
-import re
 import requests
 import json
+import string
 from camel_tools.utils.charsets import AR_LETTERS_CHARSET
 
 ### ------------------------ Helper Functions ----------------------------- ###

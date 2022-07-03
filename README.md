@@ -96,11 +96,11 @@ cd scripts
 ```
 Then run either of the two commands based on what you want to do:
 ```sh
-# To stop and remove a container (find the name of the container first using 'sudo docker ps' command)
-./dockercommands.sh stop <DOCKER_CONTAINER_NAME>
+# To stop and remove a container (find the name of the container first using 'sudo docker ps' command) [default image name is 'dataaug-webapp']
+./dockercommands.sh stop 
 
-# To build and run a new container 
-./dockercommands.sh build <DOCKER_IMAGE_NAME>
+# To build and run a new container (default image name is 'dataaug-webapp')
+./dockercommands.sh build 
 ```
 
 ## Contribution
