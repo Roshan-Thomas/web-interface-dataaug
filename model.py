@@ -172,9 +172,7 @@ def w2v(ar_model, en_model, sentence):
                         exist = True
                     else:
                         exist = False
-                print("out")
                 if exist:
-                    print("in")
                     try:
                         most_similar = model_to_use.wv.most_similar(
                             token, topn=5)
