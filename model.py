@@ -596,7 +596,7 @@ def aug_m2m(model_name, text):
         ret = m2m(model, tokenizer, token, text)
         toc = time.perf_counter()
         augment_state_m2m.text(
-            "Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
+            "Augmenting with M2M done ✅: " + str(round(toc-tic, 3)) + " seconds")
         return ret
     else:
         all_sentences = []
@@ -606,7 +606,7 @@ def aug_m2m(model_name, text):
                 [sentence, m2m(model, tokenizer, token, sentence)])
         toc = time.perf_counter()
         augment_state_m2m.text(
-            "Augmenting with AraBERT done ✅: " + str(round(toc-tic, 3)) + " seconds")
+            "Augmenting with M2M done ✅: " + str(round(toc-tic, 3)) + " seconds")
         return all_sentences
 
 ### ------------------------ End of Text-to-Text --------------------------- ###
@@ -814,10 +814,10 @@ def similarity_checker(sentences, user_text_input):
         cos_similarity = cosine_similarity([mean_pooled[0]], mean_pooled[1:])
 
         # Calculate average of similarities
-        if len(sentences) > 1:
+        if len(sentences) > 2:
             average_similarity = mean(cos_similarity[0])
 
-        return (np.around(cos_similarity[0], decimals=6), average_similarity)
+        return np.around(cos_similarity[0], decimals=6), average_similarity
 
 
 def display_similarity_table(sentences_list, similarity_list, model_name):
