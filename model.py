@@ -690,18 +690,18 @@ def pos(text):
             word = "".join(s.strip()
                            for s in result["text"][n-1]['surface'].split("+"))
             word = word + i['surface'].replace("+", "").strip()
-        if word in text:
-            pos_dict[word] = result["text"][n-1]['POS']
+            if word in text:
+                pos_dict[word] = result["text"][n-1]['POS']
         if "+" == i['surface'][-1]:
             word = "".join(s.strip()
                            for s in result["text"][n+1]['surface'].split("+"))
             word = i['surface'].replace("+", "").strip() + word
-        if word in text:
-            pos_dict[word] = result["text"][n+1]['POS']
+            if word in text:
+                pos_dict[word] = result["text"][n+1]['POS']
         else:
             word = "".join(s.strip() for s in i['surface'].split("+"))
-        if word in text:
-            pos_dict[word] = i['POS']
+            if word in text:
+                pos_dict[word] = i['POS']
     return pos_dict
 
 
