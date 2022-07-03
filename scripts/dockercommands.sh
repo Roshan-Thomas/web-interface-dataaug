@@ -10,6 +10,7 @@ fi
 if [ $1 == 'stop' ]
 then
 	sudo docker stop $2 && sudo docker rm $2 && sudo docker system prune -f
+	echo; echo
 elif [ $1 == 'build' ]
 then
 	cd ..

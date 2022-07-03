@@ -781,6 +781,8 @@ def similarity_checker(sentences, user_text_input):
 
     tokenizer, model = load_similarity_checker_model(
         'sentence-transformers/bert-base-nli-mean-tokens')
+    average_similarity = 0
+
     if len(sentences) > 0 and not any(x is None for x in sentences):
         tokens = {'input_ids': [], 'attention_mask': []}
         sentences.insert(0, user_text_input)
@@ -814,8 +816,6 @@ def similarity_checker(sentences, user_text_input):
         # Calculate average of similarities
         if len(sentences) > 1:
             average_similarity = mean(cos_similarity[0])
-        else:
-            average_similarity = 0
 
         return (np.around(cos_similarity[0], decimals=6), average_similarity)
 
