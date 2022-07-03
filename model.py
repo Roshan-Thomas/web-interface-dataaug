@@ -671,7 +671,7 @@ def similarity_checker(sentences, user_text_input):
         'sentence-transformers/bert-base-nli-mean-tokens')
     average_similarity = 0
 
-    if (len(sentences) > 0) and (not any(x is None for x in sentences)):
+    if (len(sentences) > 0) and (not any(isinstance(sent, type(None)) for sent in sentences)):
         tokens = {'input_ids': [], 'attention_mask': []}
         sentences.insert(0, user_text_input)
         for sentence in sentences:
@@ -722,7 +722,7 @@ def display_similarity_table(sentences_list, similarity_list, model_name):
     similarity_list => List of the cosine similarities 
     """
 
-    if (len(sentences_list) > 0) and (not any(x is None for x in sentences_list)):
+    if (len(sentences_list) > 0) and (not any(isinstance(sent, type(None)) for sent in sentences_list)):
         data = list(zip(sentences_list, similarity_list))
         df = pd.DataFrame(data, columns=['Sentences', 'Similarity Score'])
         csv_file = convert_df_to_csv(df)
