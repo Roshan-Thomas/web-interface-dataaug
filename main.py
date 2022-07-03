@@ -520,6 +520,8 @@ with test_app_container:
                 sentences_m2m = aug_m2m(
                     model_text_data["m2m"]["url"], user_text_input)
 
+                st.write(sentences_m2m)
+
                 # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_m2m, user_text_input)
