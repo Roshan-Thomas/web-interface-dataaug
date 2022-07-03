@@ -316,7 +316,7 @@ def bert(model, sentence):
     return l
 
 
-def multi_bert(ar_model, en_model, sentence):
+def multi_bert(model, sentence):
     """
     This function augments a given sentence two times using the same bert model
     so as to give more data augmented sentences.
@@ -332,14 +332,14 @@ def multi_bert(ar_model, en_model, sentence):
     ret => A list of all augmented sentences
     """
 
-    l = bert(ar_model, en_model, sentence)
+    l = bert(model, sentence)
     ret = []
     for i in l:
-        ret += bert(ar_model, en_model, i)
+        ret += bert(model, i)
     return ret
 
 
-def aug_bert(ar_model, en_model, text, model_name):
+def aug_bert(bert_model, text, model_name):
     """
     This function is the display function of the BERT model where we call the 
     load_bert() and bert() functions to process the given sentence or list of 
@@ -358,14 +358,14 @@ def aug_bert(ar_model, en_model, text, model_name):
 
     loading_state_bert = st.text(f"Loading {model_name}...")
     tic = time.perf_counter()
-    ar_model, en_model = load_bert(ar_model, en_model)
+    model = load_bert(bert_model)
     toc = time.perf_counter()
     loading_state_bert.text(
         f"Loading {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
     augment_state_bert = st.text(f"Augmenting with {model_name}...")
     tic = time.perf_counter()
     if isinstance(text, str):
-        ret = multi_bert(ar_model, en_model, text)
+        ret = multi_bert(model, text)
         toc = time.perf_counter()
         augment_state_bert.text(
             f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -375,7 +375,7 @@ def aug_bert(ar_model, en_model, text, model_name):
         for sentence in text:
             sentence = sentence.strip()
             all_sentences.append(
-                [sentence, multi_bert(ar_model, en_model, sentence)])
+                [sentence, multi_bert(model, sentence)])
         toc = time.perf_counter()
         augment_state_bert.text(
             f"Augmenting with {model_name} done ✅: " + str(round(toc-tic, 3)) + " seconds")
