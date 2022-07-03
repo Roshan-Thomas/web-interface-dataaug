@@ -71,7 +71,7 @@ with st.sidebar:
         data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
         data['araelectra'] = st.checkbox('AraELECTRA', value=True)
         data['aragpt2'] = st.checkbox('AraGPT2')
-        data['aravec'] = st.checkbox('AraVec (W2V)')
+        # data['aravec'] = st.checkbox('Word-to-Vector')
         data['double-back-translation'] = st.checkbox(
             'Double Back Translation', value=True)
         data['m2m'] = st.checkbox('Text-to-Text')

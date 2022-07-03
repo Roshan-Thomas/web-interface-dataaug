@@ -176,11 +176,9 @@ def w2v(ar_model, en_model, sentence):
                         try:
                             most_similar = model_to_use.wv.most_similar(
                                 token, topn=5)
-                            st.write(type(most_similar))
                         except:
                             most_similar = model_to_use.most_similar(
                                 token, topn=5)
-                            st.write(type(most_similar))
                 for term, score in most_similar:
                     if term != token:
                         term = "*" + term
