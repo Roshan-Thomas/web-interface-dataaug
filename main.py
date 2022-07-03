@@ -449,7 +449,7 @@ with test_app_container:
                         model_text_data["common"]["word-info-expander"])
 
         ## ------------------------------------- AraVec --------------------------------------- ##
-        if data['aravec']:  # model not function currently
+        if data['aravec']:
             w2v_container = st.container()
             with w2v_container:
                 # Show details of Aravec model to the user
