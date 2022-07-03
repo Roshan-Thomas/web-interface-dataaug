@@ -481,7 +481,7 @@ def aug_GPT(model_name, text):
     augment_state_gpt = st.text("Augmenting with AraGPT2...")
     tic = time.perf_counter()
     if isinstance(text, str):
-        ret = GPT(model, tokenizer, generation_pipeline, text)
+        ret = GPT(tokenizer, generation_pipeline, text)
         toc = time.perf_counter()
         augment_state_gpt.text(
             "Augmenting with AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
@@ -491,7 +491,7 @@ def aug_GPT(model_name, text):
         for sentence in text:
             sentence = sentence.strip()
             all_sentences.append(
-                [sentence, GPT(model, tokenizer, generation_pipeline, sentence)])
+                [sentence, GPT(tokenizer, generation_pipeline, sentence)])
         toc = time.perf_counter()
         augment_state_gpt.text(
             "Augmenting with AraGPT2 done ✅: " + str(round(toc-tic, 3)) + " seconds")
