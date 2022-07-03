@@ -29,7 +29,7 @@ st.markdown(
   data by adding slightly modified copies of already existing data or newly
   created synthetic data from existing data. Read more [here](https://en.wikipedia.org/wiki/Data_augmentation).
 
-  We are using thirteen machine learning models to do data augmentation on Arabic text: 
+  We are using twelve machine learning models to do data augmentation on Arabic text: 
       
       * AraBERT (Machine Learning Model)
       * QARiB (Machine Learning Model)
@@ -42,7 +42,6 @@ st.markdown(
       * AraELECTRA (Machine Learning Model)
       * AraGPT2 (Machine Learning Model)
       * Word-to-Vector (W2V) Augmentation
-      * Text-to-Text Augmentation
       * Back Translation
   """
 )
@@ -71,10 +70,10 @@ with st.sidebar:
         data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
         data['araelectra'] = st.checkbox('AraELECTRA', value=True)
         data['aragpt2'] = st.checkbox('AraGPT2')
-        # data['aravec'] = st.checkbox('Word-to-Vector')
+        data['aravec'] = st.checkbox('Word-to-Vector')
         data['double-back-translation'] = st.checkbox(
             'Double Back Translation', value=True)
-        data['m2m'] = st.checkbox('Text-to-Text')
+        # data['m2m'] = st.checkbox('Text-to-Text')
 
 ## -------------------------------------------- End of Sidebar --------------------------------------------- ##
 

@@ -153,7 +153,7 @@ def w2v(ar_model, en_model, sentence):
     sentence = seperate_punct(sentence)
     l = []
     augs = []
-    if len(sentence.split()) < 15 and len(sentence.split()) > 2:
+    if len(sentence.split()) < 20 and len(sentence.split()) > 2:
         for i, token in enumerate(sentence.split()):
             pos_dict = pos(cleaned)
             if token in cleaned and is_replacable(token, pos_dict):
@@ -172,23 +172,24 @@ def w2v(ar_model, en_model, sentence):
                         exist = True
                     else:
                         exist = False
-                    if exist:
-                        try:
-                            most_similar = model_to_use.wv.most_similar(
-                                token, topn=5)
-                        except:
-                            most_similar = model_to_use.most_similar(
-                                token, topn=5)
-                for term, score in most_similar:
-                    if term != token:
-                        term = "*" + term
-                        s = sentence.split()
-                        s[i] = term
-                        aug = " ".join(s)
-                        if not clean(aug) in augs:
-                            augs.append(clean(aug))
-                            aug = " ".join(aug.split())
-                            l.append(aug)
+                print("out")
+                if exist:
+                    print("in")
+                    try:
+                        most_similar = model_to_use.wv.most_similar(
+                            token, topn=5)
+                    except:
+                        most_similar = model_to_use.most_similar(token, topn=5)
+                    for term, score in most_similar:
+                        if term != token:
+                            term = "*" + term
+                            s = sentence.split()
+                            s[i] = term
+                            aug = " ".join(s)
+                            if not clean(aug) in augs:
+                                augs.append(clean(aug))
+                                aug = " ".join(aug.split())
+                                l.append(aug)
     return l
 
 
