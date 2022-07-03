@@ -71,7 +71,7 @@ with st.sidebar:
         data['ubc-marbertv2'] = st.checkbox('MARBERTv2', value=True)
         data['araelectra'] = st.checkbox('AraELECTRA', value=True)
         data['aragpt2'] = st.checkbox('AraGPT2')
-        # data['aravec'] = st.checkbox('AraVec (W2V)')  # Model not working on streamlit
+        data['aravec'] = st.checkbox('AraVec (W2V)')
         data['double-back-translation'] = st.checkbox(
             'Double Back Translation', value=True)
         data['m2m'] = st.checkbox('Text-to-Text')
@@ -460,7 +460,7 @@ with test_app_container:
 
                 # Augment sentences with aravec using different models
                 sentences_w2v = aug_w2v(
-                    './data/full_grams_cbow_100_twitter.mdl', 'glove-twitter-25', user_text_input)
+                    './data/full_grams_cbow_100_twitter.mdl', 'glove-twitter-25', user_text_input, "Aravec")
 
                 # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
