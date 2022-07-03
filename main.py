@@ -463,6 +463,8 @@ with test_app_container:
                 # Generate List of similarity score for each augmented sentence and average similarity scores
                 similarity_list, average_similarity = similarity_checker(
                     sentences_w2v, user_text_input)
+                list_of_dataframes.append(
+                    get_df_data(sentences_w2v, similarity_list))
 
                 # Display results of Aravec to the user
                 with st.expander(model_text_data["aravec"]["results"]):
