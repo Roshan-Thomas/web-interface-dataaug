@@ -507,36 +507,6 @@ with test_app_container:
                     st.markdown(
                         model_text_data["double-back-translation"]["results-info"])
 
-        ## ------------------------------- Text-to-Text --------------------------------------- ##
-        if data['m2m']:
-            text_to_text_container = st.container()
-            with text_to_text_container:
-                # Show details of m2m to the user
-                st.markdown(model_text_data["m2m"]["header"])
-                st.markdown(model_text_data["m2m"]["text"])
-
-                # Augment sentences with m2m
-                sentences_m2m = aug_m2m(
-                    model_text_data["m2m"]["url"], user_text_input)
-
-                st.write(f"Sentences length: {len(sentences_m2m)}")
-                st.write(sentences_m2m)
-
-                # Generate List of similarity score for each augmented sentence and average similarity scores
-                similarity_list, average_similarity = similarity_checker(
-                    sentences_m2m, user_text_input)
-                list_of_dataframes.append(
-                    get_df_data(sentences_m2m, similarity_list))
-
-                # Display results of m2m to the user
-                with st.expander(model_text_data["m2m"]["results"]):
-                    st.markdown(
-                        f"Average Similarity: {average_similarity:.6f}")
-                    display_similarity_table(
-                        sentences_m2m, similarity_list, model_text_data["m2m"]["name"])
-                    st.markdown(
-                        model_text_data["common"]["word-info-expander"])
-
         ## ----------------------- Download All Outputs to CSV -------------------------------- ##
         if len(list_of_dataframes) > 0:
             # Download Button for exporting outputs to csv file
