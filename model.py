@@ -79,7 +79,7 @@ def double_back_translate(text):
 
     all_sentences = []
     available_languages = ['ar-en', 'ar-fr', 'ar-tr', 'ar-ru',
-                           'ar-pl', 'ar-it', 'ar-es', 'ar-el', 'ar-de', 'ar-he']
+                           'ar-pl', 'ar-it', 'ar-es', 'ar-de', 'ar-he']
 
     loading_state_bt = st.text(
         "Loading & Augmenting Back Translating Models...")
