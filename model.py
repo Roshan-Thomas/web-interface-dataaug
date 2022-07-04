@@ -88,7 +88,7 @@ def double_back_translate(text):
     for model in available_languages:
         model_name = model.split('-')
         back_translation = load_models_bt(f'Helsinki-NLP/opus-mt-{model_name[0]}-{model_name[1]}',
-                                          f'Helsinki-NLP/opus-mt-{model_name[1]}-{model_name[0]}')
+                                          'UBC-NLP/turjuman')
         bt_sentence_1 = back_translation.augment(text)
         bt_sentence_2 = back_translation.augment(bt_sentence_1)
         all_sentences.append(bt_sentence_1)
