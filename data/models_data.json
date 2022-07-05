@@ -79,12 +79,12 @@
         "text": "AraVec (W2V) is a pre-trained distributed word representation (word embedding) open-source project aiming to provide the Arabic NLP research community with free-to-use and powerful word embedding models. The recent version of AraVec provides 16-word embedding models built on top of two different Arabic content domains; Tweets and Wikipedia Arabic articles. This app uses the Twitter-trained model to augment the text. You can read more about it in this paper [here](https://www.researchgate.net/publication/319880027_AraVec_A_set_of_Arabic_Word_Embedding_Models_for_use_in_Arabic_NLP).",
         "results": "Open to see W2V results"
     },
-    "double-back-translation": {
-        "name": "Double Back Translation",
-        "header": "### Double Back Translation Augmentation",
-        "text": "The languages we are back translating from are: *English (en), French (fr), Turkish (tr), Russian (ru), Polish (pl), Italian (it), Spanish (es), Greek (el), German (de), and Hebrew (he)*.",
-        "text-2": "For example, we are doing **AR > EN > AR_1 > EN > AR_2**. So AR_1 and AR_2 are the two augmented sentences giving us a much larger number of augmented sentences.",
+    "back-translation": {
+        "name": "Back Translation",
+        "header": "### Back Translation Augmentation",
+        "text": "The languages we are back translating from are: *English (en), French (fr), Turkish (tr), Russian (ru), Polish (pl), Italian (it), Spanish (es), German (de), and Hebrew (he)*.",
+        "text-2": "For example, we are doing **AR > EN > AR**.",
         "results": "Open to see Back Translation results",
-        "results-info": "The output of the translated languages (respectively) are: **English (1, 2), French (3, 4), Turkish (5, 6), Russian (7, 8), Polish (9, 10), Italian (11, 12), Spanish (13, 14), Greek (15, 16), German (17, 18), and Hebrew (19, 20)**"
+        "results-info": "The output of the translated languages (respectively) are: **English (1), French (2), Turkish (3), Russian (4), Polish (5), Italian (6), Spanish (7), German (8), and Hebrew (9)**"
     }
 }

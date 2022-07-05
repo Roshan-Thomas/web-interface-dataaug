@@ -1,5 +1,5 @@
 import streamlit as st
-from model import (aug_bert, aug_w2v, double_back_translate, random_sentence, aug_GPT,
+from model import (aug_bert, aug_w2v, back_translate, random_sentence, aug_GPT,
                    farasa_pos_output, display_similarity_table, similarity_checker)
 from helper import (translate_user_text_input, models_data,
                     get_df_data, download_all_outputs)
@@ -71,8 +71,8 @@ with st.sidebar:
         data['araelectra'] = st.checkbox('AraELECTRA', value=True)
         data['aragpt2'] = st.checkbox('AraGPT2')
         data['aravec'] = st.checkbox('Word-to-Vector')
-        data['double-back-translation'] = st.checkbox(
-            'Double Back Translation', value=True)
+        data['back-translation'] = st.checkbox(
+            'Back Translation', value=True)
 
 ## -------------------------------------------- End of Sidebar --------------------------------------------- ##
 
@@ -476,21 +476,21 @@ with test_app_container:
                         model_text_data["common"]["word-info-expander"])
 
         ## ------------------------------------- Back- Translation ---------------------------- ##
-        if data['double-back-translation']:
+        if data['back-translation']:
             back_translation_container = st.container()
             with back_translation_container:
                 # Show details of Back translation to the user
                 st.markdown(
-                    model_text_data["double-back-translation"]["header"])
+                    model_text_data["back-translation"]["header"])
                 available_languages = ['ar-en', 'ar-fr', 'ar-tr', 'ar-ru',
                                        'ar-pl', 'ar-it', 'ar-es', 'ar-el', 'ar-de', 'ar-he']
                 back_translated_sentences = []
-                st.markdown(model_text_data["double-back-translation"]["text"])
+                st.markdown(model_text_data["back-translation"]["text"])
                 st.markdown(
-                    model_text_data["double-back-translation"]["text-2"])
+                    model_text_data["back-translation"]["text-2"])
 
                 # Augment sentences with back translation
-                back_translated_sentences = double_back_translate(
+                back_translated_sentences = back_translate(
                     user_text_input)
 
                 # Generate List of similarity score for each augmented sentence and average similarity scores
@@ -499,14 +499,14 @@ with test_app_container:
                 list_of_dataframes.append(get_df_data(
                     back_translated_sentences, similarity_list))
 
-                # Display results of Double Back translation to the user
-                with st.expander(model_text_data["double-back-translation"]["results"]):
+                # Display results of Back translation to the user
+                with st.expander(model_text_data["back-translation"]["results"]):
                     st.markdown(
                         f"Average Similarity: {average_similarity:.6f}")
                     display_similarity_table(
-                        back_translated_sentences, similarity_list, model_text_data["double-back-translation"]["name"])
+                        back_translated_sentences, similarity_list, model_text_data["back-translation"]["name"])
                     st.markdown(
-                        model_text_data["double-back-translation"]["results-info"])
+                        model_text_data["back-translation"]["results-info"])
 
         ## ----------------------- Download All Outputs to CSV -------------------------------- ##
         if len(list_of_dataframes) > 0:
