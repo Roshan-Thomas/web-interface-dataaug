@@ -55,10 +55,9 @@ def load_models_bt(from_model_name, to_model_name):
     return (back_translation)
 
 
-def double_back_translate(text):
+def back_translate(text):
     """
-    This function does double back translation, so it does ar > en > ar_1 > en > ar_2. This gives
-    us two augmented arabic sentences. 
+    This function does back translation, so it does ar > en > ar. 
 
     The list of Languages Used:
       - ar-en	(English)
@@ -68,18 +67,21 @@ def double_back_translate(text):
       - ar-pl	(Polish)
       - ar-it	(Italian)
       - ar-es	(Spanish)
-      - ar-el (Greek)
       - ar-de (German)
       - ar-he (Hebrew)
 
     Input Parameters
     ================
     text => This is the user inputed text which is to be back translated using the multiple languages
+
+    Output Parameters
+    =================
+    all_sentences => Returns all the augmented sentences
     """
 
     all_sentences = []
     available_languages = ['ar-en', 'ar-fr', 'ar-tr', 'ar-ru',
-                           'ar-pl', 'ar-it', 'ar-es', 'ar-el', 'ar-de', 'ar-he']
+                           'ar-pl', 'ar-it', 'ar-es', 'ar-de', 'ar-he']
 
     loading_state_bt = st.text(
         "Loading & Augmenting Back Translating Models...")
@@ -88,11 +90,9 @@ def double_back_translate(text):
     for model in available_languages:
         model_name = model.split('-')
         back_translation = load_models_bt(f'Helsinki-NLP/opus-mt-{model_name[0]}-{model_name[1]}',
-                                          f'Helsinki-NLP/opus-mt-{model_name[1]}-{model_name[0]}')
+                                          'UBC-NLP/turjuman')
         bt_sentence_1 = back_translation.augment(text)
-        bt_sentence_2 = back_translation.augment(bt_sentence_1)
         all_sentences.append(bt_sentence_1)
-        all_sentences.append(bt_sentence_2)
 
     toc = time.perf_counter()
     loading_state_bt.write(

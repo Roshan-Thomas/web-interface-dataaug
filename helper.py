@@ -272,7 +272,7 @@ def show_selected_models(data):
         'araelectra',
         'aragpt2',
         'aravec',
-        'double-back-translation',
+        'back-translation',
         'm2m'
     ]
     selected_models = []
